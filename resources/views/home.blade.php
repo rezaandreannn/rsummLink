@@ -404,7 +404,7 @@
                                     </p>
                                 </div>
                                 <div class="card-read-more">
-                                    <a href="" class="btn btn-link btn-block d-flex align-items-center justify-content-center">
+                                    <a href="{{route('satusehatrole')}}" class="btn btn-link btn-block d-flex align-items-center justify-content-center">
                                         Kunjungi
                                     </a>
                                 </div>
@@ -425,7 +425,7 @@
                                     </p>
                                 </div>
                                 <div class="card-read-more">
-                                    <a href="" class="btn btn-link btn-block d-flex align-items-center justify-content-center">
+                                    <a href="{{ route('vclaim')}}" class="btn btn-link btn-block d-flex align-items-center justify-content-center">
                                         Kunjungi
                                     </a>
                                 </div>
@@ -447,7 +447,7 @@
                                     </p>
                                 </div>
                                 <div class="card-read-more">
-                                    <a href="" class="btn btn-link btn-block d-flex align-items-center justify-content-center disabled">
+                                    <a href="{{ route('vclaim')}}" class="btn btn-link btn-block d-flex align-items-center justify-content-center disabled">
                                         Kunjungi
                                     </a>
                                 </div>

@@ -227,7 +227,13 @@
                             <a href="#" class="dropdown-item">Feedback</a>
                             <div class="dropdown-divider"></div>
                             <a href="./settings.html" class="dropdown-item">Settings</a>
-                            <a href="./sign-in.html" class="dropdown-item">Logout</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+
+                            <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
                         </div>
                     </div>
                 </div>

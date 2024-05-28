@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::prefix('satusehat')->middleware('checkrole:user')->group(function () {
+    Route::get('satusehatrole', [TestController::class, 'index'])->name('satusehatrole');
+});
+
+Route::prefix('v-claimbpjs')->middleware('checkrole:user')->group(function () {
+    Route::get('vclaim', [TestController::class, 'index'])->name('vclaim');
 });
 
 require __DIR__ . '/auth.php';

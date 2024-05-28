@@ -28,10 +28,11 @@ return new class extends Migration
             $table->bigIncrements('id'); // permission id
             $table->string('name');       // For MySQL 8.0 use string('name', 125);
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
-            $table->enum('type', ['modul', 'menu', 'fungsi']);
+            $table->unsignedBigInteger('application_id')->nullable();
             $table->timestamps();
 
-            $table->unique(['name', 'guard_name']);
+            // $table->unique(['name', 'guard_name']);
+            $table->foreign('application_id')->references('id')->on('applications');
         });
 
         Schema::create($tableNames['roles'], function (Blueprint $table) use ($teams, $columnNames) {
@@ -42,11 +43,13 @@ return new class extends Migration
             }
             $table->string('name');       // For MySQL 8.0 use string('name', 125);
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
+            $table->unsignedBigInteger('application_id')->nullable();
             $table->timestamps();
             if ($teams || config('permission.testing')) {
                 $table->unique([$columnNames['team_foreign_key'], 'name', 'guard_name']);
             } else {
-                $table->unique(['name', 'guard_name']);
+                // $table->unique(['name', 'guard_name']);
+                $table->foreign('application_id')->references('id')->on('applications');
             }
         });
 
