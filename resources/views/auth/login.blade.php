@@ -13,12 +13,12 @@
 
         <!-- Password -->
         <div class="form-floating">
-            <input type="password" class="form-control" id="password" placeholder="Password" autocomplete="current-password">
+            <input type="password" name="password" class="form-control" id="password" placeholder="Password" autocomplete="current-password">
             <label for="password">Password</label>
         </div>
 
         <div class="form-floating">
-            <button class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary">Login</button>
         </div>
 
         <!-- Remember Me -->
