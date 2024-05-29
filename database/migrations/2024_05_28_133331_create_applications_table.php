@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('image');
             $table->string('prefix');
+            $table->enum('status', ['active', 'inactive', 'maintenance'])->default('active');
             $table->text('description')->nullable();
             $table->timestamps();
         });
