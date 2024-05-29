@@ -389,7 +389,7 @@
                         <div class="col-xs-12 col-sm-4">
                             <div class="card">
                                 <a class="img-card" href="">
-                                    <img src="{{ asset('satusehat.jpg')}}" />
+                                    <img src="{{ asset($application->image) }}" />
                                 </a>
                                 <div class="card-content">
                                     <h4 class="card-title">
