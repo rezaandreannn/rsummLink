@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Index - Arsha Bootstrap Template</title>
+    <title>Dashboard</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="{{ asset('Arsha/assets/img/favicon.png')}}" rel="icon">
+    <link href="{{ asset('Arsha/assets/img/logo.png')}}" rel="icon">
     <link href="{{ asset('Arsha/assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
 
     <!-- Fonts -->
@@ -77,7 +77,7 @@
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
 
-            <a class="btn-getstarted" href="">Masuk</a>
+            <a class="btn-getstarted" href="{{ route('dashboard')}}">Masuk</a>
 
         </div>
     </header>
@@ -113,44 +113,43 @@
                 <div class="swiper">
                     <script type="application/json" class="swiper-config">
                         {
-                            "loop": true
-                            , "speed": 600
-                            , "autoplay": {
+                            "loop": true,
+                            "speed": 600,
+                            "autoplay": {
                                 "delay": 5000
-                            }
-                            , "slidesPerView": "auto"
-                            , "pagination": {
-                                "el": ".swiper-pagination"
-                                , "type": "bullets"
-                                , "clickable": true
-                            }
-                            , "breakpoints": {
+                            },
+                            "slidesPerView": "auto",
+                            "pagination": {
+                                "el": ".swiper-pagination",
+                                "type": "bullets",
+                                "clickable": true
+                            },
+                            "breakpoints": {
                                 "320": {
-                                    "slidesPerView": 2
-                                    , "spaceBetween": 40
-                                }
-                                , "480": {
-                                    "slidesPerView": 3
-                                    , "spaceBetween": 60
-                                }
-                                , "640": {
-                                    "slidesPerView": 4
-                                    , "spaceBetween": 80
-                                }
-                                , "992": {
-                                    "slidesPerView": 5
-                                    , "spaceBetween": 120
-                                }
-                                , "1200": {
-                                    "slidesPerView": 6
-                                    , "spaceBetween": 120
+                                    "slidesPerView": 2,
+                                    "spaceBetween": 40
+                                },
+                                "480": {
+                                    "slidesPerView": 3,
+                                    "spaceBetween": 60
+                                },
+                                "640": {
+                                    "slidesPerView": 4,
+                                    "spaceBetween": 80
+                                },
+                                "992": {
+                                    "slidesPerView": 5,
+                                    "spaceBetween": 120
+                                },
+                                "1200": {
+                                    "slidesPerView": 6,
+                                    "spaceBetween": 120
                                 }
                             }
                         }
-
                     </script>
                     <div class="swiper-wrapper align-items-center">
-                        <div class="swiper-slide"><img src="{{ asset('img/tender/satusehat.png')}}" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="{{ asset('img/tender/satusehatt.png')}}" class="img-fluid" alt=""></div>
                         <div class="swiper-slide"><img src="{{ asset('img/tender/images.jpeg')}}" class="img-fluid" alt=""></div>
                         {{-- <div class="swiper-slide"><img src="{{ asset('Arsha/assets/img/clients/client-3.png')}}" class="img-fluid" alt="">
                     </div>
