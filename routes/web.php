@@ -26,6 +26,13 @@ Route::get('/app', function () {
     return view('layouts.app');
 });
 
+Route::get('/register', function () {
+    return view('auth.register');
+});
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 

@@ -90,6 +90,20 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
+        'bridging' => [
+            'driver'    => env('DB_CONNECTION_BRIDGING'),
+            'url' => env('DATABASE_URL_BRIDGING'),
+            'host' => env('DB_HOST_BRIDGING', 'localhost'),
+            'port' => env('DB_PORT_BRIDGING', '1433'),
+            'database' => env('DB_DATABASE_BRIDGING', 'forge'),
+            'username' => env('DB_USERNAME_BRIDGING', 'forge'),
+            'password' => env('DB_PASSWORD_BRIDGING', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
+            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+        ],
 
         'satusehat' => [
             'driver' => 'sqlsrv',
