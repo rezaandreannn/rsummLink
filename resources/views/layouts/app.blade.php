@@ -702,7 +702,7 @@
         <div class="page-wrapper">
             <!-- Page body -->
             <div class="page-body">
-                <div class="container-xl d-flex flex-column justify-content-center">
+                {{-- <div class="container-xl d-flex flex-column justify-content-center">
                     <div class="empty">
                         <div class="empty-img"><img src="./static/illustrations/undraw_printing_invoices_5r4r.svg" height="128" alt="">
                         </div>
@@ -721,7 +721,8 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> --}}
+                {{ $slot}}
             </div>
             <footer class="footer footer-transparent d-print-none">
                 <div class="container-xl">

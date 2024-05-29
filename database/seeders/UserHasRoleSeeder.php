@@ -23,7 +23,7 @@ class UserHasRoleSeeder extends Seeder
         $vclaim = Application::where('prefix', 'v-claimbpjs')->first();
 
         // definisikan user 
-        $user = User::find(1);
+        $user = User::find(3);
 
         // definisikan role nya
         $adminRole = Role::where(

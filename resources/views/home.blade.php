@@ -55,29 +55,28 @@
                     {{-- <li><a href="#portfolio">Portfolio</a></li> --}}
                     {{-- <li><a href="#team">Team</a></li> --}}
                     {{-- <li><a href="#pricing">Pricing</a></li> --}}
-                    {{-- <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    @auth
+                    <li class="dropdown"><a href="#"><span>{{ auth()->user()->name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
-                            <li><a href="#">Dropdown 1</a></li>
-                            <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                                <ul>
-                                    <li><a href="#">Deep Dropdown 1</a></li>
-                                    <li><a href="#">Deep Dropdown 2</a></li>
-                                    <li><a href="#">Deep Dropdown 3</a></li>
-                                    <li><a href="#">Deep Dropdown 4</a></li>
-                                    <li><a href="#">Deep Dropdown 5</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Dropdown 2</a></li>
-                            <li><a href="#">Dropdown 3</a></li>
-                            <li><a href="#">Dropdown 4</a></li>
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="{{ route('dashboard')}}">Dashboard</a></li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <li><a href="{{ route('logout')}}" onclick="event.preventDefault();
+                    this.closest('form').submit();">Logout</a></li>
+                            </form>
                         </ul>
-                    </li> --}}
-                    {{-- <li><a href="#contact">Contact</a></li> --}}
+                    </li>
+                    <li><a href=""></a></li>
+                    <li><a href=""></a></li>
+                    @endauth
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
 
+            @guest
             <a class="btn-getstarted" href="{{ route('login') }}">Masuk</a>
+            @endguest
 
         </div>
     </header>
@@ -389,6 +388,7 @@
             <div class="content">
                 <div class="container">
                     <div class="row">
+                        @foreach($applications as $application)
                         <div class="col-xs-12 col-sm-4">
                             <div class="card">
                                 <a class="img-card" href="">
@@ -396,65 +396,66 @@
                                 </a>
                                 <div class="card-content">
                                     <h4 class="card-title">
-                                        <a href=""> SATU SEHAT
+                                        <a href=""> {{ ucwords($application->name) }}
                                         </a>
                                     </h4>
                                     <p class="">
-                                        Satu Sehat adalah layanan kesehatan terpadu yang menghubungkan data dari Rumah Sakit Muhammadiyah metro ke dalam platform yang praktis.
+                                        {{ $application->description ?? ''}}
                                     </p>
                                 </div>
                                 <div class="card-read-more">
-                                    <a href="{{route('satusehatrole')}}" class="btn btn-link btn-block d-flex align-items-center justify-content-center">
+                                    <a href="{{route($application->prefix.'.dashboard')}}" class="btn btn-link btn-block d-flex align-items-center justify-content-center">
                                         Kunjungi
                                     </a>
                                 </div>
                             </div>
                         </div>
-                        <div class=" col-xs-12 col-sm-4">
+                        @endforeach
+                        {{-- <div class=" col-xs-12 col-sm-4">
                             <div class="card">
                                 <a class="img-card" href="">
                                     <img src="{{ asset('bpjs-kesehatan.png')}}" />
+                        </a>
+                        <div class="card-content">
+                            <h4 class="card-title">
+                                <a href=""> V-Claim BPJS
                                 </a>
-                                <div class="card-content">
-                                    <h4 class="card-title">
-                                        <a href=""> V-Claim BPJS
-                                        </a>
-                                    </h4>
-                                    <p class="">
-                                        V-Claim BPJS adalah sebuah sistem yang memungkinkan peserta BPJS Kesehatan untuk mengajukan klaim atau pembayaran atas layanan kesehatan yang telah diterima secara digital.
-                                    </p>
-                                </div>
-                                <div class="card-read-more">
-                                    <a href="{{ route('vclaim')}}" class="btn btn-link btn-block d-flex align-items-center justify-content-center">
-                                        Kunjungi
-                                    </a>
-                                </div>
-                            </div>
+                            </h4>
+                            <p class="">
+                                V-Claim BPJS adalah sebuah sistem yang memungkinkan peserta BPJS Kesehatan untuk mengajukan klaim atau pembayaran atas layanan kesehatan yang telah diterima secara digital.
+                            </p>
                         </div>
-                        <div class="col-xs-12 col-sm-4">
-                            <div class="card">
-                                <a class="img-card" href="">
-                                    <img src="{{ asset('user_role.jpeg')}}" />
-                                </a>
-                                <div class="card-content">
-                                    <h4 class="card-title">
-                                        <a href="">
-                                            Manajemen Pengguna
-                                        </a>
-                                    </h4>
-                                    <p class="">
-                                        pengelolaan akun pengguna dalam sebuah sistem atau aplikasi Ini mencakup pembuatan akun, autentikasi, dan pengaturan preferensi pengguna, serta pengelolaan informasi profil mereka.
-                                    </p>
-                                </div>
-                                <div class="card-read-more">
-                                    <a href="{{ route('vclaim')}}" class="btn btn-link btn-block d-flex align-items-center justify-content-center disabled">
-                                        Kunjungi
-                                    </a>
-                                </div>
-                            </div>
+                        <div class="card-read-more">
+                            <a href="{{ route('vclaim')}}" class="btn btn-link btn-block d-flex align-items-center justify-content-center">
+                                Kunjungi
+                            </a>
                         </div>
                     </div>
                 </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="card">
+                        <a class="img-card" href="">
+                            <img src="{{ asset('user_role.jpeg')}}" />
+                        </a>
+                        <div class="card-content">
+                            <h4 class="card-title">
+                                <a href="">
+                                    Manajemen Pengguna
+                                </a>
+                            </h4>
+                            <p class="">
+                                pengelolaan akun pengguna dalam sebuah sistem atau aplikasi Ini mencakup pembuatan akun, autentikasi, dan pengaturan preferensi pengguna, serta pengelolaan informasi profil mereka.
+                            </p>
+                        </div>
+                        <div class="card-read-more">
+                            <a href="{{ route('vclaim')}}" class="btn btn-link btn-block d-flex align-items-center justify-content-center disabled">
+                                Kunjungi
+                            </a>
+                        </div>
+                    </div>
+                </div> --}}
+            </div>
+            </div>
             </div>
 
         </section><!-- /Services Section -->
