@@ -34,6 +34,59 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown>a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .dropdown>a:hover {
+            color: #007bff;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+        }
+
+        .dropdown-menu li a {
+            color: #000;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown-menu form {
+            margin: 0;
+        }
+
+        .dropdown-menu form li {
+            padding: 0;
+        }
+
+    </style>
 </head>
 
 <body class="index-page">
@@ -56,10 +109,12 @@
                     {{-- <li><a href="#team">Team</a></li> --}}
                     {{-- <li><a href="#pricing">Pricing</a></li> --}}
                     @auth
-                    <li class="dropdown"><a href="#"><span>{{ auth()->user()->name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <li class="dropdown"><a href="#"><span>Hai, {{ ucfirst(auth()->user()->name) }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
                             <li><a href="#">Profile</a></li>
+                            @role('superadmin')
                             <li><a href="{{ route('dashboard')}}">Dashboard</a></li>
+                            @endrole
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <li><a href="{{ route('logout')}}" onclick="event.preventDefault();
