@@ -2,8 +2,12 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\roleController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,9 +46,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// manajemen user 
+Route::prefix('manage-user')->middleware('auth')->group(function () {
+    Route::resource('users', UserController::class);
+    Route::resource('menu', MenuController::class);
+    Route::resource('permission', PermissionController::class);
+    Route::resource('role', roleController::class);
+});
 
 
-Route::prefix('v-claimbpjs')->middleware('checkrole:admin')->group(function () {
+
+Route::prefix('v-claimbpjs')->middleware('checkrole:user')->group(function () {
     Route::get('vclaim', [TestController::class, 'index'])->name('v-claimbpjs.dashboard');
 });
 

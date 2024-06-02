@@ -1,0 +1,53 @@
+<?php
+
+namespace App\View\Components;
+
+use App\Models\Menu;
+use App\Models\MenuItem;
+use Illuminate\Http\Request;
+use Illuminate\View\Component;
+use Illuminate\Support\Facades\Auth;
+
+class NavigationComponent extends Component
+{
+    /**
+     * Create a new component instance.
+     *
+     * @return void
+     */
+    public $menuItemsByMenuId;
+    public $menus;
+    public $app;
+    public $initialApp;
+
+    public function __construct(Request $request)
+    {
+        $this->menuItemsByMenuId = MenuItem::all()->groupBy('menu_id');
+
+        // if (Auth::user()->hasRole('superadmin')) {
+        // } else {
+        // }
+
+        $segment = $request->attributes->get('application');
+        if ($segment) {
+            $this->app = $segment->name;
+            $this->menus = Menu::where('is_superadmin', false)->get();
+        } else {
+            $this->app = 'Rsumm Link';
+            $this->menus = Menu::where('is_superadmin', true)->get();
+        }
+        $this->initialApp = implode('', array_map(function ($word) {
+            return substr($word, 0, 1);
+        }, explode(' ', $this->app)));
+    }
+
+    /**
+     * Get the view / contents that represent the component.
+     *
+     * @return \Illuminate\Contracts\View\View|\Closure|string
+     */
+    public function render()
+    {
+        return view('layouts.navigation');
+    }
+}

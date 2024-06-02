@@ -86,6 +86,15 @@
             padding: 0;
         }
 
+        .card-disabled {
+            opacity: 0.5;
+        }
+
+        .disabled-link {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
     </style>
 </head>
 
@@ -165,40 +174,41 @@
                 <div class="swiper">
                     <script type="application/json" class="swiper-config">
                         {
-                            "loop": true,
-                            "speed": 600,
-                            "autoplay": {
+                            "loop": true
+                            , "speed": 600
+                            , "autoplay": {
                                 "delay": 5000
-                            },
-                            "slidesPerView": "auto",
-                            "pagination": {
-                                "el": ".swiper-pagination",
-                                "type": "bullets",
-                                "clickable": true
-                            },
-                            "breakpoints": {
+                            }
+                            , "slidesPerView": "auto"
+                            , "pagination": {
+                                "el": ".swiper-pagination"
+                                , "type": "bullets"
+                                , "clickable": true
+                            }
+                            , "breakpoints": {
                                 "320": {
-                                    "slidesPerView": 2,
-                                    "spaceBetween": 40
-                                },
-                                "480": {
-                                    "slidesPerView": 3,
-                                    "spaceBetween": 60
-                                },
-                                "640": {
-                                    "slidesPerView": 4,
-                                    "spaceBetween": 80
-                                },
-                                "992": {
-                                    "slidesPerView": 5,
-                                    "spaceBetween": 120
-                                },
-                                "1200": {
-                                    "slidesPerView": 6,
-                                    "spaceBetween": 120
+                                    "slidesPerView": 2
+                                    , "spaceBetween": 40
+                                }
+                                , "480": {
+                                    "slidesPerView": 3
+                                    , "spaceBetween": 60
+                                }
+                                , "640": {
+                                    "slidesPerView": 4
+                                    , "spaceBetween": 80
+                                }
+                                , "992": {
+                                    "slidesPerView": 5
+                                    , "spaceBetween": 120
+                                }
+                                , "1200": {
+                                    "slidesPerView": 6
+                                    , "spaceBetween": 120
                                 }
                             }
                         }
+
                     </script>
                     <div class="swiper-wrapper align-items-center">
                         <div class="swiper-slide"><img src="{{ asset('img/tender/satusehatt.png')}}" class="img-fluid" alt=""></div>
@@ -375,74 +385,20 @@
             <div class="container section-title" data-aos="fade-up">
                 <h2>Layanan</h2>
                 <p>Temukan Ragam Layanan Rumah Sakit Muhammadiyah Metro Dalam Satu Aplikasi</p>
+
             </div><!-- End Section Title -->
 
-            {{-- <div class="container">
-
-                <div class="row gy-4">
-
-                    <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
-                        <div class="service-item position-relative">
-                            <div class="icon"><i class="bi bi-link icon"></i></div>
-                            <h4><a href="service-details.html" class="stretched-link">Lorem Ipsum</a></h4>
-                            <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
-                        </div>
-                    </div><!-- End Service Item -->
-
-                    <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
-                        <div class="service-item position-relative">
-                            <div class="icon"><i class="bi bi-bounding-box-circles icon"></i></div>
-                            <h4><a href="service-details.html" class="stretched-link">Sed ut perspici</a></h4>
-                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
-                        </div>
-                    </div><!-- End Service Item -->
-
-                    <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
-                        <div class="service-item position-relative">
-                            <div class="icon"><i class="bi bi-calendar4-week icon"></i></div>
-                            <h4><a href="service-details.html" class="stretched-link">Magni Dolores</a></h4>
-                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
-                        </div>
-                    </div><!-- End Service Item -->
-
-                    <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
-                        <div class="service-item position-relative">
-                            <div class="icon"><i class="bi bi-broadcast icon"></i></div>
-                            <h4><a href="service-details.html" class="stretched-link">Nemo Enim</a></h4>
-                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
-                        </div>
-                    </div><!-- End Service Item -->
-
-                       <div class="card">
-                                <a class="img-card" href="http://www.fostrap.com/2016/03/bootstrap-3-carousel-fade-effect.html">
-                                    <img src="https://1.bp.blogspot.com/-Bii3S69BdjQ/VtdOpIi4aoI/AAAAAAAABlk/F0z23Yr59f0/s640/cover.jpg" />
-                                </a>
-                                <div class="card-content">
-                                    <h4 class="card-title">
-                                        <a href="http://www.fostrap.com/2016/03/bootstrap-3-carousel-fade-effect.html"> Bootstrap 3 Carousel FadeIn Out Effect
-                                        </a>
-                                    </h4>
-                                    <p class="">
-                                        Tutorial to make a carousel bootstrap by adding more wonderful effect fadein ...
-                                    </p>
-                                </div>
-                                <div class="card-read-more">
-                                    <a href="http://www.fostrap.com/2016/03/bootstrap-3-carousel-fade-effect.html" class="btn btn-link btn-block">
-                                        Read More
-                                    </a>
-                                </div>
-                            </div>
-
-                </div>
-
-            </div> --}}
-
+            @auth
             <div class="content">
                 <div class="container">
                     <div class="row">
                         @foreach($applications as $application)
+                        @php
+                        $isDisabledAndMaintenance = $application->status == 'maintenance' || $application->status == 'inactive';
+                        $routeExists = Route::has($application->prefix.'.dashboard');
+                        @endphp
                         <div class="col-xs-12 col-sm-4">
-                            <div class="card">
+                            <div class="card {{ $isDisabledAndMaintenance ? 'card-disabled' : '' }}">
                                 <a class="img-card" href="">
                                     <img src="{{ asset($application->image) }}" />
                                 </a>
@@ -456,9 +412,15 @@
                                     </p>
                                 </div>
                                 <div class="card-read-more">
-                                    <a href="{{route($application->prefix.'.dashboard')}}" class="btn btn-link btn-block d-flex align-items-center justify-content-center">
-                                        Kunjungi
+                                    <a href="{{ $routeExists ? route($application->prefix.'.dashboard') : '' }}" class="btn btn-link btn-block d-flex align-items-center justify-content-center {{ $isDisabledAndMaintenance ? 'disabled-link' : '' }}">
+                                        @if($isDisabledAndMaintenance)
+                                        Sedang {{ $application->status }}
+                                        @else
+                                        Buka Aplikasi
+                                        @endif
                                     </a>
+
+
                                 </div>
                             </div>
                         </div>
@@ -507,8 +469,15 @@
                     </div>
                 </div> --}}
             </div>
+            @else
+            <div class="container">
+                <div class="alert alert-warning text-center" role="alert">
+                    LAYANAN AKAN MUNCUL KETIKA ANDA SUDAH LOGIN, <a href="/login">Klik Disini!</a>
+                </div>
             </div>
-            </div>
+            @endauth
+            {{-- </div>
+            </div> --}}
 
         </section><!-- /Services Section -->
 

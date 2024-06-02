@@ -26,7 +26,15 @@ class ApplicationSeeder extends Seeder
                 'name' => 'v-claim bpjs',
                 'image' => 'null',
                 'prefix' => 'v-claimbpjs',
-                'description' => 'V-Claim BPJS adalah sebuah sistem yang memungkinkan peserta BPJS Kesehatan untuk mengajukan klaim atau pembayaran atas layanan kesehatan yang telah diterima secara digital.'
+                'description' => 'V-Claim BPJS adalah sebuah sistem yang memungkinkan peserta BPJS Kesehatan untuk mengajukan klaim atau pembayaran atas layanan kesehatan yang telah diterima secara digital.',
+                'status' => 'maintenance'
+            ],
+            [
+                'name' => 'e-claim bpjs',
+                'image' => 'null',
+                'prefix' => 'e-claimbpjs',
+                'description' => 'E-Claim BPJS adalah pengajuan biaya perawatan pasien peserta BPJS oleh pihak rumah sakit kepada pihak BPJS Kesehatan, dilakukan secara kolektif dan ditagihkan kepada pihak BPJS Kesehatan.',
+                'status' => 'inactive'
             ],
         ];
 
