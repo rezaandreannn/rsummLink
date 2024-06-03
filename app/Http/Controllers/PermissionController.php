@@ -46,7 +46,7 @@ class PermissionController extends Controller
             'application_id' => $request->application_id
         ]);
         $message = 'Berhasil membuat perizinan!';
-        return redirect()->back()->with('success', $message);
+        return redirect()->back()->with('toast_success', $message);
     }
 
     /**
@@ -80,7 +80,15 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+        $permission->update([
+            'name' => $request->name,
+            'guard_name' => $request->guard_name,
+            'application_id' => $request->application_id
+        ]);
+
+        $message = 'Berhasil mengubah perizinan!';
+        return redirect()->back()->with('toast_success', $message);
     }
 
     /**

@@ -29,12 +29,14 @@ class NavigationComponent extends Component
         // }
 
         $segment = $request->attributes->get('application');
+        // dd($segment);
         if ($segment) {
             $this->app = $segment->name;
-            $this->menus = Menu::where('is_superadmin', false)->get();
+            $this->menus = Menu::with('permission')->where('application_id', $segment->id)->orderBy('serial_number', 'asc')->get();
+            // dd($this->menus);
         } else {
             $this->app = 'Rsumm Link';
-            $this->menus = Menu::where('is_superadmin', true)->get();
+            $this->menus = Menu::with('permission')->where('is_superadmin', true)->orderBy('serial_number', 'asc')->get();
         }
         $this->initialApp = implode('', array_map(function ($word) {
             return substr($word, 0, 1);

@@ -50,7 +50,8 @@ Route::middleware('auth')->group(function () {
 Route::prefix('manage-user')->middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('menu', MenuController::class);
-    Route::resource('permission', PermissionController::class);
+    Route::get('/getPermissionsByApplicationId/{id}', [MenuController::class, 'getPermissionByApplicationId'])->name('permissions.get');
+    Route::resource('permission', PermissionController::class)->except(['show', 'edit', 'create']);
     Route::resource('role', roleController::class);
 });
 

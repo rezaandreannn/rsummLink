@@ -10,11 +10,13 @@
              <li class="menu-header">{{$app}}</li>
              @foreach($menus as $menu)
              <li class="{{ $menu->route == '' ? 'nav-item dropdown' : ''}}">
-                 <a href="{{ Route::has($menu->route) ? route($menu->route) : '#'}}" class="nav-link {{ $menu->route == '' ? 'has-dropdown' : ''}}"><i class="fas fa-fire"></i><span>{{$menu->name}}</span></a>
+                 @can($menu->permission->name)
+                 <a href="{{ Route::has($menu->route) ? route($menu->route) : '#'}}" class="nav-link {{ $menu->route == '' ? 'has-dropdown' : ''}}"><i class="{{ $menu->icon  == '' ? 'fas fa-fire' :  $menu->icon}}"></i><span>{{ucwords($menu->name)}}</span></a>
+                 @endcan
                  @if(isset($menuItemsByMenuId[$menu->id]) && count($menuItemsByMenuId[$menu->id]) > 0)
                  <ul class="dropdown-menu">
                      @foreach($menuItemsByMenuId[$menu->id] as $menuItem)
-                     <li><a class="nav-link" href="{{ Route::has($menuItem->route) ? route($menuItem->route) : ''}}">{{ $menuItem->name }}</a></li>
+                     <li><a class="nav-link" href="{{ Route::has($menuItem->route) ? route($menuItem->route) : ''}}">{{ ucwords($menuItem->name) }}</a></li>
                      @endforeach
                  </ul>
                  @endif

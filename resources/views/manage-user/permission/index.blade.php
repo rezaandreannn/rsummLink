@@ -13,43 +13,45 @@
                 </button>
                 <div class="card">
                     <div class="card-body">
-                        <table id="table-1" class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Perizinan</th>
-                                    <th>Tipe</th>
-                                    <th>Aplikasi</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($permissions as $permission)
-                                <tr>
-                                    <td style="width: 5%">{{ $loop->iteration }}</td>
-                                    <td>{{ $permission->name }}</td>
-                                    <td>
-                                        <div class="badge badge-{{ $permission->guard_name == 'web' ? 'dark' : 'light'}}">
-                                            {{ $permission->guard_name}}
-                                        </div>
-                                    </td>
-                                    <td>{{ $permission->application ? $permission->application->name : 'Super admin' }}</td>
-                                    <td>
-                                        <div class="dropdown d-inline">
-                                            <button class="btn  btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Aksi
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item has-icon" href="#" data-toggle="modal" data-target="#editModal{{ $permission->id}}"><i class="fas fa-pencil-alt"></i> Edit</a>
-                                                <a class="dropdown-item has-icon" href="#"><i class="fas fa-trash"></i> Hapus</a>
+                        <div class="table-responsive">
+                            <table id="table-1" class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Perizinan</th>
+                                        <th>Tipe</th>
+                                        <th>Aplikasi</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($permissions as $permission)
+                                    <tr>
+                                        <td style="width: 5%">{{ $loop->iteration }}</td>
+                                        <td>{{ $permission->name }}</td>
+                                        <td>
+                                            <div class="badge badge-{{ $permission->guard_name == 'web' ? 'dark' : 'light'}}">
+                                                {{ $permission->guard_name}}
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
+                                        </td>
+                                        <td>{{ $permission->application ? $permission->application->name : 'Super admin' }}</td>
+                                        <td>
+                                            <div class="dropdown d-inline">
+                                                <button class="btn  btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Aksi
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item has-icon" href="#" data-toggle="modal" data-target="#editModal{{ $permission->id}}"><i class="fas fa-pencil-alt"></i> Edit</a>
+                                                    <a class="dropdown-item has-icon" href="#"><i class="fas fa-trash"></i> Hapus</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
 
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -126,7 +128,7 @@
                         <div class="form-group">
                             <label>Guard Name <i><small class="required-label"></small></i>
                             </label>
-                            <select class="form-control select2" name="guard_name">
+                            <select class="form-control selectric" name="guard_name">
                                 <option value="web" {{ $permission->guard_name=='web' ? 'selected' : ''}}>web</option>
                                 <option value="api" {{ $permission->guard_name=='api' ? 'selected' : ''}}>api</option>
                             </select>
@@ -156,16 +158,15 @@
     {{-- css library --}}
     @push('css-libraries')
     <link rel="stylesheet" href="{{ asset('stisla/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
-
     <link rel="stylesheet" href="{{ asset('stisla/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('stisla/node_modules/select2/dist/css/select2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('stisla/node_modules/selectric/public/selectric.css')}}">
     @endpush
 
     @push('js-libraries')
     <script src="{{ asset('stisla/node_modules/datatables/media/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('stisla/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{ asset('stisla/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js')}}"></script>
-    <script src="{{ asset('stisla/node_modules/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('stisla/node_modules/selectric/public/jquery.selectric.min.js')}}"></script>
     <script src="{{ asset('stisla/assets/js/page/modules-datatables.js')}}"></script>
     @include('sweetalert::alert')
 
