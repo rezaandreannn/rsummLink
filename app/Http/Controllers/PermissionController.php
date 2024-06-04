@@ -99,6 +99,11 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+
+        $permission->delete();
+
+        $message = 'Berhasil menghapus perizinan!';
+        return redirect()->back()->with('toast_success', $message);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Role;
 use App\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -15,7 +15,7 @@ class Application extends Model
 
     public function roles()
     {
-        return $this->hasMany(Role::class);
+        return $this->hasMany(Role::class, 'application_id');
     }
 
     public function menus()

@@ -8,7 +8,7 @@
     <section class="content">
         <div class="row">
             <div class="col-12">
-                <a href="{{ route('menu.create')}}" class="btn btn-primary mb-2"> <i class="ion ion-plus"> </i> Tambah Menu </a>
+                <a href="{{ route('menu.create')}}" class="btn btn-primary mb-2"> <i class="far fa-plus-square"></i> Tambah Menu </a>
                 {{-- <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModal">
                     <i class="ion ion-plus"> </i> Tambah Menu
                 </button> --}}

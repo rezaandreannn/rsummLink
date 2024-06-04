@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-12">
                 <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModal">
-                    <i class="ion ion-plus"> </i> Tambah Perizinan
+                    <i class="far fa-plus-square"></i> Tambah Perizinan
                 </button>
                 <div class="card">
                     <div class="card-body">
@@ -42,7 +42,11 @@
                                                 </button>
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item has-icon" href="#" data-toggle="modal" data-target="#editModal{{ $permission->id}}"><i class="fas fa-pencil-alt"></i> Edit</a>
-                                                    <a class="dropdown-item has-icon" href="#"><i class="fas fa-trash"></i> Hapus</a>
+                                                    <form id="delete-form-{{$permission->id}}" action="{{ route('permission.destroy', $permission->id) }}" method="POST" style="display: none;">
+                                                        @method('delete')
+                                                        @csrf
+                                                    </form>
+                                                    <a class="dropdown-item has-icon" href="#" onclick="event.preventDefault(); document.getElementById('delete-form-{{$permission->id}}').submit();"><i class="fas fa-trash"></i> Hapus</a>
                                                 </div>
                                             </div>
                                         </td>

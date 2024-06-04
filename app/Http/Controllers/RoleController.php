@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
+use App\Models\Role;
 use Illuminate\Http\Request;
+
 
 class RoleController extends Controller
 {
@@ -13,7 +16,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Role::with('application')->get();
+        $applications = Application::all();
+        return view('manage-user.role.index', compact('roles', 'applications'));
     }
 
     /**
@@ -23,7 +28,6 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -34,7 +38,14 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Role::create([
+            'name' => $request->name,
+            'guard_name' => $request->guard_name,
+            'application_id' => $request->application_id
+        ]);
+
+        $message = 'Berhasil membuat peran!';
+        return redirect()->back()->with('toast_success', $message);
     }
 
     /**
@@ -68,7 +79,15 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $role = Role::findOrFail($id);
+        $role->update([
+            'name' => $request->name,
+            'guard_name' => $request->guard_name,
+            'application_id' => $request->application_id
+        ]);
+
+        $message = 'Berhasil mengubah peran!';
+        return redirect()->back()->with('toast_success', $message);
     }
 
     /**
@@ -79,6 +98,11 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $role = Role::findOrFail($id);
+
+        $role->delete();
+
+        $message = 'Berhasil menghapus peran!';
+        return redirect()->back()->with('toast_success', $message);
     }
 }
