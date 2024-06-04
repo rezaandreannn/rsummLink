@@ -11,7 +11,8 @@
              @foreach($menus as $menu)
              <li class="{{ $menu->route == '' ? 'nav-item dropdown' : ''}}">
                  @can($menu->permission->name)
-                 <a href="{{ Route::has($menu->route) ? route($menu->route) : '#'}}" class="nav-link {{ $menu->route == '' ? 'has-dropdown' : ''}}"><i class="{{ $menu->icon  == '' ? 'fas fa-fire' :  $menu->icon}}"></i><span>{{ucwords($menu->name)}}</span></a>
+                 <a href="{{ Route::has($menu->route) ? route($menu->route) : '#'}}" class="nav-link {{ $menu->route == '' ? 'has-dropdown' : ''}}"><i class="{{ $menu->icon  == '' ? 'fas fa-fire' :  $menu->icon}}"></i><span>{{ucwords($menu->name)}}</span>
+                 </a>
                  @endcan
                  @if(isset($menuItemsByMenuId[$menu->id]) && count($menuItemsByMenuId[$menu->id]) > 0)
                  <ul class="dropdown-menu">
