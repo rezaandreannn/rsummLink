@@ -9,7 +9,18 @@
          <ul class="sidebar-menu">
              <li class="menu-header">{{$app}}</li>
              @foreach($menus as $menu)
-             <li class="{{ $menu->route == '' ? 'nav-item dropdown' : ''}}">
+             @php
+             $isActive = Route::is($menu->route);
+             if (isset($menuItemsByMenuId[$menu->id])) {
+             foreach ($menuItemsByMenuId[$menu->id] as $menuItem) {
+             if (Route::is($menuItem->route)) {
+             $isActive = true;
+             break;
+             }
+             }
+             }
+             @endphp
+             <li class="{{ $menu->route == '' ? 'nav-item dropdown' : ''}} {{  $isActive ? 'active' : ''}}">
                  @can($menu->permission->name)
                  <a href="{{ Route::has($menu->route) ? route($menu->route) : '#'}}" class="nav-link {{ $menu->route == '' ? 'has-dropdown' : ''}}"><i class="{{ $menu->icon  == '' ? 'fas fa-fire' :  $menu->icon}}"></i><span>{{ucwords($menu->name)}}</span>
                  </a>
@@ -17,7 +28,9 @@
                  @if(isset($menuItemsByMenuId[$menu->id]) && count($menuItemsByMenuId[$menu->id]) > 0)
                  <ul class="dropdown-menu">
                      @foreach($menuItemsByMenuId[$menu->id] as $menuItem)
-                     <li><a class="nav-link" href="{{ Route::has($menuItem->route) ? route($menuItem->route) : ''}}">{{ ucwords($menuItem->name) }}</a></li>
+                     <li class="{{ Route::is($menuItem->route) ? 'active' : ''}}">
+                         <a class="nav-link" href="{{ Route::has($menuItem->route) ? route($menuItem->route) : ''}}">{{ ucwords($menuItem->name) }}</a>
+                     </li>
                      @endforeach
                  </ul>
                  @endif

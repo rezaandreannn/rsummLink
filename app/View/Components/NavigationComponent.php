@@ -19,6 +19,7 @@ class NavigationComponent extends Component
     public $menus;
     public $app;
     public $initialApp;
+    public $menuActive;
 
     public function __construct(Request $request)
     {
@@ -27,13 +28,11 @@ class NavigationComponent extends Component
         // if (Auth::user()->hasRole('superadmin')) {
         // } else {
         // }
-
         $segment = $request->attributes->get('application');
         // dd($segment);
         if ($segment) {
             $this->app = $segment->name;
             $this->menus = Menu::with('permission')->where('application_id', $segment->id)->orderBy('serial_number', 'asc')->get();
-            // dd($this->menus);
         } else {
             $this->app = 'Rsumm Link';
             $this->menus = Menu::with('permission')->where('is_superadmin', true)->orderBy('serial_number', 'asc')->get();

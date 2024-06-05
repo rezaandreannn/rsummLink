@@ -23,6 +23,7 @@ class Application extends Model
         return $this->hasMany(Menu::class, 'application_id');
     }
 
+
     public function permissions()
     {
         return $this->hasMany(Permission::class, 'application_id');

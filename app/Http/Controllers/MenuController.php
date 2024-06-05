@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Icon;
 use App\Models\Menu;
 use App\Models\MenuItem;
-use App\Models\Permission;
 use App\Models\Application;
-use App\Models\Icon;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+
 
 class MenuController extends Controller
 {
@@ -72,7 +73,8 @@ class MenuController extends Controller
         $menu = Menu::find($id);
         $title = 'Menu : ' . ucwords($menu->name);
         $menuItems = MenuItem::with('permission')->where('menu_id', $id)->get();
-        return view('manage-user.menu.detail', compact('menuItems', 'title'));
+        $permissions = Permission::where('application_id', $menu->appliation_id)->get();
+        return view('manage-user.menu.detail', compact('menuItems', 'title', 'permissions'));
     }
 
     /**
