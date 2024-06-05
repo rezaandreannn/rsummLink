@@ -58,12 +58,14 @@
     <!-- JS Libraies -->
     @stack('js-libraries')
 
+
     <!-- Template JS File -->
     <script src="{{ asset('stisla/assets/js/scripts.js')}}"></script>
     <script src="{{ asset('stisla/assets/js/custom.js')}}"></script>
 
     <!-- Page Specific JS File -->
     @stack('js-spesific')
+
     {{-- @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"]) --}}
 </body>
 </html>

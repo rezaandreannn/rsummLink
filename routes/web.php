@@ -5,7 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\roleController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -52,7 +53,8 @@ Route::prefix('manage-user')->middleware('auth')->group(function () {
     Route::resource('menu', MenuController::class);
     Route::get('/getPermissionsByApplicationId/{id}', [MenuController::class, 'getPermissionByApplicationId'])->name('permissions.get');
     Route::resource('permission', PermissionController::class)->except(['show', 'edit', 'create']);
-    Route::resource('role', roleController::class);
+    Route::resource('role', RoleController::class)->except(['show', 'edit', 'create']);
+    Route::get('/role-permission', RolePermissionController::class)->name('role.permission.manage');
 });
 
 

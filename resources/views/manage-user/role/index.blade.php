@@ -1,4 +1,4 @@
-<x-app-layout title="Role">
+<x-app-layout title="Peran">
     <section class="section">
         <div class="section-header">
             <h1>Data Peran</h1>
@@ -29,9 +29,7 @@
                                     <td style="width: 5%">{{ $loop->iteration }}</td>
                                     <td>{{ $role->name }}</td>
                                     <td>
-                                        {{-- <div class="badge badge-{{ $role->guard_name == 'web' ? 'dark' : 'light'}}"> --}}
                                         {{ $role->guard_name}}
-                                        {{-- </div> --}}
                                     </td>
                                     <td>{{ $role->application ?  ucwords($role->application->name) : 'Super admin' }}</td>
                                     <td>
@@ -40,24 +38,25 @@
                                                 Aksi
                                             </button>
                                             <div class="dropdown-menu">
+                                                @if(isset($role->application_id))
+                                                <a class="dropdown-item has-icon" href="#" data-toggle="modal" data-target="#perizinan{{ $role->id}}"><i class="fas fa-key"></i> Perizinan</a>
+                                                @endif
                                                 <a class="dropdown-item has-icon" href="#" data-toggle="modal" data-target="#editModal{{ $role->id}}"><i class="fas fa-pencil-alt"></i> Edit</a>
-                                                <form id="delete-form-{{$role->id}}" action="{{ route('role.destroy', $role->id) }}" method="POST" style="display: none;">
+                                                <form id="delete-form-{{$role->id}}" action="{{ route('role.destroy', $role->id) }}" method="POST" style="display:none;">
                                                     @method('delete')
                                                     @csrf
                                                 </form>
-                                                <a class="dropdown-item has-icon" href="#" onclick="event.preventDefault(); document.getElementById('delete-form-{{$role->id}}').submit();"><i class="fas fa-trash"></i> Hapus</a>
+                                                <a class="dropdown-item has-icon" confirm-delete="true" data-roleId="{{$role->id}}" href="#"><i class="fas fa-trash"></i> Hapus</a>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
-
                         </table>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -96,7 +95,7 @@
                                 @foreach($applications as $app)
                                 <option value="{{ $app->id }}">{{$app->name}}</option>
                                 @endforeach
-                                <option value="">super admin</option>
+                                {{-- <option value="">super admin</option> --}}
                             </select>
                         </div>
                     </div>
@@ -144,7 +143,7 @@
                                 @foreach($applications as $app)
                                 <option value="{{ $app->id }}" {{ $role->application_id == $app->id ? 'selected' : ''}}>{{$app->name}}</option>
                                 @endforeach
-                                <option value="" {{ $role->application_id == '' ? 'selected' : ''}}>super admin</option>
+                                {{-- <option value="" {{ $role->application_id == '' ? 'selected' : ''}}>super admin</option> --}}
                             </select>
                         </div>
                     </div>
@@ -158,7 +157,52 @@
     </div>
     @endforeach
 
+    @foreach ($roles as $role)
+    <div class="modal fade" id="perizinan{{ $role->id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Perizinan dari peran : {{$role->name}}({{isset($role->application) ? $role->application->name : ''}})</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
+                <div class="modal-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Nama Perizinan</th>
+                                    <th class="text-center">Hak Akses</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(isset($permissions[$role->application_id]) && count($permissions[$role->application_id]) > 0)
+                                @foreach($permissions[$role->application_id] as $permission)
+                                <tr>
+                                    <td>{{ $permission->name }}</td>
+                                    <td class="text-center">
+                                        <div class="form-check custom-checkbox custom-control">
+                                            <input class="form-check-input" type="checkbox" roleId="{{$role->id}}" value="{{$permission->id}}" id="defaultCheck1" {{checkRolePermission($role->id, $permission->id) ? 'checked' : '' }}>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Tutup</button>
+                    {{-- <button type="submit" class="btn btn-primary">Simpan</button> --}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @endforeach
 
     {{-- css library --}}
     @push('css-libraries')
@@ -174,6 +218,85 @@
     <script src="{{ asset('stisla/node_modules/selectric/public/jquery.selectric.min.js')}}"></script>
     <script src="{{ asset('stisla/assets/js/page/modules-datatables.js')}}"></script>
     @include('sweetalert::alert')
+    @endpush
+
+    @push('js-spesific')
+    <script>
+        $(document).ready(function() {
+            $('input[type="checkbox"]').change(function() {
+                var checkbox = $(this);
+                var permissionId = checkbox.val();
+                var roleId = $(this).attr('roleId');
+                var status = $(this).is(':checked');
+                var action = ""
+
+                if (status) {
+                    action = "insert"
+                } else {
+                    action = "delete"
+                }
+
+                $.ajax({
+                    url: '{{ route("role.permission.manage") }}'
+                    , method: 'GET'
+                    , data: {
+                        roleId: roleId
+                        , permissionId: permissionId
+                        , action: action
+                    }
+                    , success: function(response) {
+                        console.log(response)
+                        Swal.fire({
+                            position: 'top-end'
+                            , toast: true
+                            , icon: 'success'
+                            , title: 'sukses!'
+                            , text: response.message
+                            , showConfirmButton: false
+                            , timer: 3000
+                            , timerProgressBar: true
+                            , backgroundColor: '#28a745'
+                            , titleColor: '#fff'
+                        , })
+                    }
+                    , error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+
+    </script>
+
+    {{-- <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script> --}}
+    <script>
+        document.querySelectorAll('[confirm-delete="true"]').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                event.preventDefault();
+                var roleId = this.getAttribute('data-roleId');
+                Swal.fire({
+                    title: 'Apakah Kamu Yakin?'
+                    , text: "Anda tidak akan dapat mengembalikan ini!"
+                    , icon: 'warning'
+                    , showCancelButton: true
+                    , confirmButtonColor: '#6777EF'
+                    , cancelButtonColor: '#d33'
+                    , confirmButtonText: 'Ya, Hapus saja!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var form = document.getElementById('delete-form-' + roleId);
+                        if (form) {
+                            form.submit();
+                        } else {
+                            console.error('Form not found for role ID:', roleId);
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+
 
     @endpush
 </x-app-layout>

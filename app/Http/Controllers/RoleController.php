@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
-use App\Models\Role;
 use Illuminate\Http\Request;
-
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -18,7 +18,12 @@ class RoleController extends Controller
     {
         $roles = Role::with('application')->get();
         $applications = Application::all();
-        return view('manage-user.role.index', compact('roles', 'applications'));
+        $permissions = Permission::all()->groupBy('application_id');
+
+        $title = 'Delete User!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+        return view('manage-user.role.index', compact('roles', 'applications', 'permissions'));
     }
 
     /**
