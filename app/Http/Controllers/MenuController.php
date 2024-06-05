@@ -19,7 +19,7 @@ class MenuController extends Controller
     public function index()
     {
         $title = 'Menu';
-        $menus = Menu::with(['application', 'permission'])->get();
+        $menus = Menu::with(['application', 'permission'])->orderBy('application_id', 'asc')->get();
         $applications = Application::all();
 
         $icons = Icon::where('label', 'user')->get();

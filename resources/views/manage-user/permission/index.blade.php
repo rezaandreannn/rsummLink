@@ -19,7 +19,6 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Perizinan</th>
-                                        <th>Tipe</th>
                                         <th>Aplikasi</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -30,11 +29,10 @@
                                         <td style="width: 5%">{{ $loop->iteration }}</td>
                                         <td>{{ $permission->name }}</td>
                                         <td>
-                                            <div class="badge badge-{{ $permission->guard_name == 'web' ? 'dark' : 'light'}}">
-                                                {{ $permission->guard_name}}
+                                            <div class="badge badge-{{ isset($permission->application->name) ? 'success' : 'dark'}}">
+                                                {{ $permission->application ? ucwords($permission->application->name) : 'Super admin' }}
                                             </div>
                                         </td>
-                                        <td>{{ $permission->application ? $permission->application->name : 'Super admin' }}</td>
                                         <td>
                                             <div class="dropdown d-inline">
                                                 <button class="btn  btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -53,7 +51,6 @@
                                     </tr>
                                     @endforeach
                                 </tbody>
-
                             </table>
                         </div>
                     </div>

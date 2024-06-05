@@ -33,7 +33,9 @@
                                         <td>{{ $menu->name }}</td>
                                         <td>{{ $menu->route ?? '#' }}</td>
                                         <td>
-                                            <div class='badge badge-success'>{{$menu->application ? ucwords($menu->application->name) : 'Super admin'}}</div>
+                                            <div class="badge badge-{{ isset($menu->application->name) ? 'success' : 'dark'}}">
+                                                {{$menu->application ? ucwords($menu->application->name) : 'Super admin'}}
+                                            </div>
                                         </td>
                                         <td>{{ $menu->permission ? $menu->permission->name : '' }}</td>
                                         <td>
@@ -60,7 +62,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>(
+                    </div>
                 </div>
             </div>
         </div>
@@ -178,19 +180,19 @@
 
     {{-- css library --}}
     @push('css-libraries')
-    {{-- <link rel="stylesheet" href="{{ asset('stisla/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('stisla/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('stisla/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('stisla/node_modules/selectric/public/selectric.css')}}">
-    <link rel="stylesheet" href="{{ asset('stisla/node_modules/select2/dist/css/select2.min.css') }}" /> --}}
+    <link rel="stylesheet" href="{{ asset('stisla/node_modules/select2/dist/css/select2.min.css') }}" />
     @endpush
 
     @push('js-libraries')
-    {{-- <script src="{{ asset('stisla/node_modules/datatables/media/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('stisla/node_modules/datatables/media/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('stisla/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{ asset('stisla/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js')}}"></script>
     <script src="{{ asset('stisla/assets/js/page/modules-datatables.js')}}"></script>
     <script src="{{ asset('stisla/node_modules/selectric/public/jquery.selectric.min.js')}}"></script>
-    <script src="{{ asset('stisla/node_modules/select2/dist/js/select2.full.min.js') }}"></script> --}}
+    <script src="{{ asset('stisla/node_modules/select2/dist/js/select2.full.min.js') }}"></script>
     @include('sweetalert::alert')
 
     @push('js-spesific')

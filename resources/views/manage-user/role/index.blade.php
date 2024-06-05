@@ -13,47 +13,49 @@
                 </button>
                 <div class="card">
                     <div class="card-body">
-                        <table id="table-1" class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Role</th>
-                                    <th>Tipe</th>
-                                    <th>Aplikasi</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($roles as $role)
-                                <tr>
-                                    <td style="width: 5%">{{ $loop->iteration }}</td>
-                                    <td>{{ $role->name }}</td>
-                                    <td>
-                                        {{ $role->guard_name}}
-                                    </td>
-                                    <td>{{ $role->application ?  ucwords($role->application->name) : 'Super admin' }}</td>
-                                    <td>
-                                        <div class="dropdown d-inline">
-                                            <button class="btn  btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Aksi
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                @if(isset($role->application_id))
-                                                <a class="dropdown-item has-icon" href="#" data-toggle="modal" data-target="#perizinan{{ $role->id}}"><i class="fas fa-key"></i> Perizinan</a>
-                                                @endif
-                                                <a class="dropdown-item has-icon" href="#" data-toggle="modal" data-target="#editModal{{ $role->id}}"><i class="fas fa-pencil-alt"></i> Edit</a>
-                                                <form id="delete-form-{{$role->id}}" action="{{ route('role.destroy', $role->id) }}" method="POST" style="display:none;">
-                                                    @method('delete')
-                                                    @csrf
-                                                </form>
-                                                <a class="dropdown-item has-icon" confirm-delete="true" data-roleId="{{$role->id}}" href="#"><i class="fas fa-trash"></i> Hapus</a>
+                        <div class="table-responsive">
+                            <table id="table-1" class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Role</th>
+                                        <th>Tipe</th>
+                                        <th>Aplikasi</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($roles as $role)
+                                    <tr>
+                                        <td style="width: 5%">{{ $loop->iteration }}</td>
+                                        <td>{{ $role->name }}</td>
+                                        <td>
+                                            {{ $role->guard_name}}
+                                        </td>
+                                        <td>{{ $role->application ?  ucwords($role->application->name) : 'Super admin' }}</td>
+                                        <td>
+                                            <div class="dropdown d-inline">
+                                                <button class="btn  btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Aksi
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    @if(isset($role->application_id))
+                                                    <a class="dropdown-item has-icon" href="#" data-toggle="modal" data-target="#perizinan{{ $role->id}}"><i class="fas fa-key"></i> Perizinan</a>
+                                                    @endif
+                                                    <a class="dropdown-item has-icon" href="#" data-toggle="modal" data-target="#editModal{{ $role->id}}"><i class="fas fa-pencil-alt"></i> Edit</a>
+                                                    <form id="delete-form-{{$role->id}}" action="{{ route('role.destroy', $role->id) }}" method="POST" style="display:none;">
+                                                        @method('delete')
+                                                        @csrf
+                                                    </form>
+                                                    <a class="dropdown-item has-icon" confirm-delete="true" data-roleId="{{$role->id}}" href="#"><i class="fas fa-trash"></i> Hapus</a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -169,30 +171,29 @@
                 </div>
 
                 <div class="modal-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-striped mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Nama Perizinan</th>
-                                    <th class="text-center">Hak Akses</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(isset($permissions[$role->application_id]) && count($permissions[$role->application_id]) > 0)
-                                @foreach($permissions[$role->application_id] as $permission)
-                                <tr>
-                                    <td>{{ $permission->name }}</td>
-                                    <td class="text-center">
-                                        <div class="form-check custom-checkbox custom-control">
-                                            <input class="form-check-input" type="checkbox" roleId="{{$role->id}}" value="{{$permission->id}}" id="defaultCheck1" {{checkRolePermission($role->id, $permission->id) ? 'checked' : '' }}>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Nama Perizinan</th>
+                                <th class="text-center">Hak Akses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(isset($permissions[$role->application_id]) && count($permissions[$role->application_id]) > 0)
+                            @foreach($permissions[$role->application_id] as $permission)
+                            <tr>
+                                <td>{{ $permission->name }}</td>
+                                <td class="text-center">
+                                    <div class="form-check custom-checkbox custom-control">
+                                        <input class="form-check-input" type="checkbox" roleId="{{$role->id}}" value="{{$permission->id}}" id="defaultCheck1" {{checkRolePermission($role->id, $permission->id) ? 'checked' : '' }}>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning" data-dismiss="modal">Tutup</button>
