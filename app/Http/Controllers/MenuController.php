@@ -70,12 +70,21 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        $menu = Menu::find($id);
-        $title = 'Menu : ' . ucwords($menu->name);
-        $menuItems = MenuItem::with('permission')->where('menu_id', $id)->get();
-        $permissions = Permission::where('application_id', $menu->appliation_id)->get();
-        return view('manage-user.menu.detail', compact('menuItems', 'title', 'permissions'));
+        $menu = Menu::with('application')->where('id', $id)->first();
+        $title = 'Submenu : ' . ucwords($menu->name);
+        $menuItems = MenuItem::with('permission')->where('menu_id', $id)
+            ->get();
+        if ($menu->application_id) {
+            $permissions = Permission::where('application_id', $menu->application_id)
+                ->get();
+        } else {
+            $permissions = Permission::where('application_id', '')
+                ->orWhereNull('application_id')
+                ->get();
+        }
+        return view('manage-user.menu.detail', compact('menuItems', 'title', 'permissions', 'menu'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

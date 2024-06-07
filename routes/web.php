@@ -7,6 +7,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolePermissionController;
+use App\Http\Controllers\SubmenuController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +52,8 @@ Route::middleware('auth')->group(function () {
 Route::prefix('manage-user')->middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('menu', MenuController::class);
+    Route::post('submenu', [SubmenuController::class, 'store'])->name('submenu.store');
+    Route::put('submenu/{id}', [SubmenuController::class, 'update'])->name('submenu.update');
     Route::get('/getPermissionsByApplicationId/{id}', [MenuController::class, 'getPermissionByApplicationId'])->name('permissions.get');
     Route::resource('permission', PermissionController::class)->except(['show', 'edit', 'create']);
     Route::resource('role', RoleController::class)->except(['show', 'edit', 'create']);
