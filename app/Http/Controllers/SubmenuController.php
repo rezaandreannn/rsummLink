@@ -38,7 +38,13 @@ class SubmenuController extends Controller
         return redirect()->back()->with('toast_success', $message);
     }
 
-    public function destroy()
+    public function destroy($id)
     {
+        $menuItem = MenuItem::find($id);
+
+        $menuItem->delete();
+
+        $message = 'Berhasil menghapus sub menu!';
+        return redirect()->back()->with('toast_success', $message);
     }
 }

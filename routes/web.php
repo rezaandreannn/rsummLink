@@ -54,6 +54,7 @@ Route::prefix('manage-user')->middleware('auth')->group(function () {
     Route::resource('menu', MenuController::class);
     Route::post('submenu', [SubmenuController::class, 'store'])->name('submenu.store');
     Route::put('submenu/{id}', [SubmenuController::class, 'update'])->name('submenu.update');
+    Route::delete('submenu/{id}', [SubmenuController::class, 'destroy'])->name('submenu.destroy');
     Route::get('/getPermissionsByApplicationId/{id}', [MenuController::class, 'getPermissionByApplicationId'])->name('permissions.get');
     Route::resource('permission', PermissionController::class)->except(['show', 'edit', 'create']);
     Route::resource('role', RoleController::class)->except(['show', 'edit', 'create']);

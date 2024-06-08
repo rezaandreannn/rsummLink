@@ -53,7 +53,7 @@
                                                 </button>
                                                 <div class="dropdown-menu">
                                                     @if(empty($menu->route))
-                                                    <a class="dropdown-item has-icon" href="{{ route('menu.show', $menu->id)}}"><i class="far fa-eye"></i> Detail</a>
+                                                    <a class="dropdown-item has-icon" href="{{ route('menu.show', $menu->id)}}"><i class="fas fa-bars"></i> SubMenu</a>
                                                     @endif
                                                     <a class="dropdown-item has-icon" href="{{ route('menu.edit', $menu->id)}}"><i class="fas fa-pencil-alt"></i> Edit</a>
                                                     {{-- hapus --}}

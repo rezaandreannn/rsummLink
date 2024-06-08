@@ -1,7 +1,11 @@
-i<x-app-layout title='{{ $title }}'>
+<x-app-layout title='{{ $title }}'>
     <section class="section">
         <div class="section-header">
-            <h1>Submenu </h1> <button type="button" class="btn btn-primary ml-1" data-toggle="modal" data-target="#exampleModal">
+            <div class="section-header-back">
+                <a href="{{ route('menu.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+            </div>
+            <h1>Submenu </h1>
+            <button type="button" class="btn btn-primary ml-1" data-toggle="modal" data-target="#exampleModal">
                 <i class="far fa-plus-square"></i> Tambah Data </button>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
@@ -22,7 +26,7 @@ i<x-app-layout title='{{ $title }}'>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="table-1" class="table table-striped table-hover">
+                            <table id="table" class="table table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -48,11 +52,11 @@ i<x-app-layout title='{{ $title }}'>
                                                 </button>
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item has-icon" href="#" data-toggle="modal" data-target="#editModal{{ $submenu->id}}"><i class="fas fa-pencil-alt"></i> Edit</a>
-                                                    <form id="delete-form-{{$submenu->id}}" action="" method="POST" style="display: none;">
+                                                    <form id="delete-form-{{$submenu->id}}" action="{{ route('submenu.destroy', $submenu->id)}}" method="POST" style="display: none;">
                                                         @method('delete')
                                                         @csrf
                                                     </form>
-                                                    <a class="dropdown-item has-icon" href="#"><i class="fas fa-trash"></i> Hapus</a>
+                                                    <a class="dropdown-item has-icon" confirm-delete="true" data-submenuId="{{$submenu->id}}" href="#"><i class="fas fa-trash"></i> Hapus</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -187,34 +191,35 @@ i<x-app-layout title='{{ $title }}'>
     @endpush
 
     @push('js-spesific')
-    <!-- Page Specific JS File -->
-    <script src="{{ asset('stisla/assets/js/page/forms-advanced-forms.js')}}"></script>
+    <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
     <script>
-        $(document).ready(function() {
-            $('select[name="application_id"]').selectric().on('change', function() {
-                var applicationId = $(this).val();
-                if (applicationId) {
-                    $.ajax({
-                        url: '{{ route("permissions.get", ":id") }}'.replace(':id', applicationId)
-                        , type: "GET"
-                        , dataType: "json"
-                        , success: function(data) {
-                            var $permissionSelect = $('select[name="permission_id"]');
-                            $permissionSelect.empty();
-                            $.each(data, function(key, value) {
-                                $permissionSelect.append('<option value="' + key + '">' + value + '</option>');
-                            });
-                            $permissionSelect.selectric('refresh');
+        document.querySelectorAll('[confirm-delete="true"]').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                event.preventDefault();
+                var submenuId = this.getAttribute('data-submenuId');
+                Swal.fire({
+                    title: 'Apakah Kamu Yakin?'
+                    , text: "Anda tidak akan dapat mengembalikan ini!"
+                    , icon: 'warning'
+                    , showCancelButton: true
+                    , confirmButtonColor: '#6777EF'
+                    , cancelButtonColor: '#d33'
+                    , cancelButtonText: 'Batal'
+                    , confirmButtonText: 'Ya, Hapus saja!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var form = document.getElementById('delete-form-' + submenuId);
+                        if (form) {
+                            form.submit();
+                        } else {
+                            console.error('Form not found for role ID:', roleId);
                         }
-                    });
-                } else {
-                    var $permissionSelect = $('select[name="permission_id"]');
-                    $permissionSelect.empty();
-                    $permissionSelect.selectric('refresh');
-                }
+                    }
+                });
             });
         });
 
     </script>
+
     @endpush
 </x-app-layout>
