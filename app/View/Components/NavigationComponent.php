@@ -23,7 +23,9 @@ class NavigationComponent extends Component
 
     public function __construct(Request $request)
     {
-        $this->menuItemsByMenuId = MenuItem::all()->groupBy('menu_id');
+        $this->menuItemsByMenuId = MenuItem::orderBy('serial_number', 'asc')
+            ->get()
+            ->groupBy('menu_id');
 
         // if (Auth::user()->hasRole('superadmin')) {
         // } else {

@@ -21,7 +21,7 @@
              }
              @endphp
              <li class="{{ $menu->route == '' ? 'nav-item dropdown' : ''}} {{  $isActive ? 'active' : ''}}">
-                 @can($menu->permission->name)
+                 @can($menu->permission ? $menu->permission->name : '')
                  <a href="{{ Route::has($menu->route) ? route($menu->route) : '#'}}" class="nav-link {{ $menu->route == '' ? 'has-dropdown' : ''}}"><i class="{{ $menu->icon  == '' ? 'fas fa-fire' :  $menu->icon}}"></i><span>{{ucwords($menu->name)}}</span>
                  </a>
                  @endcan

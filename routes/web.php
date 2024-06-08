@@ -50,7 +50,8 @@ Route::middleware('auth')->group(function () {
 
 // manajemen user 
 Route::prefix('manage-user')->middleware('auth')->group(function () {
-    Route::resource('users', UserController::class);
+    Route::resource('user', UserController::class);
+    Route::put('user/changestatus/{id}', [UserController::class, 'changeStatus'])->name('user.changeStatus');
     Route::resource('menu', MenuController::class);
     Route::post('submenu', [SubmenuController::class, 'store'])->name('submenu.store');
     Route::put('submenu/{id}', [SubmenuController::class, 'update'])->name('submenu.update');

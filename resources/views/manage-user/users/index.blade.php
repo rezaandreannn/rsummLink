@@ -1,64 +1,156 @@
-<x-app-layout>
-    <div class="page-header d-print-none">
-        <div class="container-xl">
-            <div class="row g-2 align-items-center">
-                <div class="col">
-                    <h2 class="page-title">
-                        Users
-                    </h2>
-                    <div class="text-muted mt-1">1-18 of 413 people</div>
-                </div>
-                <!-- Page title actions -->
-                <div class="col-auto ms-auto d-print-none">
-                    <div class="d-flex">
-                        <input type="search" class="form-control d-inline-block w-9 me-3" placeholder="Search user…" />
-                        <a href="#" class="btn btn-primary">
-                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M12 5l0 14" />
-                                <path d="M5 12l14 0" /></svg>
-                            New user
-                        </a>
-                    </div>
-                </div>
+<x-app-layout title="{{ $title ?? 'Pengguna'}}">
+    <section class="section">
+        <div class="section-header">
+            <h1>{{$title ?? 'Pengguna'}}</h1>
+            <a href="{{ route('user.create')}}" class="btn btn-primary ml-1">
+                <i class="far fa-plus-square"></i> Tambah Data
+            </a>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
+                {{-- <div class="breadcrumb-item"><a href="#">Pengguna</a></div> --}}
+                <div class="breadcrumb-item">Pengguna</div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="page-body">
-        <div class="container-xl">
-            <div class="row row-cards">
-                @foreach($users as $user)
-                <div class="col-md-6 col-lg-3">
-                    <div class="card">
-                        <div class="card-body p-4 text-center">
-                            <span class="avatar avatar-xl mb-3 rounded" style="background-image: url(./static/avatars/000m.jpg)"></span>
-                            <h3 class="m-0 mb-1"><a href="#">{{ $user->name}}</a></h3>
-                            <div class="text-muted">UI Designer</div>
-                            <div class="mt-3">
-                                <span class="badge bg-purple-lt">Owner</span>
-                            </div>
-                        </div>
-                        <div class="d-flex">
-                            <a href="mailto:{{$user->email}}" class="card-btn">
-                                <!-- Download SVG icon from http://tabler-icons.io/i/mail -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2 text-muted" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                                    <path d="M3 7l9 6l9 -6" /></svg>
-                                Email</a>
-                            <a href="#" class="card-btn">
-                                <!-- Download SVG icon from http://tabler-icons.io/i/phone -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2 text-muted" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
-                                Whatshap</a>
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Basic DataTables</h4>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="table-1" class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Pengguna</th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Email</th>
+                                        <th>No HP</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($users as $user)
+                                    <tr>
+                                        <td style="width: 5%">{{ $loop->iteration }}</td>
+                                        <td>{{ $user->name }}</td>
+                                        <td>
+                                            {{ $user->full_name ?? ''}}
+                                        </td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->phone ?? '' }}</td>
+                                        <td class="d-flex align-items-center">
+                                            {{ $user->status ?? '' }}
+                                            <a class="ml-2" href="{{ route('user.edit', $user->id)}}" data-toggle="modal" data-target="#changeStatus{{ $user->id}}">
+                                                <i class="fas fa-exchange-alt"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown d-inline">
+                                                <button class="btn  btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Aksi
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item has-icon" href="{{ route('user.edit', $user->id)}}"><i class="fas fa-pencil-alt"></i> Edit</a>
+                                                    <form id="delete-form-{{$user->id}}" action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:none;">
+                                                        @method('delete')
+                                                        @csrf
+                                                    </form>
+                                                    <a class="dropdown-item has-icon" confirm-delete="true" data-userId="{{$user->id}}" href="#"><i class="fas fa-trash"></i> Hapus</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                @endforeach
+            </div>
+        </div>
+    </section>
+
+    @foreach ($users as $user)
+    <div class="modal fade" id="changeStatus{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('user.changeStatus', $user->id)}}" method="POST">
+                    <div class="modal-body">
+                        @method('put')
+                        @csrf
+                        <div class="form-group">
+                            <label>Plih status <i><small class="required-label"></small></i>
+                            </label>
+                            <select class="form-control selectric" name="status">
+                                <option value="aktif" {{ $user->status == 'aktif' ? 'selected' : ''}}>Aktif</option>
+                                <option value="tidak aktif" {{ $user->status == 'tidak aktif' ? 'selected' : ''}}>Tidak Aktif</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-icon btn-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+    @endforeach
+
+    {{-- css library --}}
+    @push('css-libraries')
+    <link rel="stylesheet" href="{{ asset('stisla/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('stisla/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('stisla/node_modules/selectric/public/selectric.css')}}">
+    @endpush
+
+    @push('js-libraries')
+    <script src="{{ asset('stisla/node_modules/datatables/media/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('stisla/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('stisla/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('stisla/node_modules/selectric/public/jquery.selectric.min.js')}}"></script>
+    <script src="{{ asset('stisla/assets/js/page/modules-datatables.js')}}"></script>
+    @include('sweetalert::alert')
+    @endpush
+
+    @push('js-spesific')
+    <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
+
+    <script>
+        document.querySelectorAll('[confirm-delete="true"]').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                event.preventDefault();
+                var userId = this.getAttribute('data-userId');
+                Swal.fire({
+                    title: 'Apakah Kamu Yakin?'
+                    , text: "Anda tidak akan dapat mengembalikan ini!"
+                    , icon: 'warning'
+                    , showCancelButton: true
+                    , confirmButtonColor: '#6777EF'
+                    , cancelButtonColor: '#d33'
+                    , confirmButtonText: 'Ya, Hapus saja!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var form = document.getElementById('delete-form-' + userId);
+                        if (form) {
+                            form.submit();
+                        } else {
+                            console.error('Form not found for user ID:', userId);
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+
+
+    @endpush
 </x-app-layout>
