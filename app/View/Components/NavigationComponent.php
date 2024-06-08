@@ -27,17 +27,20 @@ class NavigationComponent extends Component
             ->get()
             ->groupBy('menu_id');
 
-        // if (Auth::user()->hasRole('superadmin')) {
-        // } else {
-        // }
         $segment = $request->attributes->get('application');
         // dd($segment);
         if ($segment) {
             $this->app = $segment->name;
-            $this->menus = Menu::with('permission')->where('application_id', $segment->id)->orderBy('serial_number', 'asc')->get();
+            $this->menus = Menu::with('permission')
+                ->where('application_id', $segment->id)
+                ->orderBy('serial_number', 'asc')
+                ->get();
         } else {
             $this->app = 'Rsumm Link';
-            $this->menus = Menu::with('permission')->where('is_superadmin', true)->orderBy('serial_number', 'asc')->get();
+            $this->menus = Menu::with('permission')
+                ->where('is_superadmin', true)
+                ->orderBy('serial_number', 'asc')
+                ->get();
         }
         $this->initialApp = implode('', array_map(function ($word) {
             return substr($word, 0, 1);
