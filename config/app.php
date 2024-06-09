@@ -82,7 +82,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'id',
 
     /*
     |--------------------------------------------------------------------------
@@ -135,6 +135,8 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
+
+    'user_registered' => 'false',
 
     'providers' => [
 

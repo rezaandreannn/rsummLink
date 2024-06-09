@@ -1,10 +1,16 @@
 <x-guest-layout>
     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
+    {{-- <x-auth-session-status class="mb-4" :status="session('status')" /> --}}
+    @if($errors->any())
+    @foreach ($errors->all() as $error)
+    <div class="alert alert-warning" role="alert">
+        {{ $error }}
+    </div>
+    @endforeach
+    @endif
     <form method="POST" action="{{ route('login') }}">
         @csrf
-        <h3>Sign IN to Smarteye</h3>
+        <h3>Masuk Ke RsummLink</h3>
         <!-- Email Address -->
         <div class="form-floating mb-3">
             <input type="text" class="form-control" name="identifier" id="identifier" placeholder="Masukan Email atau Nama" autofocus>
@@ -14,11 +20,11 @@
         <!-- Password -->
         <div class="form-floating">
             <input type="password" name="password" class="form-control" id="password" placeholder="Password" autocomplete="current-password">
-            <label for="password">Password</label>
+            <label for="password">Kata sandi</label>
         </div>
 
         <div class="form-floating">
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary">Masuk</button>
         </div>
 
         <!-- Remember Me -->
