@@ -52,7 +52,7 @@
                                                         @method('delete')
                                                         @csrf
                                                     </form>
-                                                    <a class="dropdown-item has-icon" href="#" onclick="event.preventDefault(); document.getElementById('delete-form-{{$permission->id}}').submit();"><i class="fas fa-trash"></i> Hapus</a>
+                                                    <a class="dropdown-item has-icon" confirm-delete="true" data-permissionId="{{$permission->id}}" href="#"><i class="fas fa-trash"></i> Hapus</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -64,7 +64,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -178,6 +177,38 @@
     <script src="{{ asset('stisla/node_modules/selectric/public/jquery.selectric.min.js')}}"></script>
     <script src="{{ asset('stisla/assets/js/page/modules-datatables.js')}}"></script>
     @include('sweetalert::alert')
+
+    @endpush
+
+    @push('js-spesific')
+    <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
+    <script>
+        document.querySelectorAll('[confirm-delete="true"]').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                event.preventDefault();
+                var permissionId = this.getAttribute('data-permissionId');
+                Swal.fire({
+                    title: 'Apakah Kamu Yakin?'
+                    , text: "Anda tidak akan dapat mengembalikan ini!"
+                    , icon: 'warning'
+                    , showCancelButton: true
+                    , confirmButtonColor: '#6777EF'
+                    , cancelButtonColor: '#d33'
+                    , confirmButtonText: 'Ya, Hapus saja!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var form = document.getElementById('delete-form-' + permissionId);
+                        if (form) {
+                            form.submit();
+                        } else {
+                            console.error('Form not found for permission ID:', permissionId);
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
 
     @endpush
 </x-app-layout>

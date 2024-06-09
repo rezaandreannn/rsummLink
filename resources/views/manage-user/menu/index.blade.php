@@ -56,12 +56,11 @@
                                                     <a class="dropdown-item has-icon" href="{{ route('menu.show', $menu->id)}}"><i class="fas fa-bars"></i> SubMenu</a>
                                                     @endif
                                                     <a class="dropdown-item has-icon" href="{{ route('menu.edit', $menu->id)}}"><i class="fas fa-pencil-alt"></i> Edit</a>
-                                                    {{-- hapus --}}
                                                     <form id="delete-form-{{$menu->id}}" action="{{ route('menu.destroy', $menu->id) }}" method="POST" style="display: none;">
                                                         @method('delete')
                                                         @csrf
                                                     </form>
-                                                    <a class="dropdown-item has-icon" href="#" onclick="event.preventDefault(); document.getElementById('delete-form-{{$menu->id}}').submit();"><i class="fas fa-trash"></i> Hapus</a>
+                                                    <a class="dropdown-item has-icon" confirm-delete="true" data-menuId="{{$menu->id}}" href="#"><i class="fas fa-trash"></i> Hapus</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -136,56 +135,6 @@
         </div>
     </div>
 
-    {{-- @foreach ($permissions as $permission)
-    <div class="modal fade" id="editModal{{ $permission->id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Data {{ $title ?? ''}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{ route('admin.permission.update', $permission->id) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>permission Name <i><small class="required-label"></small></i>
-                        </label>
-                        <input type="text" name="name" class="form-control" value="{{ $permission->name }}" required="">
-                        <div class="valid-feedback">
-
-                        </div>
-                        <div class="invalid-feedback">
-                            <i>Input permission name wajib diisi.</i>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Guard Name <i><small class="required-label"></small></i>
-                        </label>
-                        <select class="form-control select2" name="guard_name">
-                            <option value="web" {{ $permission->guard_name=='web' ? 'selected' : ''}}>web</option>
-                            <option value="api" {{ $permission->guard_name=='api' ? 'selected' : ''}}>api</option>
-                        </select>
-                        <div class="valid-feedback">
-
-                        </div>
-                        <div class="invalid-feedback">
-                            <i>Input guard name wajib diisi.</i>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    </div>
-    @endforeach --}}
-
     {{-- css library --}}
     @push('css-libraries')
     <link rel="stylesheet" href="{{ asset('stisla/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
@@ -202,10 +151,13 @@
     <script src="{{ asset('stisla/node_modules/selectric/public/jquery.selectric.min.js')}}"></script>
     <script src="{{ asset('stisla/node_modules/select2/dist/js/select2.full.min.js') }}"></script>
     @include('sweetalert::alert')
+    @endpush
 
     @push('js-spesific')
     <!-- Page Specific JS File -->
     <script src="{{ asset('stisla/assets/js/page/forms-advanced-forms.js')}}"></script>
+    <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
+
     <script>
         $(document).ready(function() {
             $('select[name="application_id"]').selectric().on('change', function() {
@@ -234,9 +186,32 @@
 
     </script>
 
+    <script>
+        document.querySelectorAll('[confirm-delete="true"]').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                event.preventDefault();
+                var menuId = this.getAttribute('data-menuId');
+                Swal.fire({
+                    title: 'Apakah Kamu Yakin?'
+                    , text: "Anda tidak akan dapat mengembalikan ini!"
+                    , icon: 'warning'
+                    , showCancelButton: true
+                    , confirmButtonColor: '#6777EF'
+                    , cancelButtonColor: '#d33'
+                    , confirmButtonText: 'Ya, Hapus saja!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var form = document.getElementById('delete-form-' + menuId);
+                        if (form) {
+                            form.submit();
+                        } else {
+                            console.error('Form not found for menu ID:', menuId);
+                        }
+                    }
+                });
+            });
+        });
 
-
-    @endpush
-
+    </script>
     @endpush
 </x-app-layout>
