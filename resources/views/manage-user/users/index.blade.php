@@ -57,6 +57,7 @@
                                                     Aksi
                                                 </button>
                                                 <div class="dropdown-menu">
+                                                    <a class="dropdown-item has-icon" href="{{ route('user.show', $user->id)}}"><i class="fas fa-user-tag"></i> Peran</a>
                                                     <a class="dropdown-item has-icon" href="{{ route('user.edit', $user->id)}}"><i class="fas fa-pencil-alt"></i> Edit</a>
                                                     <form id="delete-form-{{$user->id}}" action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:none;">
                                                         @method('delete')
@@ -104,6 +105,50 @@
     </div>
     @endforeach
 
+    @foreach ($users as $user)
+    <div class="modal fade" id="role{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="" method="POST">
+                    <div class="modal-header">
+                        <h5>Detail Peran</h5>
+                    </div>
+                    <div class="modal-body modal-lg">
+                        @foreach($applications as $app)
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input app-checkbox" type="checkbox" id="app_{{ $app->id }}" value="{{ $app->id}}" data-appid="{{ $app->id }}">
+                            <label class="form-check-label" for="app_{{ $app->id }}">{{ $app->name }}</label>
+                        </div>
+                        <table class="table table-bordered role-table" id="roleTable_{{ $app->id}}_{{$user->id}}" style="display:none;">
+                            <thead>
+                                <tr>
+                                    <th>Nama Peran</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($roles[$app->id] as $role)
+                                <tr>
+                                    <td>{{$role->name ?? ''}}</td>
+                                    <td></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @endforeach
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-icon btn-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
+                        {{-- <button type="submit" class="btn btn-primary">Simpan</button> --}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endforeach
+
+
+
     {{-- css library --}}
     @push('css-libraries')
     <link rel="stylesheet" href="{{ asset('stisla/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
@@ -150,6 +195,67 @@
         });
 
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.form-check-input').on('change', function() {
+                $('.form-check-input').not(this).prop('checked', false);
+            });
+        });
+
+    </script>
+
+    {{-- <script>
+        $(document).ready(function() {
+            $('.form-check-input').on('change', function() {
+                var appId = $(this).val();
+                $('table[id^="roleTable_"]').find('tbody').empty(); // Kosongkan isi tabel sebelum memuat data baru
+                if (this.checked) {
+                    $.ajax({
+                        url: '/get-roles/' + appId
+                        , type: 'GET'
+                        , success: function(response) {
+                            var tableBody = $('table[id^="roleTable_"]').find('tbody');
+                            $.each(response, function(index, role) {
+                                // Tambahkan baris tabel dan centang jika diperlukan
+                                var checkboxHtml = isChecked ? 'checked' : '';
+                                tableBody.append('<tr><td>' + role.name + '</td><td><div class="form-check"><input class="form-check-input" type="checkbox" value="' + role.id + '" id="role_' + role.id + '"></div></td></tr>');
+                            });
+                        }
+                        , error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                }
+            });
+        });
+
+    </script> --}}
+
+    <!-- Place modal content here -->
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var checkboxes = document.querySelectorAll('.app-checkbox');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    var appId = this.getAttribute('data-appid');
+                    var userId = this.getAttribute('data-userid');
+                    var roleTable = document.getElementById('roleTable_' + appId + '_' + userId);
+                    if (this.checked) {
+                        roleTable.style.display = 'table';
+                    } else {
+                        roleTable.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+    </script>
+
+
+
 
 
     @endpush

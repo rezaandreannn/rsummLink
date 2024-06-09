@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -29,7 +31,15 @@ class UserController extends Controller
     {
         $users = User::all();
         $title = 'Pengguna';
-        return view($this->pathView . '.index', compact('users', 'title'));
+        // $applications = Application::all();
+        // $roles = Role::all();
+        $applications = Application::all();
+        $roles = [];
+
+        foreach ($applications as $app) {
+            $roles[$app->id] = Role::where('application_id', $app->id)->get();
+        }
+        return view($this->pathView . '.index', compact('users', 'title', 'applications', 'roles'));
     }
 
     /**
@@ -100,7 +110,23 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $applications = Application::all();
+        $roles = [];
+        $userRoles = [];
+
+        foreach ($applications as $app) {
+            $roles[$app->id] = Role::where('application_id', $app->id)->get();
+            foreach ($roles[$app->id] as $role) {
+                if ($user->hasRole($role->name)) {
+                    $userRoles[$role->id] = true;
+                } else {
+                    $userRoles[$role->id] = false;
+                }
+            }
+        }
+
+        return view($this->pathView . '.peran', compact('roles', 'applications', 'user', 'userRoles'));
     }
 
     /**
@@ -195,5 +221,11 @@ class UserController extends Controller
 
         $message = 'Berhasil mengubah status pengguna!';
         return redirect()->route($this->routeIndex)->with($this->toastSuccess, $message);
+    }
+
+    public function getRoles($appId)
+    {
+        $roles = Role::where('application_id', $appId)->get();
+        return response()->json($roles);
     }
 }

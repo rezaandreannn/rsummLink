@@ -61,6 +61,7 @@ Route::prefix('manage-user')->middleware('auth')->group(function () {
     Route::resource('role', RoleController::class)->except(['show', 'edit', 'create']);
     Route::get('/role-permission', RolePermissionController::class)->name('role.permission.manage');
 });
+Route::get('/get-roles/{appId}', [UserController::class, 'getroles']);
 
 
 

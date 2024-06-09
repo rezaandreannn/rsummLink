@@ -18,6 +18,7 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('stisla/assets/css/style.css')}}">
     <link rel="stylesheet" href="{{ asset('stisla/assets/css/components.css')}}">
+
 </head>
 
 <body>

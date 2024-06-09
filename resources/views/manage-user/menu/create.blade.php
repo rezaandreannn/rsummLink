@@ -17,7 +17,6 @@
             <p class="section-lead">
                 On this page you can create a new post and fill in all fields.
             </p>
-
             <div class="row">
                 <div class="col-12">
                     <div class="card">
