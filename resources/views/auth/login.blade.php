@@ -7,8 +7,8 @@
         <h3>Sign IN to Smarteye</h3>
         <!-- Email Address -->
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email Address" autofocus autocomplete="username">
-            <label for="email">Email address</label>
+            <input type="text" class="form-control" name="identifier" id="identifier" placeholder="Masukan Email atau Nama" autofocus>
+            <label for="identifier">Email | Nama</label>
         </div>
 
         <!-- Password -->
