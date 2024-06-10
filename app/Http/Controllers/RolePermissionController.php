@@ -22,7 +22,7 @@ class RolePermissionController extends Controller
 
         $role = Role::findById($roleId);
 
-        $permission = Permission::findById($permissionId);
+        $permission = Permission::find($permissionId);
 
         if ($role && $permission) {
             if ($checked == 'insert') {

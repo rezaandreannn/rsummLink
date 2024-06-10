@@ -41,7 +41,7 @@ class CheckRoleForApplication
 
         $userHasRole = false;
         foreach ($roles as $role) {
-            if ($user->hasRole($role)) {
+            if ($user->hasRole($role) || $user->hasRole('superadmin')) {
                 $userHasRole = true;
                 break;
             }

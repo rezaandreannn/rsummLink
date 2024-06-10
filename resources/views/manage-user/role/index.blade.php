@@ -193,7 +193,7 @@
                                 <td>{{ $permission->name }}</td>
                                 <td class="text-center">
                                     <div class="form-check custom-checkbox custom-control">
-                                        <input class="form-check-input" type="checkbox" roleId="{{$role->id}}" value="{{$permission->id}}" id="defaultCheck1" {{checkRolePermission($role->id, $permission->id) ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="checkbox" name="rolePermission" roleId="{{$role->id}}" value="{{$permission->id}}" id="defaultCheck1" {{checkRolePermission($role->id, $permission->id) ? 'checked' : '' }}>
                                     </div>
                                 </td>
                             </tr>
@@ -232,12 +232,13 @@
     @push('js-spesific')
     <script>
         $(document).ready(function() {
-            $('input[type="checkbox"]').change(function() {
+            $('input[name="rolePermission"]').change(function() {
                 var checkbox = $(this);
                 var permissionId = checkbox.val();
                 var roleId = $(this).attr('roleId');
                 var status = $(this).is(':checked');
                 var action = ""
+
 
                 if (status) {
                     action = "insert"

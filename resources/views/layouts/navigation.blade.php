@@ -29,7 +29,9 @@
                  <ul class="dropdown-menu">
                      @foreach($menuItemsByMenuId[$menu->id] as $menuItem)
                      <li class="{{ Route::is($menuItem->route) ? 'active' : ''}}">
+                         @can($menuItem->permission ? $menuItem->permission->name : '')
                          <a class="nav-link" href="{{ Route::has($menuItem->route) ? route($menuItem->route) : ''}}">{{ ucwords($menuItem->name) }}</a>
+                         @endcan
                      </li>
                      @endforeach
                  </ul>

@@ -236,10 +236,10 @@ class UserController extends Controller
 
         if ($user && $role) {
             if ($checked == 'insert') {
-                $user->assignRole($role->name);
+                $user->assignRole($role);
                 $message = 'Berhasil menambahkan peran ' . $role->name;
             } else {
-                $user->removeRole($role->name);
+                $user->removeRole($role);
                 $message = 'Berhasil menghapus peran ' . $role->name;
             }
 
