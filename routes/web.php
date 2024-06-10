@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
@@ -64,6 +65,10 @@ Route::prefix('manage-user')->middleware('auth')->group(function () {
 // ajax
 Route::get('/user-role', [UserController::class, 'assignRole'])->name('user.role');
 
+// master data
+Route::prefix('master-data')->middleware('auth')->group(function () {
+    Route::resource('aplikasi', ApplicationController::class);
+});
 
 
 Route::prefix('v-claimbpjs')->middleware('checkrole:user')->group(function () {
