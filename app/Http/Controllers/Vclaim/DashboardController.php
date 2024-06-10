@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\SatuSehat;
+namespace App\Http\Controllers\Vclaim;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,7 +12,6 @@ class DashboardController extends Controller
         $app = $request->attributes->get('application');
         // $user = Auth::user();
         // $test = $user->roles($app->id)->where('name', 'admin')->exists();
-        // dd($test);
-        return view('satusehat.dashboard', compact('app'));
+        return view('vclaim.dashboard', compact('app'));
     }
 }

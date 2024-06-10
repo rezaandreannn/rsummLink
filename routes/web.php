@@ -77,3 +77,4 @@ Route::prefix('v-claimbpjs')->middleware('checkrole:user')->group(function () {
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/satusehat.php';
+require __DIR__ . '/vclaim.php';

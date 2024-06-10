@@ -118,7 +118,7 @@ class UserController extends Controller
         foreach ($applications as $app) {
             $roles[$app->id] = Role::where('application_id', $app->id)->get();
             foreach ($roles[$app->id] as $role) {
-                if ($user->hasRole($role->name)) {
+                if ($user->hasRole($role->id)) {
                     $userRoles[$role->id] = true;
                 } else {
                     $userRoles[$role->id] = false;

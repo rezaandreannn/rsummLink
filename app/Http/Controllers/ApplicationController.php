@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
@@ -78,7 +79,31 @@ class ApplicationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $nameApp = $request->name;
+        $slug = Str::slug($nameApp);
+
+        $data = [
+            'name' => $request->name,
+            'prefix' => $slug,
+            'status' => $request->status,
+            'description' => $request->description
+        ];
+
+
+        if ($request->file('image')) {
+            $oldImagePath = $request->oldImage;
+            if (Storage::disk('public')->exists($oldImagePath)) {
+                Storage::disk('public')->delete($oldImagePath);
+            }
+            $data['image'] = $request->file('image')->store('img/aplikasi', 'public');
+        }
+
+        $application = Application::find($id);
+
+        $application->update($data);
+
+        $message = 'Berhasil membuat aplikasi!';
+        return redirect()->route('aplikasi.index')->with('toast_success', $message);
     }
 
     /**

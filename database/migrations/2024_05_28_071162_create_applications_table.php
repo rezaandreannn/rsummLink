@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('prefix');
             $table->enum('status', ['active', 'inactive', 'maintenance'])->default('active');
             $table->text('description')->nullable();

@@ -20,7 +20,7 @@ class CheckRoleForApplication
 
     public function handle(Request $request, Closure $next, $roles)
     {
-        $application = $this->getApplication($request->segment(1)); // Ambil segmen pertama dari URL
+        $application = $this->getApplication($request->segment(1));
 
         if (!$application) {
             abort(404, 'Application not found.');
@@ -60,66 +60,27 @@ class CheckRoleForApplication
 
     private function getApplication($segment)
     {
-        // Mapping segmen URL ke nama aplikasi
-        $applicationMap = [
-            'satusehat' => 'satu sehat',
-            'v-claimbpjs' => 'v-claim bpjs',
-        ];
+        $applications = Application::all();
+        $applicationMap = [];
+
+        foreach ($applications as $application) {
+            $applicationMap[$application->prefix] = $application->name;
+        }
 
         if (array_key_exists($segment, $applicationMap)) {
             return Application::where('name', $applicationMap[$segment])->first();
         }
+        // // Mapping segmen URL ke nama aplikasi
+        // $app = Application::all();
+        // $applicationMap = [
+        //     'satusehat' => 'satu sehat',
+        //     'v-claimbpjs' => 'v-claim bpjs',
+        // ];
+
+        // if (array_key_exists($segment, $applicationMap)) {
+        //     return Application::where('name', $applicationMap[$segment])->first();
+        // }
 
         return null;
     }
-
-    // public function handle(Request $request, Closure $next, $role)
-    // {
-
-    //     $application = $this->getApplication($request->segment(1)); // Ambil segmen pertama dari URL
-
-    //     if (!$application) {
-    //         abort(404, 'Application not found.');
-    //     }
-
-    //     if (!Auth::check()) {
-    //         return redirect('/login');
-    //     }
-
-    //     $user = Auth::user();
-    //     $roles = Role::where(['name' => $role, 'application_id' => $application->id])->get();
-    //     // dd($roleGet);
-    //     if ($roles->isNotEmpty()) {
-    //         foreach ($roles as $roleUser) {
-    //             if (!$user->hasRole($roleUser)) {
-    //                 abort(403, 'Unauthorized action.');
-    //                 break;
-    //             }
-    //         }
-    //     } else {
-    //         abort(403, 'Unauthorized action.');
-    //         // Tidak ada peran yang sesuai dengan kueri yang diberikan
-    //     }
-
-
-    //     // Simpan aplikasi yang sedang diakses dalam request
-    //     $request->attributes->set('application', $application);
-
-    //     return $next($request);
-    // }
-
-    // private function getApplication($segment)
-    // {
-    //     // Mapping segmen URL ke nama aplikasi
-    //     $applicationMap = [
-    //         'satusehat' => 'satu sehat',
-    //         'v-claimbpjs' => 'v-claim bpjs',
-    //     ];
-
-    //     if (array_key_exists($segment, $applicationMap)) {
-    //         return Application::where('name', $applicationMap[$segment])->first();
-    //     }
-
-    //     return null;
-    // }
 }

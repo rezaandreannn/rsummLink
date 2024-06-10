@@ -419,8 +419,6 @@
                                         Buka Aplikasi
                                         @endif
                                     </a>
-
-
                                 </div>
                             </div>
                         </div>
