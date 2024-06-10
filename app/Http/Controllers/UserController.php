@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Application;
-use App\Models\Role;
 use App\Models\User;
+use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -223,9 +223,29 @@ class UserController extends Controller
         return redirect()->route($this->routeIndex)->with($this->toastSuccess, $message);
     }
 
-    public function getRoles($appId)
+
+    public function assignRole(Request $request)
     {
-        $roles = Role::where('application_id', $appId)->get();
-        return response()->json($roles);
+        $userId = $request->input('userId');
+        $roleId = $request->input('roleId');
+        $checked = $request->input('action');
+
+        $user = User::find($userId);
+
+        $role = Role::findById($roleId);
+
+        if ($user && $role) {
+            if ($checked == 'insert') {
+                $user->assignRole($role->name);
+                $message = 'Berhasil menambahkan peran ' . $role->name;
+            } else {
+                $user->removeRole($role->name);
+                $message = 'Berhasil menghapus peran ' . $role->name;
+            }
+
+            return response()->json(['message' => $message]);
+        }
+
+        return response()->json(['error' => 'Role  not found'], 404);
     }
 }

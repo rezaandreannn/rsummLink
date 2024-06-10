@@ -47,7 +47,7 @@
                                         <td>{{$role->name ?? ''}}</td>
                                         <td>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="{{ $role->id }}" id="role_{{ $role->id }}" @if(isset($userRoles[$role->id]) && $userRoles[$role->id]) checked @endif>
+                                                <input class="form-check-input" type="checkbox" name="userRole" value="{{ $role->id }}" id="role_{{ $role->id }}" userId="{{ $user->id }}" @if(isset($userRoles[$role->id]) && $userRoles[$role->id]) checked @endif>
                                             </div>
                                         </td>
                                     </tr>
@@ -55,7 +55,6 @@
                                 </tbody>
                             </table>
                             @endforeach
-
                         </div>
                     </div>
                 </div>
@@ -63,6 +62,7 @@
     </section>
 
     @push('js-spesific')
+    <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('.app-checkbox').on('change', function() {
@@ -90,6 +90,53 @@
                     // Show the related role table if checked
                     if (this.checked) {
                         roleTable.style.display = 'table';
+                    }
+                });
+            });
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('input[name="userRole"]').change(function() {
+                var checkbox = $(this);
+                var roleId = checkbox.val();
+                var userId = $(this).attr('userId');
+                var status = $(this).is(':checked');
+                var action = ""
+
+                if (status) {
+                    action = "insert"
+                } else {
+                    action = "delete"
+                }
+
+                $.ajax({
+                    url: '{{ route("user.role") }}'
+                    , method: 'GET'
+                    , data: {
+                        roleId: roleId
+                        , userId: userId
+                        , action: action
+                    }
+                    , success: function(response) {
+                        console.log(response)
+                        Swal.fire({
+                            position: 'top-end'
+                            , toast: true
+                            , icon: 'success'
+                            , title: 'sukses!'
+                            , text: response.message
+                            , showConfirmButton: false
+                            , timer: 3000
+                            , timerProgressBar: true
+                            , backgroundColor: '#28a745'
+                            , titleColor: '#fff'
+                        , })
+                    }
+                    , error: function(error) {
+                        console.error(error);
                     }
                 });
             });

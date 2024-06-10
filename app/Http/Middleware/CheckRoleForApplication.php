@@ -18,9 +18,8 @@ class CheckRoleForApplication
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
 
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, $roles)
     {
-
         $application = $this->getApplication($request->segment(1)); // Ambil segmen pertama dari URL
 
         if (!$application) {
@@ -32,36 +31,26 @@ class CheckRoleForApplication
         }
 
         $user = Auth::user();
-        $roles = Role::where(['name' => $role, 'application_id' => $application->id])->get();
-        // dd($roleGet);
-        if ($roles->isNotEmpty()) {
-            foreach ($roles as $roleUser) {
-                if (!$user->hasRole($roleUser)) {
-                    // Pengguna memiliki peran yang sedang dilooping
-                    // dd($roleUser->id);
-                    abort(403, 'Unauthorized action.');
-                    // Lakukan sesuatu di sini
-                    break; // Anda dapat menghentikan loop jika peran yang ditemukan cukup
-                }
-            }
-        } else {
+        $roleNames = explode(',', $roles);
+        $roles = Role::where('application_id', $application->id)
+            ->get();
+
+        if ($roles->isEmpty()) {
             abort(403, 'Unauthorized action.');
-            // Tidak ada peran yang sesuai dengan kueri yang diberikan
         }
-        // if (!$user->roles()->where('application_id', $application->id)->where('id', $roleId)->exists()) {
-        //     abort(403, 'Unauthorized action.');
-        // }
-        // if (!$user->roles($application->id)->where('name', $role)->exists()) {
-        //     // if (!Role::where([
-        //     //     'application_id' => $application->id,
-        //     //     'name' => $role
-        //     // ])) {
-        //     abort(403, 'Unauthorized action.');
-        // }
-        // }
-        // if (!$user->hasRole($role, $application->id)) {
-        //     abort(403, 'Unauthorized action.');
-        // }
+
+        $userHasRole = false;
+        foreach ($roles as $role) {
+            if ($user->hasRole($role)) {
+                $userHasRole = true;
+                break;
+            }
+        }
+
+
+        if (!$userHasRole) {
+            abort(403, 'Unauthorized action.');
+        }
 
         // Simpan aplikasi yang sedang diakses dalam request
         $request->attributes->set('application', $application);
@@ -83,4 +72,54 @@ class CheckRoleForApplication
 
         return null;
     }
+
+    // public function handle(Request $request, Closure $next, $role)
+    // {
+
+    //     $application = $this->getApplication($request->segment(1)); // Ambil segmen pertama dari URL
+
+    //     if (!$application) {
+    //         abort(404, 'Application not found.');
+    //     }
+
+    //     if (!Auth::check()) {
+    //         return redirect('/login');
+    //     }
+
+    //     $user = Auth::user();
+    //     $roles = Role::where(['name' => $role, 'application_id' => $application->id])->get();
+    //     // dd($roleGet);
+    //     if ($roles->isNotEmpty()) {
+    //         foreach ($roles as $roleUser) {
+    //             if (!$user->hasRole($roleUser)) {
+    //                 abort(403, 'Unauthorized action.');
+    //                 break;
+    //             }
+    //         }
+    //     } else {
+    //         abort(403, 'Unauthorized action.');
+    //         // Tidak ada peran yang sesuai dengan kueri yang diberikan
+    //     }
+
+
+    //     // Simpan aplikasi yang sedang diakses dalam request
+    //     $request->attributes->set('application', $application);
+
+    //     return $next($request);
+    // }
+
+    // private function getApplication($segment)
+    // {
+    //     // Mapping segmen URL ke nama aplikasi
+    //     $applicationMap = [
+    //         'satusehat' => 'satu sehat',
+    //         'v-claimbpjs' => 'v-claim bpjs',
+    //     ];
+
+    //     if (array_key_exists($segment, $applicationMap)) {
+    //         return Application::where('name', $applicationMap[$segment])->first();
+    //     }
+
+    //     return null;
+    // }
 }
