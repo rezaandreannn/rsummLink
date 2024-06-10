@@ -400,7 +400,7 @@
                         <div class="col-xs-12 col-sm-4">
                             <div class="card {{ $isDisabledAndMaintenance ? 'card-disabled' : '' }}">
                                 <a class="img-card" href="">
-                                    <img src="{{ asset($application->image) }}" />
+                                    <img src="{{ asset('storage/' . $application->image) }}" />
                                 </a>
                                 <div class="card-content">
                                     <h4 class="card-title">
