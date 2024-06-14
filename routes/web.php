@@ -1,17 +1,21 @@
 <?php
 
-use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\RolePermissionController;
-use App\Http\Controllers\SubmenuController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubmenuController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\RolePermissionController;
+use App\Models\Emr\TacRjMasalahPerawat;
+use App\Models\Simrs\Antrean;
+use App\Models\Simrs\Pendaftaran;
+use App\Models\Simrs\RegisterPasien;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +77,11 @@ Route::prefix('master-data')->middleware('auth')->group(function () {
 
 Route::prefix('v-claimbpjs')->middleware('checkrole:user')->group(function () {
     Route::get('vclaim', [TestController::class, 'index'])->name('v-claimbpjs.dashboard');
+});
+
+Route::get('/pasien', function () {
+    $users = TacRjMasalahPerawat::limit(10)->get();
+    dd($users);
 });
 
 require __DIR__ . '/auth.php';
