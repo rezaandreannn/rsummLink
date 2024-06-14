@@ -46,10 +46,7 @@
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->phone ?? '' }}</td>
                                         <td class="d-flex align-items-center">
-                                            {{ $user->status ?? '' }}
-                                            <a class="ml-2" href="{{ route('user.edit', $user->id)}}" data-toggle="modal" data-target="#changeStatus{{ $user->id}}">
-                                                <i class="fas fa-exchange-alt"></i>
-                                            </a>
+                                            <i id="toggle-icon-{{ $user->id }}" class="fas {{ $user->status == 'aktif' ? 'fa-toggle-on text-success' : 'fa-toggle-off text-danger' }} toggle-status" data-id="{{ $user->id }}" data-status="{{ $user->status }}" style="cursor: pointer;"></i>
                                         </td>
                                         <td>
                                             <div class="dropdown d-inline">
@@ -78,39 +75,24 @@
         </div>
     </section>
 
-    @foreach ($users as $user)
-    <div class="modal fade" id="changeStatus{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="{{ route('user.changeStatus', $user->id)}}" method="POST">
-                    <div class="modal-body">
-                        @method('put')
-                        @csrf
-                        <div class="form-group">
-                            <label>Plih status <i><small class="required-label"></small></i>
-                            </label>
-                            <select class="form-control selectric" name="status">
-                                <option value="aktif" {{ $user->status == 'aktif' ? 'selected' : ''}}>Aktif</option>
-                                <option value="tidak aktif" {{ $user->status == 'tidak aktif' ? 'selected' : ''}}>Tidak Aktif</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-icon btn-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    @endforeach
-
 
     {{-- css library --}}
     @push('css-libraries')
     <link rel="stylesheet" href="{{ asset('stisla/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('stisla/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('stisla/node_modules/selectric/public/selectric.css')}}">
+    @endpush
+
+    @push('css-spesific')
+    <style>
+        .toggle-status {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+    </style>
+
     @endpush
 
     @push('js-libraries')
@@ -161,5 +143,41 @@
         });
 
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.toggle-status').click(function() {
+                var userId = $(this).data('id');
+                var status = $(this).data('status');
+                var newStatus = status === 'aktif' ? 'tidak aktif' : 'aktif';
+
+                $.ajax({
+                    url: '/user/toggle-status/' + userId
+                    , type: 'POST'
+                    , data: {
+                        _token: '{{ csrf_token() }}'
+                        , status: newStatus
+                    }
+                    , success: function(response) {
+                        if (response.success) {
+                            if (newStatus === 'aktif') {
+                                $('#toggle-icon-' + userId).removeClass('fa-toggle-off text-danger').addClass('fa-toggle-on text-success');
+                            } else {
+                                $('#toggle-icon-' + userId).removeClass('fa-toggle-on text-success').addClass('fa-toggle-off text-danger');
+                            }
+                            $('#toggle-icon-' + userId).data('status', newStatus);
+                        } else {
+                            alert('Failed to update status');
+                        }
+                    }
+                    , error: function() {
+                        alert('Failed to update status');
+                    }
+                });
+            });
+        });
+
+    </script>
+
     @endpush
 </x-app-layout>

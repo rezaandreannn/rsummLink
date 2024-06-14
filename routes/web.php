@@ -68,6 +68,8 @@ Route::prefix('manage-user')->middleware('auth')->group(function () {
 });
 // ajax
 Route::get('/user-role', [UserController::class, 'assignRole'])->name('user.role');
+Route::post('/user/toggle-status/{id}', [UserController::class, 'toggleStatus'])->name('user.toggleStatus');
+
 
 // master data
 Route::prefix('master-data')->middleware('auth')->group(function () {

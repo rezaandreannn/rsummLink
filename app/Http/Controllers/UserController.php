@@ -248,4 +248,13 @@ class UserController extends Controller
 
         return response()->json(['error' => 'Role  not found'], 404);
     }
+
+    public function toggleStatus(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->status = $request->status;
+        $user->save();
+
+        return response()->json(['success' => true]);
+    }
 }

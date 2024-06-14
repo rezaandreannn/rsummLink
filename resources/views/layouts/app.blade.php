@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="{{ asset('stisla/assets/css/style.css')}}">
     <link rel="stylesheet" href="{{ asset('stisla/assets/css/components.css')}}">
 
+    <!-- spesific CSS -->
+    @stack('css-spesific')
 </head>
 
 <body>

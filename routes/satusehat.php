@@ -5,7 +5,7 @@ use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\SatuSehat\DashboardController;
-use App\Http\Controllers\SatuSehat\EncounterController;
+use App\Http\Controllers\SatuSehat\Map\EncounterController;
 use App\Http\Controllers\SatuSehat\Master\PasienController;
 
 // dashboard 
@@ -20,6 +20,10 @@ if (Schema::hasTable('roles')) {
 
         Route::prefix('master')->group(function () {
             Route::get('pasien', [PasienController::class, 'index'])->name('pasien.index');
+        });
+
+        Route::prefix('map')->group(function () {
+            Route::get('encounter', [EncounterController::class, 'index'])->name('map.encounter.index');
         });
     });
 }
