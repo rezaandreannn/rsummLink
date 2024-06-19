@@ -23,6 +23,8 @@ return [
 
     'ss_parameter_override' => false,
 
+    'prefix_db' => 'satusehat_',
+
     /*
      * This is the database connection that will be used by the migration and
      * the Activity model shipped with this following Laravel's database.default

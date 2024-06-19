@@ -21,17 +21,17 @@ class MenuItemSeeder extends Seeder
 
         $menuItems = [
             [
-                'name' => 'User',
-                'route' => 'users.index',
+                'name' => 'Pengguna',
+                'route' => 'user.index',
                 'menu_id' => $menu->id
             ],
             [
-                'name' => 'Role',
+                'name' => 'Peran',
                 'route' => 'role.index',
                 'menu_id' => $menu->id
             ],
             [
-                'name' => 'Permission',
+                'name' => 'Perizinan',
                 'route' => 'permission.index',
                 'menu_id' => $menu->id
             ],

@@ -1,6 +1,13 @@
 <?php
 
+use App\Models\Simrs\Antrean;
+use App\Models\SatuSehat\Pasien;
+use App\Models\Simrs\Pendaftaran;
+use Illuminate\Support\Facades\DB;
+use App\Models\Simrs\RegisterPasien;
 use Illuminate\Support\Facades\Route;
+use App\Models\Emr\TacRjMasalahPerawat;
+use Satusehat\Integration\OAuth2Client;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RoleController;
@@ -12,10 +19,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\RolePermissionController;
-use App\Models\Emr\TacRjMasalahPerawat;
-use App\Models\Simrs\Antrean;
-use App\Models\Simrs\Pendaftaran;
-use App\Models\Simrs\RegisterPasien;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,8 +85,45 @@ Route::prefix('v-claimbpjs')->middleware('checkrole:user')->group(function () {
 });
 
 Route::get('/pasien', function () {
-    $users = TacRjMasalahPerawat::limit(10)->get();
-    dd($users);
+    // $users = Pasien::create([
+    //     'no_mr' => '214942',
+    //     'nik' => '1807062203970004',
+    //     'id_pasien' => 'P00190649673',
+    //     'nama_pasien' => 'REZA ANDREAN'
+    // ]);
+    // dd($users);
+    // $registerPasiens = DB::table('bridging.dbo.satusehat_pasien as a')->limit(10)->get();
+    // dd($registerPasiens);
+
+    // $client = new OAuth2Client;
+    // [$statusCode, $response] = $client->get_by_nik('Patient', '1802111508920002');
+    // $data =   $latestNoMR = Pasien::latest('no_mr')->value('no_mr');
+    // dd($data);
+    // dd($data->entry[0]->resource->name[0]->text);
+
+    // $results =  DB::table('DB_RSMM.dbo.ANTRIAN as a')
+    //     ->leftJoin('DB_RSMM.dbo.REGISTER_PASIEN as rp', 'a.No_MR', '=', 'rp.No_MR')
+    //     ->leftJoin('DB_RSMM.dbo.PENDAFTARAN as p', 'p.No_MR', '=', 'a.No_MR')
+    //     ->leftJoin('PKU.dbo.TAC_RJ_STATUS as trs', 'trs.FS_KD_REG', '=', 'p.No_Reg')
+    //     ->where('a.Tanggal', '2022-06-13')
+    //     ->where('a.Dokter', '140')
+    //     ->where('p.Tanggal', '2022-06-13')
+    //     ->where('p.Kode_Dokter', '140')
+    //     ->where('trs.FS_STATUS', '!=', 0)
+    //     ->whereNotNull('rp.HP2')
+    //     ->where('rp.HP2', '!=', '')
+    //     ->select(
+    //         'a.Nomor as no_antrian',
+    //         'p.No_Reg as no_reg',
+    //         'a.No_MR as no_mr',
+    //         'p.Kode_Dokter as kode_dokter',
+    //         'rp.Nama_Pasien as nama_pasien',
+    //         'rp.HP2 as nik'
+    //     )
+    //     ->orderBy('a.Nomor')
+    //     ->get();
+
+    // dd($results);
 });
 
 require __DIR__ . '/auth.php';
