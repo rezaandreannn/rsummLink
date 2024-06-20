@@ -8,21 +8,21 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Simrs\RegisterPasien;
 use Satusehat\Integration\OAuth2Client;
 
-class AssignPasienSatuSehat extends Command
+class AssignRegisterPasienCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'insert:pasien';
+    protected $signature = 'patient:assign-id-satusehat';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'menggabungkan No RM dengan ID SatuSehat';
 
     /**
      * Execute the console command.
@@ -66,7 +66,8 @@ class AssignPasienSatuSehat extends Command
                                         'no_mr' => $patient->No_MR,
                                         'nik' => $patient->HP2,
                                         'id_pasien' => $id_pasien,
-                                        'nama_pasien' => $nama_pasien
+                                        'nama_pasien' => $nama_pasien,
+                                        'created_by' => 'commands'
                                     ]);
                                     $this->info('Data Assign: ' . $patient->HP2);
                                 } else {
@@ -86,7 +87,8 @@ class AssignPasienSatuSehat extends Command
                                 'no_mr' => $patient->No_MR,
                                 'nik' => $patient->HP2 ?? '',
                                 'id_pasien' => '',
-                                'nama_pasien' => ''
+                                'nama_pasien' => '',
+                                'created_by' => 'commands'
                             ]);
                             $this->info('NIK Pasien dengan NO MR ' . $patient->No_MR . ' Kosong');
                         } else {

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('nik')->nullable();
             $table->string('id_pasien')->nullable();
             $table->string('nama_pasien')->nullable();
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }
