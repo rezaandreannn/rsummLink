@@ -15,67 +15,28 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <form method="GET" action="{{ route('pasien.index')}}">
-                                <select class="custom-select mr-sm-2 select2" id="inlineFormCustomSelect" name="range_id" onchange="this.form.submit()">
-                                    @foreach ($data as $range)
-                                    <option value="{{ $range['id'] }}" {{ $range['id'] == $selectedRange ? 'selected' : '' }}>
-                                        {{ $range['start'] }} - {{ $range['end'] }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="table-1" class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th rowspan="2">No</th>
-                                        <th rowspan="2" class="align-center">No MR</th>
-                                        <th rowspan="2">NIK</th>
-                                        <th rowspan="2">ID Satu Sehat</th>
-                                        <th colspan="2" class="text-center">Nama Pasien</th>
-
-                                    </tr>
-                                    <tr>
-                                        <th>RS</th>
-                                        <th>SatuSehat</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($registerPasiens as $registerPasien)
-                                    <tr>
-                                        <td style="width: 5%">{{ $loop->iteration }}</td>
-                                        <td>{{$registerPasien->no_mr ?? ''}}</td>
-                                        <td>{{ $registerPasien->nik ?? ''}} </td>
-                                        <td>{{$registerPasien->id_pasien ?? ''}}</td>
-                                        <td>{{$registerPasien->nama_pasien_rs ?? ''}}</td>
-                                        <td>{{$registerPasien->nama_pasien ?? ''}}</td>
-                                        {{-- <td> --}}
-                                        {{-- <div class="dropdown d-inline">
-                                                <button class="btn  btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Aksi
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item has-icon" href="{{ route('user.show', $user->id)}}"><i class="fas fa-user-tag"></i> Peran</a>
-                                        <a class="dropdown-item has-icon" href="{{ route('user.edit', $user->id)}}"><i class="fas fa-pencil-alt"></i> Edit</a>
-                                        <form id="delete-form-{{$user->id}}" action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:none;">
-                                            @method('delete')
-                                            @csrf
-                                        </form>
-                                        <a class="dropdown-item has-icon" confirm-delete="true" data-userId="{{$user->id}}" href="#"><i class="fas fa-trash"></i> Hapus</a>
-                        </div>
+                        <select class="custom-select mr-sm-2 select2" id="inlineFormCustomSelect" name="range_id" onchange="this.form.submit()">
+                            @foreach ($data as $range)
+                            <option value="{{ $range['id'] }}" {{ $range['id'] == $selectedRange ? 'selected' : '' }}>
+                                {{ $range['start'] }} - {{ $range['end'] }}
+                            </option>
+                            @endforeach
+                        </select>
+                        </form>
                     </div> --}}
-                    {{-- </td> --}}
-                    </tr>
-                    @endforeach
-                    </tbody>
-                    </table>
+                    <div class="form-group">
+                        <h4>Cari Berdasarkan No MR, Nama Pasien dan NIK!</h4>
+                        <input type="text" name="search" id="search" placeholder="ketikan dengan sesuai . . ." class="form-control" onfocus="this.value=''">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive" id="search_list">
+
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
         </div>
     </section>
@@ -103,5 +64,33 @@
 
     @push('js-spesific')
     <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            let debounceTimer;
+
+            $('#search').on('keyup', function() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(function() {
+                    var query = $('#search').val();
+                    $.ajax({
+                        url: '/satu-sehat/master/pasien/search'
+                        , type: "GET"
+                        , data: {
+                            'search': query
+                        }
+                        , success: function(data) {
+                            console.log(data)
+                            $('#search_list').html(data);
+                        }
+                        , error: function(xhr, status, error) {
+                            console.error("Error: " + status + " - " + error);
+                        }
+                    });
+                }, 300); // Adjust the delay as needed (300ms in this example)
+            });
+        });
+
+    </script>
+
     @endpush
 </x-app-layout>

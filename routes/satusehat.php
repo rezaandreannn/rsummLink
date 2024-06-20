@@ -22,6 +22,7 @@ if (Schema::hasTable('roles')) {
 
         Route::prefix('master')->group(function () {
             Route::get('pasien', [PasienController::class, 'index'])->name('pasien.index');
+            Route::get('pasien/search', [PasienController::class, 'search'])->name('pasien.search');
             Route::resource('icd9', Icd9Controller::class);
             Route::resource('icd10', Icd10Controller::class);
         });
