@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\SatuSehat\Master;
 
-use App\Models\Pasien;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Simrs\RegisterPasien;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\SatuSehat\Pasien;
 use App\Services\SatuSehat\RegisterPasienService;
 
 class PasienController extends Controller
@@ -51,7 +47,8 @@ class PasienController extends Controller
 
         // $registerPasiens = $this->registerPasienService->getDataByRange($selectedRangeData);
 
-        return view('satusehat.master-data.pasien.index');
+        $pasiens = Pasien::all();
+        return view('satusehat.master-data.pasien.index', compact('pasiens'));
     }
 
     public function search(Request $request)
@@ -67,17 +64,12 @@ class PasienController extends Controller
                 <table id="table-1" class="table table-striped table-hover">
                 <thead>
                 <tr>
-                    <th rowspan="2">No</th>
-                    <th rowspan="2" class="align-center">No MR</th>
-                    <th rowspan="2">NIK</th>
-                    <th rowspan="2">ID Satu Sehat</th>
-                    <th colspan="2" class="text-center">Nama Pasien</th>
+                    <th>No</th>
+                    <th class="align-center">No MR</th>
+                    <th>NIK</th>
+                    <th>ID Satu Sehat</th>
+                    <th>Nama Pasien</th>
             </tr>
-            <tr>
-                <th>RS</th>
-                <th>SatuSehat</th>
-            </tr>
-
                 </thead>
                 <tbody>';
                 $counter = 1;
@@ -88,7 +80,6 @@ class PasienController extends Controller
                     <td>' . ($row->no_mr ?? '') . '</td>
                     <td>' . ($row->nik ?? '') . '</td>
                     <td>' . ($row->id_pasien ?? '') . '</td>
-                    <td>' . ($row->nama_pasien_rs ?? '') . '</td>
                     <td>' . ($row->nama_pasien ?? '') . '</td>
                     </tr>
                         ';

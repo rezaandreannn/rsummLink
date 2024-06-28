@@ -26,7 +26,7 @@
                                         <th>Kode</th>
                                         <th>Nama EN</th>
                                         <th>Nama ID</th>
-                                        <th>Aksi</th>
+                                        {{-- <th>Aksi</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -36,30 +36,29 @@
                                         <td>{{$icd9->icd9cm_code ?? ''}}</td>
                                         <td>{{ $icd9->icd9cm_en ?? ''}} </td>
                                         <td>{{$icd9->icd9cm_id ?? ''}}</td>
-                                        <td>
+                                        {{-- <td>
                                             <div class="dropdown d-inline">
                                                 <button class="btn  btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Aksi
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item has-icon" href=""><i class="fas fa-user-tag"></i> Peran</a>
                                                     <a class="dropdown-item has-icon" href=""><i class="fas fa-pencil-alt"></i> Edit</a>
                                                     <form id="delete-form-{{$icd9->id}}" action="" method="POST" style="display:none;">
-                                                        @method('delete')
-                                                        @csrf
-                                                    </form>
-                                                    <a class="dropdown-item has-icon" confirm-delete="true" data-userId="{{$icd9->id}}" href="#"><i class="fas fa-trash"></i> Hapus</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                        @method('delete')
+                                        @csrf
+                                        </form>
+                                        <a class="dropdown-item has-icon" confirm-delete="true" data-userId="{{$icd9->id}}" href="#"><i class="fas fa-trash"></i> Hapus</a>
                         </div>
                     </div>
+                    </td> --}}
+                    </tr>
+                    @endforeach
+                    </tbody>
+                    </table>
                 </div>
             </div>
+        </div>
+        </div>
         </div>
     </section>
 

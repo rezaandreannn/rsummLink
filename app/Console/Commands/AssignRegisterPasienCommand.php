@@ -67,7 +67,7 @@ class AssignRegisterPasienCommand extends Command
                                         'nik' => $patient->HP2,
                                         'id_pasien' => $id_pasien,
                                         'nama_pasien' => $nama_pasien,
-                                        'created_by' => 'commands'
+                                        'created_by' => 'Cron Job'
                                     ]);
                                     $this->info('Data Assign: ' . $patient->HP2);
                                 } else {
@@ -83,13 +83,13 @@ class AssignRegisterPasienCommand extends Command
 
                         if (!$existingPatient) {
                             // Jika data belum ada, masukkan data baru
-                            Pasien::create([
-                                'no_mr' => $patient->No_MR,
-                                'nik' => $patient->HP2 ?? '',
-                                'id_pasien' => '',
-                                'nama_pasien' => '',
-                                'created_by' => 'commands'
-                            ]);
+                            // Pasien::create([
+                            //     'no_mr' => $patient->No_MR,
+                            //     'nik' => $patient->HP2 ?? '',
+                            //     'id_pasien' => '',
+                            //     'nama_pasien' => '',
+                            //     'created_by' => 'Cron Job'
+                            // ]);
                             $this->info('NIK Pasien dengan NO MR ' . $patient->No_MR . ' Kosong');
                         } else {
                             $this->info('Data dengan no_mr ' . $patient->No_MR . ' sudah ada, tidak dimasukkan lagi.');

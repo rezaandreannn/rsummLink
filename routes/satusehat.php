@@ -9,6 +9,7 @@ use App\Http\Controllers\SatuSehat\Map\EncounterController;
 use App\Http\Controllers\SatuSehat\Master\Icd10Controller;
 use App\Http\Controllers\SatuSehat\Master\Icd9Controller;
 use App\Http\Controllers\SatuSehat\Master\PasienController;
+use App\Http\Controllers\SatuSehat\Master\RegisterPasienController;
 
 // dashboard 
 if (Schema::hasTable('roles')) {
@@ -21,8 +22,9 @@ if (Schema::hasTable('roles')) {
         Route::get('antrean', [AntreanController::class, 'index'])->name('antrean.index');
 
         Route::prefix('master')->group(function () {
+            Route::get('register', [RegisterPasienController::class, 'index'])->name('register.index');
             Route::get('pasien', [PasienController::class, 'index'])->name('pasien.index');
-            Route::get('pasien/search', [PasienController::class, 'search'])->name('pasien.search');
+            Route::get('register/search', [RegisterPasienController::class, 'search'])->name('register.search');
             Route::resource('icd9', Icd9Controller::class);
             Route::resource('icd10', Icd10Controller::class);
         });
