@@ -14,30 +14,28 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        {{-- <div class="form-group">
-                            <form method="GET" action="{{ route('pasien.index')}}">
-                        <select class="custom-select mr-sm-2 select2" id="inlineFormCustomSelect" name="range_id" onchange="this.form.submit()">
-                            @foreach ($data as $range)
-                            <option value="{{ $range['id'] }}" {{ $range['id'] == $selectedRange ? 'selected' : '' }}>
-                                {{ $range['start'] }} - {{ $range['end'] }}
-                            </option>
-                            @endforeach
-                        </select>
-                        </form>
-                    </div> --}}
-                    <div class="form-group">
-                        <h4>Cari Berdasarkan No MR, Nama Pasien dan NIK!</h4>
-                        <input type="text" name="search" id="search" placeholder="ketikan dengan sesuai . . ." class="form-control" onfocus="this.value=''">
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive" id="search_list">
-
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">No MR, Nama Pasien Atau NIK!</label>
+                            <div class="col-sm-12 col-md-7">
+                                <input type="text" name="search" id="search" placeholder="ketikan dengan sesuai . . ." class="form-control" onfocus="this.value=''">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive" id="search_list">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
