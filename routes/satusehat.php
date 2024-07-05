@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\SatuSehat\DashboardController;
 use App\Http\Controllers\SatuSehat\Map\EncounterController;
+use App\Http\Controllers\SatuSehat\Master\DokterController;
 use App\Http\Controllers\SatuSehat\Master\Icd10Controller;
 use App\Http\Controllers\SatuSehat\Master\Icd9Controller;
 use App\Http\Controllers\SatuSehat\Master\PasienController;
@@ -27,6 +28,9 @@ if (Schema::hasTable('roles')) {
             Route::get('register/search', [RegisterPasienController::class, 'search'])->name('register.search');
             Route::resource('icd9', Icd9Controller::class);
             Route::resource('icd10', Icd10Controller::class);
+
+            // dokter
+            Route::get('dokter', [DokterController::class, 'index'])->name('dokter.index');
         });
 
         Route::prefix('map')->group(function () {
