@@ -50,9 +50,9 @@ class AssignDokterCommand extends Command
                             'nama_dokter' => $nama
                         ]);
 
-                        $this->info('Data Assign: ' . $dokRs->Nama_Dokter);
+                        $this->info('Data Berhasil di masukan : ' . $dokRs->Nama_Dokter);
                     } else {
-                        $this->info('Data sudah ada ');
+                        $this->info('Data Gagal, Kode Dokter ini ' . $dokRs->Kode_Dokter . ' sudah ada');
                     }
                 }
             }
