@@ -9,6 +9,8 @@ use App\Http\Controllers\SatuSehat\Map\EncounterController;
 use App\Http\Controllers\SatuSehat\Master\DokterController;
 use App\Http\Controllers\SatuSehat\Master\Icd10Controller;
 use App\Http\Controllers\SatuSehat\Master\Icd9Controller;
+use App\Http\Controllers\SatuSehat\Master\LocationController;
+use App\Http\Controllers\SatuSehat\Master\OrganizationController;
 use App\Http\Controllers\SatuSehat\Master\PasienController;
 use App\Http\Controllers\SatuSehat\Master\RegisterPasienController;
 
@@ -31,6 +33,12 @@ if (Schema::hasTable('roles')) {
 
             // dokter
             Route::get('dokter', [DokterController::class, 'index'])->name('dokter.index');
+
+            // location
+            Route::get('location', [LocationController::class, 'index'])->name('location.index');
+
+            // organization
+            Route::get('organization', [OrganizationController::class, 'index'])->name('organization.index');
         });
 
         Route::prefix('map')->group(function () {
