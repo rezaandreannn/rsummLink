@@ -41,7 +41,9 @@ if (Schema::hasTable('roles')) {
             Route::get('organization', [OrganizationController::class, 'index'])->name('organization.index');
             Route::get('organization/create', [OrganizationController::class, 'create'])->name('organization.create');
             Route::get('organization/{id}', [OrganizationController::class, 'show'])->name('organization.show');
+            Route::get('organization/{id}/edit', [OrganizationController::class, 'edit'])->name('organization.edit');
             Route::post('organization', [OrganizationController::class, 'store'])->name('organization.store');
+            Route::put('organization/{id}', [OrganizationController::class, 'update'])->name('organization.update');
         });
 
         Route::prefix('map')->group(function () {
