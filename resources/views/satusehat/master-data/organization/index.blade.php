@@ -2,7 +2,7 @@
     <section class="section">
         <div class="section-header">
             <h1>{{$title ?? 'Organization'}}</h1>
-            <a href="" class="btn btn-primary ml-1"> <i class="far fa-plus-square"></i> Tambah Data </a>
+            <a href="{{ route('organization.create')}}" class="btn btn-primary ml-1"> <i class="far fa-plus-square"></i> Tambah Data </a>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                 <div class="breadcrumb-item"><a href="#">Master Data</a></div>
@@ -28,6 +28,7 @@
                                         <th>Active</th>
                                         <th>Name</th>
                                         <th>Part Of</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -38,8 +39,12 @@
                                         <td>{{$organization->active ?? ''}}</td>
                                         <td>{{$organization->name ?? ''}}</td>
                                         <td>{{ $organization->part_of ?? ''}} </td>
-                                        {{-- <td>{{$dokter->nama_dokter ?? ''}}</td>
-                                        <td>{{$dokter->created_by ?? ''}}</td> --}}
+                                        <td width="15%">
+                                            @if($organization->id != 1)
+                                            <a href="" class="btn btn-warning"><i class="far fa-edit"></i></a>
+                                            @endif
+                                            <a href="{{ route('organization.show', $organization->organization_id )}}" class="btn btn-info"><i class="fas fa-info-circle"></i></a>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
