@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('location_id');
             $table->string('name');
             $table->string('status');
-            $table->string('organization_id');
+            $table->string('physical_type')->nullable();
+            $table->string('organization_id')->nullable();
             $table->text('description')->nullable();
             $table->string('part_of')->nullable();
             $table->string('created_by')->nullable();
