@@ -25,7 +25,7 @@
                                 <code data-toggle="tooltip" title="Fields marked with (*) are required">*</code> Wajib diisi
                             </h4>
                         </div>
-                        <form action="{{ route('organization.store')}}" method="POST">
+                        <form action="{{ route('location.store')}}" method="POST">
                             @csrf
                             <div class="card-body">
                                 <div class="row">
@@ -66,7 +66,10 @@
                                         <div class="form-group">
                                             <label>Part Of</label>
                                             <select id="part_of" class="form-control select2" name="part_of">
-                                                <option value=""></option>
+                                                <option value="" selected>-- silahkan pilih --</option>
+                                                @foreach($locations as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>

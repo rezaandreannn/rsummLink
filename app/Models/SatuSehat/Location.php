@@ -11,4 +11,8 @@ class Location extends Model
 
     protected $table = 'satusehat_location';
     protected $guarded = [];
+
+    // fields = 'id', 'location_id', 'name', 'physical_type', 'organization_id', 'description', 'part_of', 'created_by', 'updated_by'
+
+
 }

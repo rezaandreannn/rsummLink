@@ -32,7 +32,13 @@ class LocationController extends Controller
 
         $organizations = Organization::pluck('name', 'organization_id');
         // dd($organizations);
+        $locations = Location::pluck('name', 'location_id');
 
-        return view('satusehat.master-data.location.create', compact('physicalTypes', 'organizations'));
+        return view('satusehat.master-data.location.create', compact('physicalTypes', 'organizations', 'locations'));
+    }
+
+    public function store(Request $request)
+    {
+        dd($request);
     }
 }
