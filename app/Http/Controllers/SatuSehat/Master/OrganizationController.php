@@ -105,7 +105,6 @@ class OrganizationController extends Controller
             }
 
             $body = $organization->json();
-
             $resource = 'Organization';
 
             $client = new OAuth2Client;

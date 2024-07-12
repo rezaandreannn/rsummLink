@@ -30,6 +30,7 @@
                                         <th>Part Of</th>
                                         <th>Organization ID</th>
                                         <th>Description</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -42,6 +43,16 @@
                                         <td>{{ $location->part_of ?? ''}} </td>
                                         <td>{{$location->organization_id ?? ''}}</td>
                                         <td>{{$location->description ?? ''}}</td>
+                                        <td>
+                                            <div class="dropdown d-inline">
+                                                <button class="btn  btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Action
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item has-icon" href="{{ route('location.edit', $location->location_id)}}"><i class="fas fa-pencil-alt"></i> Edit</a>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -76,33 +87,7 @@
 
     @push('js-spesific')
     <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            let debounceTimer;
 
-            $('#search').on('keyup', function() {
-                clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(function() {
-                    var query = $('#search').val();
-                    $.ajax({
-                        url: '/satu-sehat/master/pasien/search'
-                        , type: "GET"
-                        , data: {
-                            'search': query
-                        }
-                        , success: function(data) {
-                            console.log(data)
-                            $('#search_list').html(data);
-                        }
-                        , error: function(xhr, status, error) {
-                            console.error("Error: " + status + " - " + error);
-                        }
-                    });
-                }, 300); // Adjust the delay as needed (300ms in this example)
-            });
-        });
-
-    </script>
 
     @endpush
 </x-app-layout>

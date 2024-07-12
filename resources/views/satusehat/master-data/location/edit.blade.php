@@ -1,57 +1,64 @@
-<x-app-layout title="{{ $title ?? 'Buat Location'}}">
+<x-app-layout title="{{ $title ?? 'Ubah Location'}}">
     <section class="section">
         <div class="section-header">
             <div class="section-header-back">
-                <a href="" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+                <a href="{{ route('location.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
             </div>
-            <h1>Buat Location</h1>
+            <h1>Location</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                 <div class="breadcrumb-item"><a href="#">Master Data</a></div>
-                <div class="breadcrumb-item">Buat Location</div>
+                <div class="breadcrumb-item">Ubah Location</div>
             </div>
         </div>
 
         <div class="section-body">
-            <h2 class="section-title">Buat Location</h2>
+            <h2 class="section-title">Ubah Location</h2>
             <p class="section-lead">
-                On this page you can create a new post and fill in all fields.
+                Silahkan isi semua kolom berikut untuk memperbarui location.
             </p>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>(<code>*</code>) Wajib diisi</h4>
+                            <h4>
+                                <code data-toggle="tooltip" title="Fields marked with (*) are required">*</code> Wajib diisi
+                            </h4>
                         </div>
-                        <form action="{{ route('organization.store')}}" method="POST">
+                        <form action="{{ route('location.update', $location->location_id)}}" method="POST">
                             @csrf
+                            @method('put')
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label>Identifier<code>*</code></label>
-                                            <input type="text" class="form-control" name="identifier">
+                                            <input type="text" class="form-control" name="identifier" value="{{ $identifierValue ?? ''}}">
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label>Name<code>*</code></label>
-                                            <input type="text" class="form-control" name="name">
+                                            <input type="text" class="form-control" name="name" value="{{ $location->name}}">
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label>Physical Type<code>*</code></label>
                                             <select id="physical_type" class="form-control select2" name="physical_type">
-                                                <option value=""></option>
+                                                @foreach($physicalTypes as $key => $value)
+                                                <option value="{{ $key }}" {{ $key == $location->physical_type ? 'selected' : ''}}>{{$value}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
-                                            <label>Managing Organization</label>
+                                            <label>Managing Organization<code>*</code></label>
                                             <select id="managing_organization" class="form-control select2" name="managing_organization">
-                                                <option value="">dfs</option>
+                                                @foreach($organizations as $key => $value)
+                                                <option value="{{ $key }}" {{ $key == $location->organization_id ? 'selected' : ''}}>{{$value}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -59,19 +66,21 @@
                                         <div class="form-group">
                                             <label>Part Of</label>
                                             <select id="part_of" class="form-control select2" name="part_of">
-                                                <option value=""></option>
+                                                <option value="" selected>-- silahkan pilih --</option>
+                                                @foreach($locations as $key => $value)
+                                                <option value="{{ $key }}" {{ $key == $location->part_of ? 'selected' : ''}}>{{ $value }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label>Description</label>
-                                            <textarea class="form-control" name="description"></textarea>
+                                            <textarea class="form-control" name="description">{{$location->description}}</textarea>
                                         </div>
                                     </div>
                                 </div>
-
-                                <button class="btn btn-primary" type="submit">Buat Location</button>
+                                <button class="btn btn-primary" type="submit">Update</button>
                             </div>
                         </form>
                     </div>
@@ -89,11 +98,20 @@
     @push('js-libraries')
     <script src="{{ asset('stisla/node_modules/selectric/public/jquery.selectric.min.js')}}"></script>
     <script src="{{ asset('stisla/node_modules/select2/dist/js/select2.full.min.js') }}"></script>
+    @include('sweetalert::alert')
     @endpush
 
 
     @push('js-spesific')
     <!-- Page Specific JS File -->
+    <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+    </script>
 
     @endpush
 </x-app-layout>

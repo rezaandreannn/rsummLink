@@ -37,7 +37,9 @@ if (Schema::hasTable('roles')) {
             // location
             Route::get('location', [LocationController::class, 'index'])->name('location.index');
             Route::get('location/create', [LocationController::class, 'create'])->name('location.create');
+            Route::get('location/{id}/edit', [LocationController::class, 'edit'])->name('location.edit');
             Route::post('location', [LocationController::class, 'store'])->name('location.store');
+            Route::put('location/{id}', [LocationController::class, 'update'])->name('location.update');
 
             // organization
             Route::get('organization', [OrganizationController::class, 'index'])->name('organization.index');

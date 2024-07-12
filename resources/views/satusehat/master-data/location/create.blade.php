@@ -4,7 +4,7 @@
             <div class="section-header-back">
                 <a href="{{ route('location.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
             </div>
-            <h1>Buat Location</h1>
+            <h1>Location</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                 <div class="breadcrumb-item"><a href="#">Master Data</a></div>
@@ -53,9 +53,8 @@
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
-                                            <label>Managing Organization</label>
+                                            <label>Managing Organization<code>*</code></label>
                                             <select id="managing_organization" class="form-control select2" name="managing_organization">
-                                                <option value="" selected>-- silahkan pilih --</option>
                                                 @foreach($organizations as $key => $value)
                                                 <option value="{{ $key }}">{{$value}}</option>
                                                 @endforeach
@@ -99,11 +98,13 @@
     @push('js-libraries')
     <script src="{{ asset('stisla/node_modules/selectric/public/jquery.selectric.min.js')}}"></script>
     <script src="{{ asset('stisla/node_modules/select2/dist/js/select2.full.min.js') }}"></script>
+    @include('sweetalert::alert')
     @endpush
 
 
     @push('js-spesific')
     <!-- Page Specific JS File -->
+    <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
 
     <script>
         $(document).ready(function() {
