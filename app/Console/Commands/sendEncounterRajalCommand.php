@@ -44,8 +44,6 @@ class sendEncounterRajalCommand extends Command
             return $mapping->practitioner->kode_rs;
         })->toArray();
 
-
-
         // Database EMR
         $databasePKU = env('DB_DATABASE_EMR');
 
@@ -116,7 +114,7 @@ class sendEncounterRajalCommand extends Command
 
             $encounter->addRegistrationId($antrean->no_reg);
             $encounter->setArrived($now->toAtomString());
-            $encounter->setConsultationMethod('RAJAL'); // Contoh metode konsultasi
+            $encounter->setConsultationMethod('RAJAL');
             $encounter->setSubject($patientId, $patientName);
             $encounter->addParticipant($id_practitioner, $nameDokter);
             $encounter->addLocation($locationId, $locationName);
@@ -127,39 +125,74 @@ class sendEncounterRajalCommand extends Command
             if ($statusCode == 201) {
                 $this->info('Data berhasil dikirim');
 
-                // Ambil bagian setelah karakter '/' (yaitu indeks ke-1)
-                $parts = explode('/', $response->subject->reference);
-                $parts1 = explode('/', $response->participant[0]->individual->reference);
-                $parts2 = explode('/', $response->location[0]->location->reference);
+                // Ambil bagian setelah karakter '/'
+                $patientId = $this->extractIdFromReference($response->subject->reference);
+                $practitionerId = $this->extractIdFromReference($response->participant[0]->individual->reference);
+                $locationId = $this->extractIdFromReference($response->location[0]->location->reference);
 
                 // Simpan ke database local_encounters
-                LocalEncounter::create([
-                    'encounter_id' => $response->id,
-                    'kode_register' => $response->identifier[0]->value,
-                    'patient_id' => $parts[1],
-                    'practitioner_id' => $parts1[1],
-                    'location_id' => $parts2[1],
-                    'created_by' => 'cron job'
-                ]);
+                $this->saveLocalEncounter($response, $patientId, $practitionerId, $locationId);
 
                 // Log transaksi berhasil
-                TransactionLog::create([
-                    'registration_id' => $antrean->no_reg,
-                    'status' => $statusCode,
-                    'message' => json_encode($response),
-                    'resource' => 'Encounter'
-                ]);
+                $this->logTransaction($antrean->no_reg, $statusCode, $response, 'Encounter');
             } else {
                 $this->info('Data gagal dikirim');
 
                 // Log transaksi gagal
-                TransactionLog::create([
-                    'registration_id' => $antrean->no_reg,
-                    'status' => $statusCode,
-                    'message' => json_encode($response),
-                    'resource' => 'Encounter'
-                ]);
+                $this->logTransaction($antrean->no_reg, $statusCode, $response, 'Encounter');
             }
         }
+    }
+
+    /**
+     * Ekstrak ID dari reference
+     *
+     * @param string $reference
+     * @return string
+     */
+    private function extractIdFromReference($reference)
+    {
+        $parts = explode('/', $reference);
+        return $parts[1];
+    }
+
+    /**
+     * Simpan encounter lokal ke database
+     *
+     * @param object $response
+     * @param string $patientId
+     * @param string $practitionerId
+     * @param string $locationId
+     * @return void
+     */
+    private function saveLocalEncounter($response, $patientId, $practitionerId, $locationId)
+    {
+        LocalEncounter::create([
+            'encounter_id' => $response->id,
+            'kode_register' => $response->identifier[0]->value,
+            'patient_id' => $patientId,
+            'practitioner_id' => $practitionerId,
+            'location_id' => $locationId,
+            'created_by' => 'cron job'
+        ]);
+    }
+
+    /**
+     * Log transaksi
+     *
+     * @param string $registrationId
+     * @param int $statusCode
+     * @param object $response
+     * @param string $resource
+     * @return void
+     */
+    private function logTransaction($registrationId, $statusCode, $response, $resource)
+    {
+        TransactionLog::create([
+            'registration_id' => $registrationId,
+            'status' => $statusCode,
+            'message' => json_encode($response),
+            'resource' => $resource
+        ]);
     }
 }

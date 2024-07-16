@@ -19,20 +19,19 @@ class Icd10Controller extends Controller
 
     public function index()
     {
-        // $cacheKey = 'dataIcd10';
-        // if (Cache::has($cacheKey)) {
-        //     $dataIcd10 = Cache::get($cacheKey);
-        // } else {
-        //     $dataIcd10 = $this->icd10Model
-        //         ->where('active', 1)
-        //         ->limit(10)
-        //         ->get();
+        $cacheKey = 'dataIcd10';
+        if (Cache::has($cacheKey)) {
+            $dataIcd10 = Cache::get($cacheKey);
+        } else {
+            $dataIcd10 = $this->icd10Model
+                ->where('active', 1)
+                ->get();
 
-        //     Cache::put($cacheKey, $dataIcd10, now()->addMinutes(10));
-        // }
-        $dataIcd10 = $this->icd10Model
-            ->where('active', 1)
-            ->get();
+            Cache::put($cacheKey, $dataIcd10, now()->addMinutes(10));
+        }
+        // $dataIcd10 = $this->icd10Model
+        //     ->where('active', 1)
+        //     ->get();
 
         // dd($dataIcd10);
 
