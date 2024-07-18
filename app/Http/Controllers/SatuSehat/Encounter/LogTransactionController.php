@@ -15,8 +15,15 @@ class LogTransactionController extends Controller
 {
     public function index()
     {
-        $logTransactions = TransactionLog::all();
+        $logTransactions = TransactionLog::limit(10)->get();
+        $consultations = [
+            'RAJAL' => 'AMB',
+            'RANAP' => 'IMP',
+            'IGD' => 'EMER',
+            'HOMECARE' => 'HH',
+            'TELEKONSULTASI' => 'TELE'
+        ];
 
-        return view('satusehat.encounter.log.index', compact('logTransactions'));
+        return view('satusehat.encounter.log.index', compact('logTransactions', 'consultations'));
     }
 }
