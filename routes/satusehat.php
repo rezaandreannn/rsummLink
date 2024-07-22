@@ -24,6 +24,7 @@ if (Schema::hasTable('roles')) {
 
     Route::prefix('satu-sehat')->middleware(['checkrole:' . $rolesString])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('satu-sehat.dashboard');
+        Route::post('dashboard', [DashboardController::class, 'log'])->name('satu-sehat.dashboard');
         Route::get('antrean', [AntreanController::class, 'index'])->name('antrean.index');
 
         //encounter 

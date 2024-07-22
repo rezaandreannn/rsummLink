@@ -144,12 +144,12 @@ class sendEncounterRajalCommand extends Command
                 $this->saveLocalEncounter($response, $patientId, $practitionerId, $locationId, $metodeKonsultasi, $created);
 
                 // Log transaksi berhasil
-                $this->logTransaction($antrean->no_reg, $statusCode, $response, 'Encounter');
+                $this->logTransaction($antrean->no_reg, $statusCode, $response, 'Encounter', $created);
             } else {
                 $this->info('Data gagal dikirim');
 
                 // Log transaksi gagal
-                $this->logTransaction($antrean->no_reg, $statusCode, $response, 'Encounter');
+                $this->logTransaction($antrean->no_reg, $statusCode, $response, 'Encounter', $created);
             }
         }
     }
@@ -199,13 +199,14 @@ class sendEncounterRajalCommand extends Command
      * @param string $resource
      * @return void
      */
-    private function logTransaction($registrationId, $statusCode, $response, $resource)
+    private function logTransaction($registrationId, $statusCode, $response, $resource, $created_at)
     {
         TransactionLog::create([
             'registration_id' => $registrationId,
             'status' => $statusCode,
             'message' => json_encode($response),
-            'resource' => $resource
+            'resource' => $resource,
+            'created_at' => $created_at
         ]);
     }
 
