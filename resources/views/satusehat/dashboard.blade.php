@@ -5,24 +5,24 @@
 
         </div>
 
-        <h2 class="section-title">Sortable Card</h2>
-        <p class="section-lead">
-            <div class="col-12 col-md-4 ml-4">
-                <form action="{{ route('satu-sehat.dashboard') }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <i class="fas fa-calendar"></i>
-                                </div>
+        {{-- <h2 class="section-title"> --}}
+        <div class="col-12 col-md-4">
+            <form action="{{ route('satu-sehat.dashboard') }}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fas fa-calendar"></i>
                             </div>
-                            <input type="text" name="daterange" class="form-control daterange-cus" value="{{ old('daterange', $daterange) }}">
                         </div>
+                        <input type="text" name="daterange" class="form-control daterange-cus" value="{{ old('daterange', $daterange) }}">
                     </div>
-                </form>
-        </p>
+                </div>
+            </form>
         </div>
+        {{-- </h2> --}}
+
 
         @if (isset($logs))
         <div class="row">

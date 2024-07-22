@@ -19,6 +19,25 @@
                         <h4>Data Log Transaksi Encounter Success.</h4>
                     </div>
                     <div class="card-body">
+                        <form action="{{ route('encounter.success')}}" method="get">
+                            <div class="row justify-content-end">
+                                <div class="col-12 col-md-2">
+                                    <div class="form-group">
+                                        <input type="date" class="form-control" id="created_at" name="created_at" value="{{ old('created_at', request()->get('created_at')) }}">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    <div class="form-group">
+                                        <select id="consultation" class="form-control selectric" name="consultation">
+                                            <option value="">Metode Konsultasi</option>
+                                            @foreach($consultations as $key => $value)
+                                            <option value="{{ $value}}" {{ old('status', request()->get('consultation')) == $value ? 'selected' : '' }}>{{$key}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                         <div class="table-responsive">
                             <table id="table-1" class="table table-striped table-hover">
                                 <thead>
@@ -80,6 +99,15 @@
     @push('js-spesific')
     <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
 
+
+    <script>
+        $(document).ready(function() {
+            $('#created_at, #consultation').on('change', function() {
+                $(this).closest('form').submit();
+            });
+        });
+
+    </script>
 
     @endpush
 </x-app-layout>
