@@ -15,9 +15,16 @@ class TransactionLog extends Model
     protected $guarded = [];
 
     // Metode untuk memfilter berdasarkan resource
-    public static function filterByResource($resource)
+    public static function filterByResource($resource, $date, $status = NULL)
     {
-        return self::where('resource', $resource)->get();
+        $query = self::where('resource', $resource)
+            ->whereDate('created_at', $date);
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        return $query->get();
     }
 
     public static function filterByResourceAndDateRange($resource, $startDate, $endDate)

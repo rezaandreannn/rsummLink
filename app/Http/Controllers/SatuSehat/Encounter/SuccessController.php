@@ -12,6 +12,14 @@ class SuccessController extends Controller
     {
         $successEncounters = Encounter::all();
 
+        $consultations = [
+            'RAJAL' => 'AMB',
+            'RANAP' => 'IMP',
+            'IGD' => 'EMER',
+            'HOMECARE' => 'HH',
+            'TELEKONSULTASI' => 'TELE'
+        ];
+
         return view('satusehat.encounter.success.index', compact('successEncounters'));
     }
 }

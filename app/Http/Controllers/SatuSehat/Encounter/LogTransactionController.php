@@ -2,28 +2,34 @@
 
 namespace App\Http\Controllers\SatuSehat\Encounter;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\SatuSehat\Encounter\Mapping;
-use App\Models\SatuSehat\Practitioner;
 use App\Models\SatuSehat\TransactionLog;
-use Satusehat\Integration\OAuth2Client;
-use Satusehat\Integration\FHIR\Encounter;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class LogTransactionController extends Controller
 {
-    public function index()
-    {
-        $logTransactions = TransactionLog::limit(10)->get();
-        $consultations = [
-            'RAJAL' => 'AMB',
-            'RANAP' => 'IMP',
-            'IGD' => 'EMER',
-            'HOMECARE' => 'HH',
-            'TELEKONSULTASI' => 'TELE'
-        ];
+    protected $resource;
 
-        return view('satusehat.encounter.log.index', compact('logTransactions', 'consultations'));
+    public function __construct()
+    {
+        $this->resource = 'Encounter';
+    }
+
+    public function index(Request $request)
+    {
+        $created_at = $request->input('created_at');
+        $status = $request->input('status');
+        // Atur default tanggal ke hari ini jika tidak ada input created_at
+        $date = $created_at ? date('Y-m-d', strtotime($created_at)) : Carbon::today()->toDateString();
+
+        // Konversi status ke kode status yang sesuai
+        if ($status) {
+            $status = $status == 'sukses' ? '201' : '400';
+        }
+
+        $logTransactions = TransactionLog::filterByResource($this->resource, $date, $status);
+
+        return view('satusehat.encounter.log.index', compact('logTransactions'));
     }
 }

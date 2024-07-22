@@ -19,23 +19,24 @@
                         <h4>Data Log Transaksi Encounter.</h4>
                     </div>
                     <div class="card-body">
-                        <div class="row justify-content-end">
-                            <div class="col-12 col-md-2">
-                                <div class="form-group">
-                                    <input type="date" class="form-control" id="created_at">
+                        <form action="{{ route('encounter.log')}}" method="get">
+                            <div class="row justify-content-end">
+                                <div class="col-12 col-md-2">
+                                    <div class="form-group">
+                                        <input type="date" class="form-control" id="created_at" name="created_at" value="{{ old('created_at', request()->get('created_at')) }}">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <div class="form-group">
+                                        <select id="status" class="form-control selectric" name="status">
+                                            <option value="">pilih status</option>
+                                            <option value="sukses" {{ old('status', request()->get('status')) == 'sukses' ? 'selected' : '' }}>sukses</option>
+                                            <option value="gagal" {{ old('status', request()->get('status')) == 'gagal' ? 'selected' : '' }}>gagal</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-2">
-                                <div class="form-group">
-                                    <select id="status" class="form-control selectric" name="status">
-                                        <option value="">pilih status</option>
-                                        <option value="">sukses</option>
-                                        <option value="">gagal</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
+                        </form>
 
 
                         <div class="table-responsive">
@@ -136,6 +137,15 @@
 
     @push('js-spesific')
     <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#created_at, #status').on('change', function() {
+                $(this).closest('form').submit();
+            });
+        });
+
+    </script>
 
 
     @endpush
