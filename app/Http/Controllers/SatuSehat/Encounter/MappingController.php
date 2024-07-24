@@ -17,7 +17,15 @@ class MappingController extends Controller
     {
         $mappings = Mapping::with(['location', 'organization', 'practitioner'])->get();
 
-        return view('satusehat.encounter.mapping.index', compact('mappings'));
+        $pelayanans = [
+            'RAJAL' => 'AMB',
+            'RANAP' => 'IMP',
+            'IGD' => 'EMER',
+            'HOMECARE' => 'HH',
+            'TELEKONSULTASI' => 'TELE'
+        ];
+
+        return view('satusehat.encounter.mapping.index', compact('mappings', 'pelayanans'));
     }
 
     public function create()
@@ -26,9 +34,11 @@ class MappingController extends Controller
         $practitioners = Practitioner::pluck('nama_dokter', 'id_dokter');
 
         $pelayanans = [
-            1 => 'rawat jalan',
-            2 => 'rawat inap',
-            3 => 'igd',
+            'RAJAL' => 'AMB',
+            'RANAP' => 'IMP',
+            'IGD' => 'EMER',
+            'HOMECARE' => 'HH',
+            'TELEKONSULTASI' => 'TELE'
         ];
 
         $organizations = Organization::pluck('organization_id', 'name');
@@ -65,9 +75,11 @@ class MappingController extends Controller
         $practitioners = Practitioner::pluck('nama_dokter', 'id_dokter');
 
         $pelayanans = [
-            1 => 'rawat jalan',
-            2 => 'rawat inap',
-            3 => 'igd',
+            'RAJAL' => 'AMB',
+            'RANAP' => 'IMP',
+            'IGD' => 'EMER',
+            'HOMECARE' => 'HH',
+            'TELEKONSULTASI' => 'TELE'
         ];
 
         $organizations = Organization::pluck('organization_id', 'name');

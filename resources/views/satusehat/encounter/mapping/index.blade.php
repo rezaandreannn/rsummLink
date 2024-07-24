@@ -32,23 +32,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                    $pelayanans = [
-                                    1 => 'rawat jalan',
-                                    2 => 'rawat inap',
-                                    3 => 'igd',
-                                    ];
-                                    @endphp
                                     @foreach($mappings as $map)
                                     <tr>
                                         <td style="width: 5%">{{$loop->iteration}}</td>
-                                        <td>{{$map->Practitioner->nama_dokter}}</td>
-                                        <td>{{$map->location->name}}</td>
+                                        <td>
+                                            {{$map->Practitioner->nama_dokter}}
+                                        </td>
+                                        <td>
+                                            {{$map->location->name}}
+                                        </td>
                                         <td>{{$map->organization->name}}</td>
                                         <td>
                                             @foreach($pelayanans as $key => $value)
-                                            @if($map->cara_masuk == $key)
-                                            {{ $value }}
+                                            @if($map->cara_masuk == $value)
+                                            {{ $key }}
                                             @endif
                                             @endforeach
                                         </td>

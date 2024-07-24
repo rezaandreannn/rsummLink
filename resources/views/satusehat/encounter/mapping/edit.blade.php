@@ -53,8 +53,8 @@
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Pelayanan<code>*</code></label>
                                     <div class="col-sm-12 col-md-7">
                                         <select id="cara_masuk" class="form-control selectric" name="cara_masuk">
-                                            @foreach($pelayanans as $id => $name)
-                                            <option value="{{ $id }}" {{ $id == $mapping->cara_masuk ? 'selected' : ''}}>{{ $name }}</option>
+                                            @foreach($pelayanans as $key => $value)
+                                            <option value="{{ $value }}" {{ $value == $mapping->cara_masuk ? 'selected' : ''}}>{{ $key }}</option>
                                             @endforeach
                                         </select>
                                     </div>
