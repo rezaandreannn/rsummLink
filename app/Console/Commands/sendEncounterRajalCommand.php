@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use DateTime;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use App\Models\SatuSehat\Location;
 use Illuminate\Support\Facades\DB;
@@ -48,9 +49,11 @@ class sendEncounterRajalCommand extends Command
         // Database EMR
         $databasePKU = env('DB_DATABASE_EMR');
 
-        $existKodeReg = LocalEncounter::pluck('kode_register');
+        $today = Carbon::today()->format('Y-m-d');
 
-        $tanggal = '2023-05-19';
+        $existKodeReg = LocalEncounter::whereDate('created_at', $today)
+            ->pluck('kode_register');
+
 
         // Ambil data antrean dari database rsumm
         $antreans = DB::connection('db_rsumm')->table('DB_RSMM.dbo.ANTRIAN as a')
@@ -65,8 +68,8 @@ class sendEncounterRajalCommand extends Command
                 'rp.HP2 as nik',
                 DB::raw("CONVERT(DATETIME, CONCAT(CONVERT(VARCHAR, a.Tanggal, 23), ' ', CONVERT(VARCHAR, a.Jam, 8)), 120) as created_at")
             ])
-            ->where('a.Tanggal', $tanggal)
-            ->where('p.Tanggal', $tanggal)
+            ->where('a.Tanggal', $today)
+            ->where('p.Tanggal', $today)
             ->where('trs.FS_STATUS', '!=', 0)
             ->where('p.Kode_Dokter', '!=', '100')
             ->whereIn('p.Kode_Dokter', $kode_dokters)
@@ -76,7 +79,6 @@ class sendEncounterRajalCommand extends Command
             ->orderBy('p.No_Reg')
             ->get();
 
-        // dd($antreans);
 
         foreach ($antreans as $antrean) {
             // Ambil data pasien berdasarkan NIK
