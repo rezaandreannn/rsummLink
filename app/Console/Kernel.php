@@ -17,8 +17,11 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('encounter:rajal')
-            ->everyMinute()
-            ->timezone('Asia/Jakarta');
+            ->weekdays()
+            ->saturdays()
+            ->hourly()
+            ->timezone('Asia/Jakarta')
+            ->between('8:00', '20:00');
     }
 
     /**
