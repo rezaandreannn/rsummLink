@@ -19,13 +19,13 @@ class ApplicationSeeder extends Seeder
             [
                 'name' => 'satu sehat',
                 'image' => 'null',
-                'prefix' => 'satusehat',
+                'prefix' => 'satu-sehat',
                 'description' => 'Satu Sehat adalah layanan kesehatan terpadu yang menghubungkan data dari Rumah Sakit Muhammadiyah metro ke dalam platform yang praktis.'
             ],
             [
-                'name' => 'v-claim bpjs',
+                'name' => 'v claim',
                 'image' => 'null',
-                'prefix' => 'v-claimbpjs',
+                'prefix' => 'v-claim',
                 'description' => 'V-Claim BPJS adalah sebuah sistem yang memungkinkan peserta BPJS Kesehatan untuk mengajukan klaim atau pembayaran atas layanan kesehatan yang telah diterima secara digital.',
                 'status' => 'maintenance'
             ],
@@ -40,8 +40,8 @@ class ApplicationSeeder extends Seeder
 
         foreach ($applications as $application) {
             Application::updateOrCreate(
-                ['prefix' => $application['prefix']], // Check for existing record by prefix
-                $application // Insert or update with this data
+                ['prefix' => $application['prefix']],
+                $application
             );
         }
     }

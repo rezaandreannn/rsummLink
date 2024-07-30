@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use DateTime;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use App\Models\SatuSehat\Location;
 use Illuminate\Support\Facades\DB;
@@ -39,8 +38,9 @@ class sendEncounterRajalCommand extends Command
     {
         // Ambil data dokter yang sudah di-mapping
         $dokter = Mapping::with('practitioner')
-            ->where('cara_masuk', 1)
+            ->where('cara_masuk', 'AMB')
             ->get();
+
         $kode_dokters = $dokter->map(function ($mapping) {
             return $mapping->practitioner->kode_rs;
         })->toArray();
@@ -50,7 +50,7 @@ class sendEncounterRajalCommand extends Command
 
         $existKodeReg = LocalEncounter::pluck('kode_register');
 
-        $tanggal = '2023-05-16';
+        $tanggal = '2023-05-19';
 
         // Ambil data antrean dari database rsumm
         $antreans = DB::connection('db_rsumm')->table('DB_RSMM.dbo.ANTRIAN as a')
@@ -144,12 +144,12 @@ class sendEncounterRajalCommand extends Command
                 $this->saveLocalEncounter($response, $patientId, $practitionerId, $locationId, $metodeKonsultasi, $created);
 
                 // Log transaksi berhasil
-                $this->logTransaction($antrean->no_reg, $statusCode, $response, 'Encounter', $created);
+                $this->logTransaction($antrean->no_reg, $statusCode, $response, 'Encounter');
             } else {
                 $this->info('Data gagal dikirim');
 
                 // Log transaksi gagal
-                $this->logTransaction($antrean->no_reg, $statusCode, $response, 'Encounter', $created);
+                $this->logTransaction($antrean->no_reg, $statusCode, $response, 'Encounter');
             }
         }
     }
@@ -199,14 +199,14 @@ class sendEncounterRajalCommand extends Command
      * @param string $resource
      * @return void
      */
-    private function logTransaction($registrationId, $statusCode, $response, $resource, $created_at)
+    private function logTransaction($registrationId, $statusCode, $response, $resource)
     {
         TransactionLog::create([
             'registration_id' => $registrationId,
             'status' => $statusCode,
             'message' => json_encode($response),
             'resource' => $resource,
-            'created_at' => $created_at
+            'created_at' => now()
         ]);
     }
 

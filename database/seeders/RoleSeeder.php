@@ -16,8 +16,8 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $appSatuSehat = Application::where('prefix', 'satusehat')->first();
-        $appVclaim = Application::where('prefix', 'v-claimbpjs')->first();
+        $appSatuSehat = Application::where('prefix', 'satu-sehat')->first();
+        $appVclaim = Application::where('prefix', 'v-claim')->first();
 
         $roles = [
             [

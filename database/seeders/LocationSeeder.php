@@ -16,19 +16,19 @@ class LocationSeeder extends Seeder
      */
     public function run()
     {
-        $locations = DB::connection('seed')->table('locations')->get();
+        // $locations = DB::connection('seed')->table('locations')->get();
 
-        foreach ($locations as $item) {
-            Location::create([
-                'location_id' => $item->location_id,
-                'name' => $item->name,
-                'status' => $item->status,
-                'organization_id' => $item->organization_id,
-                'description' => $item->description,
-                'part_of' => $item->part_of,
-                'created_by' => $item->created_by,
-                'updated_by' => $item->updated_by
-            ]);
-        }
+        // foreach ($locations as $item) {
+        //     Location::create([
+        //         'location_id' => $item->location_id,
+        //         'name' => $item->name,
+        //         'status' => $item->status,
+        //         'organization_id' => $item->organization_id,
+        //         'description' => $item->description,
+        //         'part_of' => $item->part_of,
+        //         'created_by' => $item->created_by,
+        //         'updated_by' => $item->updated_by
+        //     ]);
+        // }
     }
 }

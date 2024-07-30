@@ -19,8 +19,8 @@ class UserHasRoleSeeder extends Seeder
     {
         //disini kita assign user id 2 menjadi role di app satusehat sebagai admin dan di vclaim menjadi pendaftaran
         // definisikan application id
-        $satusehat = Application::where('prefix', 'satusehat')->first();
-        $vclaim = Application::where('prefix', 'v-claimbpjs')->first();
+        $satusehat = Application::where('prefix', 'satu-sehat')->first();
+        $vclaim = Application::where('prefix', 'v-claim')->first();
 
         // definisikan user 
         $user = User::find(2);
