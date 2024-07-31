@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Observation extends Model
 {
     use HasFactory;
+
+    protected $table = 'satusehat_observations';
+    protected $guarded = [];
 }
