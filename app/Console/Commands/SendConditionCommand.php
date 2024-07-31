@@ -49,7 +49,6 @@ class SendConditionCommand extends Command
             $client = new OAuth2Client;
             [$statusById, $responById] = $client->get_by_id('Encounter', $encounter->encounter_id ?? '');
 
-
             if ($statusById == 200) {
                 $encounterId = $responById->id;
                 $patientName = $responById->subject->display;
