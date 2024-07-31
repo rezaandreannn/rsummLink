@@ -89,7 +89,7 @@ class UpdateEcounterPulangCommand extends Command
                     // update local encounter 
                     $localEncounter = LocalEncounter::where('encounter_id', $encounterId)
                         ->first();
-                    $updated = $timeFinished = Carbon::parse($timestampAwal)
+                    $updated = Carbon::parse($timestampAwal)
                         ->addMinutes(61)
                         ->toDateString();
                     $localEncounter->update([
@@ -97,9 +97,9 @@ class UpdateEcounterPulangCommand extends Command
                         'updated_at' => $updated
                     ]);
 
-                    $this->info('Encounter Updated successfully sent to Satu Sehat.');
+                    $this->info('Encounter Updated finished successfully sent to Satu Sehat.');
                 } else {
-                    $this->error('Encounter Updated Failed sent to Satu Sehat.');
+                    $this->error('Encounter Updated finished Failed sent to Satu Sehat.');
                 }
             }
         }
