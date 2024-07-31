@@ -41,7 +41,9 @@ class UpdateEcounterPulangCommand extends Command
 
         foreach ($conditions as $condition) {
             $encounter = LocalEncounter::where('kode_register', $condition->kode_register)
+                ->where('status', '')
                 ->first();
+
 
             if (!empty($encounter)) {
                 // jalankan update
@@ -94,6 +96,10 @@ class UpdateEcounterPulangCommand extends Command
                         'status' => $response->status,
                         'updated_at' => $updated
                     ]);
+
+                    $this->info('Encounter Updated successfully sent to Satu Sehat.');
+                } else {
+                    $this->error('Encounter Updated Failed sent to Satu Sehat.');
                 }
             }
         }
