@@ -36,7 +36,8 @@ class SendObservationCommand extends Command
     public function handle()
     {
         // definisikan tanggal
-        $tanggal = '2023-05-16';
+        // $tanggal = '2023-05-16';
+        $tanggal = Carbon::today()->format('Y-m-d');
 
         // cari encounter tgl tersebut
         $localEncounter = LocalEncounter::whereDate('created_at', $tanggal)
