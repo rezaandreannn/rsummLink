@@ -91,7 +91,7 @@ class UpdateEcounterPulangCommand extends Command
                         ->first();
                     $updated = Carbon::parse($timestampAwal)
                         ->addMinutes(61)
-                        ->toDateString();
+                        ->format('Y-m-d\TH:i:sP');
                     $localEncounter->update([
                         'status' => $response->status,
                         'updated_at' => $updated
