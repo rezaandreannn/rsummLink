@@ -85,7 +85,11 @@
                             @foreach($statusEncounter as $status => $item)
                             <div class="statistic-details-item">
                                 @if($status == 'finished')
-                                <span class="text-muted"><span class="text-primary"><i class="fas fa-caret-up"></i></span> {{$persencentageEncounter}} %</span>
+                                @php
+                                $textClass = $persencentageEncounter > 50 ? 'text-primary' : 'text-danger';
+                                $icon = $persencentageEncounter > 50 ? 'up' : 'down';
+                                @endphp
+                                <span class="text-muted"><span class="{{$textClass ?? ''}}"><i class="fas fa-caret-{{$icon}}"></i></span> {{$persencentageEncounter}} %</span>
                                 @endif
                                 <div class="detail-value">{{ $item}}</div>
                                 <div class="detail-name">{{ $status }}</div>
