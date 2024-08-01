@@ -34,15 +34,6 @@ class DashboardController extends Controller
             'Minggu' => 0,
         ];
 
-        // $daysOfWeek = [
-        //     'Monday' => 0,
-        //     'Tuesday' => 0,
-        //     'Wednesday' => 0,
-        //     'Thursday' => 0,
-        //     'Friday' => 0,
-        //     'Saturday' => 0,
-        //     'Sunday' => 0,
-        // ];
 
         // Ambil data encounter dari database
         $encounters = DB::table('satusehat_encounter')
@@ -70,7 +61,43 @@ class DashboardController extends Controller
             'totals' => array_values($translatedDaysOfWeek),
         ];
 
-        // dd($chartData);
+        // total finished per week
+        // definisikan status
+        $statusEncounter = [
+            'arrived' => 0,
+            'finished' => 0
+        ];
+
+        $statuses = DB::table('satusehat_encounter')
+            ->select(
+                DB::raw("status as status"),
+                DB::raw('COUNT(*) as total_encounters')
+            )
+            // ->whereBetween('created_at', [
+            //     Carbon::now()->startOfWeek()->format('Y-m-d H:i:s'),
+            //     Carbon::now()->endOfWeek()->format('Y-m-d H:i:s')
+            // ])
+            ->whereBetween('created_at', ['2023-05-19 00:00:00', '2023-05-25 23:59:59'])
+            ->groupBy('status')
+            ->get();
+
+        $totalEncounters = 0;
+        foreach ($statuses as $status) {
+            $totalEncounters += $status->total_encounters;
+
+            if ($status->status == '') {
+                $statusEncounter['arrived'] = $status->total_encounters;
+            } elseif ($status->status == 'finished') {
+                $statusEncounter['finished'] = $status->total_encounters;
+            }
+        }
+
+        $finishedPercentage = $totalEncounters > 0 ? ($statusEncounter['finished'] / $totalEncounters) * 100 : 0;
+        $persencentageEncounter = number_format($finishedPercentage, 2);
+
+
+        // dd($statusEncounter);
+
 
         $app = $request->attributes->get('application');
 
@@ -94,7 +121,7 @@ class DashboardController extends Controller
         // $user = Auth::user();
         // $test = $user->roles($app->id)->where('name', 'admin')->exists();
         // dd($test);
-        return view('satusehat.dashboard', compact('app', 'daterange', 'logs', 'chartData'));
+        return view('satusehat.dashboard', compact('app', 'daterange', 'logs', 'chartData', 'statusEncounter', 'persencentageEncounter'));
     }
 
     public function log(Request $request)
