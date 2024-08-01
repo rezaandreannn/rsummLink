@@ -32,7 +32,7 @@ class UpdateEcounterPulangCommand extends Command
      */
     public function handle()
     {
-        $tanggal = '2023-05-16';
+        $tanggal = Carbon::today()->format('Y-m-d');
         // cari data register yg ada di condition dby tanggal
         $conditions =  Condition::whereDate('created_at', $tanggal)
             ->where('status', 1)
@@ -41,7 +41,7 @@ class UpdateEcounterPulangCommand extends Command
 
         foreach ($conditions as $condition) {
             $encounter = LocalEncounter::where('kode_register', $condition->kode_register)
-                ->where('status', '')
+                ->where('status', null)
                 ->first();
 
 

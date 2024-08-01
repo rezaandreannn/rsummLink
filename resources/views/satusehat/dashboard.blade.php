@@ -228,6 +228,49 @@
 
     <script src="{{ asset('stisla/assets/js/page/index-0.js')}}"></script>
     <script>
+        var statistics_chart = document.getElementById("myChart").getContext('2d');
+
+        var myChart = new Chart(statistics_chart, {
+            type: 'line'
+            , data: {
+                labels: @json($chartData['days'])
+                , datasets: [{
+                    label: 'Statistics'
+                    , data: @json($chartData['totals'])
+                    , borderWidth: 5
+                    , borderColor: '#6777ef'
+                    , backgroundColor: 'transparent'
+                    , pointBackgroundColor: '#fff'
+                    , pointBorderColor: '#6777ef'
+                    , pointRadius: 4
+                }]
+            }
+            , options: {
+                legend: {
+                    display: false
+                }
+                , scales: {
+                    yAxes: [{
+                        gridLines: {
+                            display: false
+                            , drawBorder: false
+                        , }
+                        , ticks: {
+                            stepSize: 150
+                        }
+                    }]
+                    , xAxes: [{
+                        gridLines: {
+                            color: '#fbfbfb'
+                            , lineWidth: 2
+                        }
+                    }]
+                }
+            , }
+        });
+
+    </script>
+    <script>
         $(document).ready(function() {
             $('.daterange-cus').daterangepicker({
                 locale: {
