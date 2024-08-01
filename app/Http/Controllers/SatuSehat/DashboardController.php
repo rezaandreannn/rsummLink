@@ -99,15 +99,15 @@ class DashboardController extends Controller
 
         // Encounter
         $totalEncounter = Encounter::count();
-        $lastUpdatedEncounter = Encounter::latest('updated_at')->value('updated_at');
+        $lastUpdatedEncounter = Encounter::latest('created_at')->value('created_at');
 
         // condition
         $totalCondition = Condition::where('status', 1)->count();
-        $lastUpdatedCondition = Condition::where('status', 1)->latest('updated_at')->value('updated_at');
+        $lastUpdatedCondition = Condition::where('status', 1)->latest('created_at')->value('created_at');
 
         // observation
         $totalObservation = Observation::count();
-        $lastUpdatedObservation = Observation::latest('updated_at')->value('updated_at');
+        $lastUpdatedObservation = Observation::latest('created_at')->value('created_at');
 
 
         return view('satusehat.dashboard', compact('chartData', 'statusEncounter', 'persencentageEncounter', 'totalEncounter', 'lastUpdatedEncounter', 'totalCondition', 'lastUpdatedCondition', 'totalObservation', 'lastUpdatedObservation'));
