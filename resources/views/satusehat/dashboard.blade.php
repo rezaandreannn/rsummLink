@@ -226,7 +226,7 @@
 
     @push('js-spesific')
 
-    <script src="{{ asset('stisla/assets/js/page/index-0.js')}}"></script>
+    {{-- <script src="{{ asset('stisla/assets/js/page/index-0.js')}}"></script> --}}
     <script>
         var statistics_chart = document.getElementById("myChart").getContext('2d');
 

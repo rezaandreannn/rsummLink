@@ -50,11 +50,11 @@ class DashboardController extends Controller
                 DB::raw("FORMAT(created_at, 'dddd') as day"),
                 DB::raw('COUNT(*) as total_encounters')
             )
-            // ->whereBetween('created_at', [
-            //     Carbon::now()->startOfWeek()->format('Y-m-d H:i:s'),
-            //     Carbon::now()->endOfWeek()->format('Y-m-d H:i:s')
-            // ])
-            ->whereBetween('created_at', ['2023-05-19 00:00:00', '2023-05-25 23:59:59'])
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfWeek()->format('Y-m-d H:i:s'),
+                Carbon::now()->endOfWeek()->format('Y-m-d H:i:s')
+            ])
+            // ->whereBetween('created_at', ['2023-05-19 00:00:00', '2023-05-25 23:59:59'])
             ->groupBy(DB::raw("FORMAT(created_at, 'dddd')"), DB::raw('DATEPART(weekday, created_at)'))
             ->orderBy(DB::raw('DATEPART(weekday, created_at)'))
             ->get();
