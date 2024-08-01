@@ -8,14 +8,15 @@
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="card card-statistic-1">
                     <div class="card-icon bg-primary">
-                        <i class="far fa-user"></i>
+                        <i class="fas fa-hospital-alt"></i>
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Total Admin</h4>
+                            <h4>Total Encounter</h4>
                         </div>
                         <div class="card-body">
-                            10
+                            {{ $totalEncounter ?? ''}}
+                            <p class="text-sm text-muted" style="font-size: 11px;">last update : {{$lastUpdatedEncounter->format('d-m-Y')}}</p>
                         </div>
                     </div>
                 </div>
@@ -23,14 +24,16 @@
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="card card-statistic-1">
                     <div class="card-icon bg-danger">
-                        <i class="far fa-newspaper"></i>
+                        <i class="fas fa-diagnoses"></i>
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>News</h4>
+                            <h4>Total Condition</h4>
                         </div>
                         <div class="card-body">
-                            42
+                            {{ $totalCondition ?? ''}}
+                            <br>
+                            <p class="text-sm text-muted" style="font-size: 11px;">last update : {{$lastUpdatedCondition->format('d-m-Y')}}</p>
                         </div>
                     </div>
                 </div>
@@ -38,19 +41,20 @@
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="card card-statistic-1">
                     <div class="card-icon bg-warning">
-                        <i class="far fa-file"></i>
+                        <i class="fas fa-heartbeat"></i>
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Reports</h4>
+                            <h4>Observation</h4>
                         </div>
                         <div class="card-body">
-                            1,201
+                            {{ $totalObservation ?? ''}}
+                            <p class="text-sm text-muted" style="font-size: 11px;">last update : {{$lastUpdatedObservation->format('d-m-Y')}}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            {{-- <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="card card-statistic-1">
                     <div class="card-icon bg-success">
                         <i class="fas fa-circle"></i>
@@ -64,7 +68,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <div class="row">
@@ -150,24 +154,24 @@
         </div>
 
         {{-- <h2 class="section-title"> --}}
-        <div class="col-12 col-md-4">
+        {{-- <div class="col-12 col-md-4">
             <form action="{{ route('satu-sehat.dashboard') }}" method="POST">
-                @csrf
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fas fa-calendar"></i>
-                            </div>
-                        </div>
-                        <input type="text" name="daterange" class="form-control daterange-cus" value="{{ old('daterange', $daterange) }}">
+        @csrf
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fas fa-calendar"></i>
                     </div>
                 </div>
-            </form>
+                <input type="text" name="daterange" class="form-control daterange-cus" value="{{ old('daterange', $daterange) }}">
+            </div>
         </div>
+        </form>
+        </div> --}}
         {{-- </h2> --}}
 
-
+        {{--
         @if (isset($logs))
         <div class="row">
             @foreach($logs as $resource => $total)
@@ -175,15 +179,15 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <h4>{{ $resource }}</h4>
-                    </div>
-                    <div class="card-body">
-                        <p>Total <code class="large-number">{{$total}}</code></p>
-                    </div>
-                </div>
-            </div>
-            @endforeach
         </div>
-        @endif
+        <div class="card-body">
+            <p>Total <code class="large-number">{{$total}}</code></p>
+        </div>
+        </div>
+        </div>
+        @endforeach
+        </div>
+        @endif --}}
         </div>
     </section>
 

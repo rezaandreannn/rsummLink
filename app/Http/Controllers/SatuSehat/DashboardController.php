@@ -6,8 +6,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\SatuSehat\Condition;
 use App\Models\SatuSehat\TransactionLog;
 use App\Models\SatuSehat\Encounter\Encounter;
+use App\Models\SatuSehat\Observation;
 
 class DashboardController extends Controller
 {
@@ -95,33 +97,20 @@ class DashboardController extends Controller
         $finishedPercentage = $totalEncounters > 0 ? ($statusEncounter['finished'] / $totalEncounters) * 100 : 0;
         $persencentageEncounter = number_format($finishedPercentage, 2);
 
+        // Encounter
+        $totalEncounter = Encounter::count();
+        $lastUpdatedEncounter = Encounter::latest('updated_at')->value('updated_at');
 
-        // dd($statusEncounter);
+        // condition
+        $totalCondition = Condition::where('status', 1)->count();
+        $lastUpdatedCondition = Condition::where('status', 1)->latest('updated_at')->value('updated_at');
+
+        // observation
+        $totalObservation = Observation::count();
+        $lastUpdatedObservation = Observation::latest('updated_at')->value('updated_at');
 
 
-        $app = $request->attributes->get('application');
-
-        $today = Carbon::today()->toDateString();
-        $defaultDaterange = "$today - $today";
-        $daterange = $request->input('daterange', $defaultDaterange);
-
-        [$startDate, $endDate] = explode(' - ', $daterange);
-
-        $startDateFormatted = date('Y-m-d H:i:s', strtotime($startDate));
-        $endDateFormatted = date('Y-m-d H:i:s', strtotime($endDate));
-
-        $logs = TransactionLog::filterByDateRangeAndCountResources('2024-07-15 14:24:29', '2024-07-15 14:24:29');
-        // dd($filteredLogs);
-        $resources = [
-            'Encounter',
-            'Condition',
-            'Observation'
-        ];
-
-        // $user = Auth::user();
-        // $test = $user->roles($app->id)->where('name', 'admin')->exists();
-        // dd($test);
-        return view('satusehat.dashboard', compact('app', 'daterange', 'logs', 'chartData', 'statusEncounter', 'persencentageEncounter'));
+        return view('satusehat.dashboard', compact('chartData', 'statusEncounter', 'persencentageEncounter', 'totalEncounter', 'lastUpdatedEncounter', 'totalCondition', 'lastUpdatedCondition', 'totalObservation', 'lastUpdatedObservation'));
     }
 
     public function log(Request $request)
