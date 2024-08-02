@@ -143,7 +143,7 @@ class sendEncounterRajalCommand extends Command
                 $metodeKonsultasi = $response->class->code;
 
                 // Simpan ke database local_encounters
-                $this->saveLocalEncounter($response, $patientId, $practitionerId, $locationId, $metodeKonsultasi, $created);
+                $this->saveLocalEncounter($response, $patientId, $practitionerId, $locationId, $metodeKonsultasi, $antrean->created_at);
 
                 // Log transaksi berhasil
                 $this->logTransaction($antrean->no_reg, $statusCode, $response, 'Encounter');
