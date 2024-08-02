@@ -32,9 +32,11 @@ class UpdateEcounterPulangCommand extends Command
      */
     public function handle()
     {
-        $tanggal = Carbon::today()->format('Y-m-d');
+        $tanggalAwal = Carbon::today()->subDays(1)->format('Y-m-d');
+        $tanggalAkhir = Carbon::today()->format('Y-m-d');
+
         // cari data register yg ada di condition dby tanggal
-        $conditions =  Condition::whereDate('created_at', $tanggal)
+        $conditions = Condition::whereBetween('created_at', [$tanggalAwal, $tanggalAkhir])
             ->where('status', 1)
             ->get();
 

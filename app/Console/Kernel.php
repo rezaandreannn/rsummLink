@@ -27,6 +27,18 @@ class Kernel extends ConsoleKernel
             ->hourly()
             ->timezone('Asia/Jakarta')
             ->between('8:00', '20:00');
+
+        // send condition 
+        $schedule->command('condition:send')
+            ->hourly()
+            ->timezone('Asia/Jakarta')
+            ->between('8:00', '20:00');
+
+        // update finished encouter
+        $schedule->command('update:encounter')
+            ->hourly()
+            ->timezone('Asia/Jakarta')
+            ->between('8:00', '20:00');
     }
 
     /**
