@@ -16,6 +16,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        // assign data pasien terdaftar
+        $schedule->command('patient:assign-id-satusehat')
+            ->everyFiveMinutes()
+            ->timezone('Asia/Jakarta');
         // send kedatangan pasien
         $schedule->command('encounter:rajal')
             ->hourly()
