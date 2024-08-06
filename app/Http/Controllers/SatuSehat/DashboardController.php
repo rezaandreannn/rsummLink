@@ -10,6 +10,7 @@ use App\Models\SatuSehat\Condition;
 use App\Models\SatuSehat\TransactionLog;
 use App\Models\SatuSehat\Encounter\Encounter;
 use App\Models\SatuSehat\Observation;
+use App\Models\ScheduleLog;
 
 class DashboardController extends Controller
 {
@@ -109,8 +110,16 @@ class DashboardController extends Controller
         $totalObservation = Observation::count();
         $lastUpdatedObservation = Observation::latest('created_at')->value('created_at');
 
+        // data schedule run
+        $scheduleLogs = ScheduleLog::all();
 
-        return view('satusehat.dashboard', compact('chartData', 'statusEncounter', 'persencentageEncounter', 'totalEncounter', 'lastUpdatedEncounter', 'totalCondition', 'lastUpdatedCondition', 'totalObservation', 'lastUpdatedObservation'));
+        foreach ($scheduleLogs as $log) {
+            $log->last_run_at = Carbon::parse($log->last_run_at);
+        }
+
+
+
+        return view('satusehat.dashboard', compact('chartData', 'statusEncounter', 'persencentageEncounter', 'totalEncounter', 'lastUpdatedEncounter', 'totalCondition', 'lastUpdatedCondition', 'totalObservation', 'lastUpdatedObservation', 'scheduleLogs'));
     }
 
     public function log(Request $request)
