@@ -68,25 +68,15 @@
                     </div> --}}
        </form>
        <ul class="navbar-nav navbar-right">
-           <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle "><i class="fas fa-exchange-alt"></i></a>
+           <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle "><i class="fas fa-th"></i></a>
                <div class="dropdown-menu dropdown-list dropdown-menu-right">
-                   <div class="dropdown-header">Ganti Aplikasi
+                   <div class="dropdown-header">Pilih Aplikasi
                        <div class="float-right">
                            {{-- <a href="#">Mark All As Read</a> --}}
                        </div>
                    </div>
 
                    <div class="dropdown-list-content dropdown-list-message">
-                       @if(auth()->user()->hasRole('superadmin'))
-                       <a href="{{ route('dashboard') }}" class="dropdown-item dropdown-item-unread">
-                           <div class="dropdown-item-desc">
-                               <b>Super admin</b>
-                               <div class="'is-online'"></div>
-                               {{-- <p>{{ $app->status }}</p> --}}
-                               <div class="time"></div>
-                           </div>
-                       </a>
-                       @endif
                        @foreach(App\Models\Application::all() as $app)
                        @php
                        $isDisabledAndMaintenance = $app->status == 'maintenance' || $app->status == 'inactive';
@@ -103,7 +93,9 @@
                        @endforeach
                    </div>
                    <div class="dropdown-footer text-center">
-                       {{-- <a href="#">View All <i class="fas fa-chevron-right"></i></a> --}}
+                       @if(auth()->user()->hasRole('superadmin'))
+                       <a href="{{ route('dashboard') }}">Kelola User Menu <i class="fas fa-chevron-right"></i></a>
+                       @endif
                    </div>
                </div>
            </li>
