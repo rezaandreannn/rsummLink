@@ -15,8 +15,11 @@ class Condition extends Model
     {
         $query = self::whereDate('created_at', $date);
 
-        if ($status) {
+        if ($status !== null) {
             $query->where('status', $status);
+        } else {
+            // Jika status tidak diberikan, maka filter berdasarkan status 0 dan 1
+            $query->whereIn('status', [0, 1]);
         }
 
         return $query->get();

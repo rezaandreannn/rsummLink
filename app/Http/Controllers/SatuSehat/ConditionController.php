@@ -21,6 +21,8 @@ class ConditionController extends Controller
             $status = $status;
         }
 
+        // dd($status);
+
         $conditions = Condition::filterByDateAndStatus($date, $status);
 
         return view('satusehat.condition.index', compact('conditions'));
