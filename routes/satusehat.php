@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SatuSehat\AntreanController;
+use App\Http\Controllers\SatuSehat\ConditionController;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
@@ -8,7 +9,6 @@ use App\Http\Controllers\SatuSehat\DashboardController;
 use App\Http\Controllers\SatuSehat\Encounter\LogTransactionController;
 use App\Http\Controllers\SatuSehat\Encounter\MappingController;
 use App\Http\Controllers\SatuSehat\Encounter\SuccessController;
-use App\Http\Controllers\SatuSehat\Map\EncounterController;
 use App\Http\Controllers\SatuSehat\Master\DokterController;
 use App\Http\Controllers\SatuSehat\Master\Icd10Controller;
 use App\Http\Controllers\SatuSehat\Master\Icd9Controller;
@@ -40,6 +40,15 @@ if (Schema::hasTable('roles')) {
             // success
             Route::get('success', [SuccessController::class, 'index'])->name('encounter.success');
         });
+
+        // condition
+        Route::prefix('condition')->group(function () {
+            // Route::get('log', [LogTransactionController::class, 'index'])->name('encounter.log');
+
+            // success
+            Route::get('data', [ConditionController::class, 'index'])->name('condition.index');
+        });
+
 
 
         Route::prefix('master')->group(function () {
