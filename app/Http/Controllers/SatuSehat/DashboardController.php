@@ -309,6 +309,7 @@ class DashboardController extends Controller
             'scheduleLogs',
             'totalEncounterPerWeek',
             'totalConditionPerWeek',
+            'totalEncounters'
         ));
     }
 
