@@ -40,8 +40,6 @@
                                 <div class="card-stats-item-label">finished</div>
                             </div>
                         </div>
-
-
                     </div>
                     <div class="card-icon shadow-primary bg-primary">
                         <i class="fas fa-archive"></i>
@@ -51,7 +49,7 @@
                             <h4>Total Encounter</h4>
                         </div>
                         <div class="card-body">
-                            {{ $totalEncounters ?? ''}}
+                            {{ $jumlahEncounterPerMonth ?? ''}}
                         </div>
                     </div>
                 </div>

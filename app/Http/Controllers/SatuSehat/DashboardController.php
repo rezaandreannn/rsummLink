@@ -263,6 +263,8 @@ class DashboardController extends Controller
             ->groupBy('status')
             ->get();
 
+        $jumlahEncounterPerMonth = count($statuses);
+
         $totalEncounters = $statuses->sum('total_encounters');
 
         foreach ($statuses as $status) {
@@ -308,7 +310,8 @@ class DashboardController extends Controller
             'lastUpdatedObservation',
             'scheduleLogs',
             'totalEncounterPerWeek',
-            'totalConditionPerWeek'
+            'totalConditionPerWeek',
+            'jumlahEncounterPerMonth'
         ));
     }
 
