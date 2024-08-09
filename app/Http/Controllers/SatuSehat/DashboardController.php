@@ -256,7 +256,7 @@ class DashboardController extends Controller
         $totalEncounters = $statuses->sum('total_encounters');
 
         foreach ($statuses as $status) {
-            if ($status->status == 'arrived') {
+            if ($status->status == '') {
                 $statusEncounter['arrived'] = $status->total_encounters;
             } elseif ($status->status == 'finished') {
                 $statusEncounter['finished'] = $status->total_encounters;
