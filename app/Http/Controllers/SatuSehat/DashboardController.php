@@ -158,6 +158,9 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
+
+        $selectedMonth = $request->input('month', Carbon::now()->month);
+
         $daysOfWeek = [
             'Monday' => 'Senin',
             'Tuesday' => 'Selasa',
@@ -255,7 +258,7 @@ class DashboardController extends Controller
 
         $statuses = DB::table('satusehat_encounter')
             ->select('status', DB::raw('COUNT(*) as total_encounters'))
-            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereMonth('created_at',  $selectedMonth)
             ->whereYear('created_at', Carbon::now()->year)
             ->groupBy('status')
             ->get();
