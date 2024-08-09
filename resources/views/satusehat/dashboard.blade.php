@@ -49,7 +49,7 @@
                             <h4>Total Encounter</h4>
                         </div>
                         <div class="card-body">
-                            {{ $jumlahEncounterPerMonth ?? ''}}
+                            {{ $totalEncounters}}
                         </div>
                     </div>
                 </div>
