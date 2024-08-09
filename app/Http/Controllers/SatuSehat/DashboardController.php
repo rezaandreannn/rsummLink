@@ -244,12 +244,19 @@ class DashboardController extends Controller
             'finished' => 0
         ];
 
+        // $statuses = DB::table('satusehat_encounter')
+        //     ->select('status', DB::raw('COUNT(*) as total_encounters'))
+        //     ->whereBetween('created_at', [
+        //         Carbon::now()->startOfWeek()->format('Y-m-d H:i:s'),
+        //         Carbon::now()->endOfWeek()->format('Y-m-d H:i:s')
+        //     ])
+        //     ->groupBy('status')
+        //     ->get();
+
         $statuses = DB::table('satusehat_encounter')
             ->select('status', DB::raw('COUNT(*) as total_encounters'))
-            ->whereBetween('created_at', [
-                Carbon::now()->startOfWeek()->format('Y-m-d H:i:s'),
-                Carbon::now()->endOfWeek()->format('Y-m-d H:i:s')
-            ])
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
             ->groupBy('status')
             ->get();
 

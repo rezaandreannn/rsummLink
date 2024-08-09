@@ -25,19 +25,25 @@
                             </div>
                         </div>
                         <div class="card-stats-items">
+                            @foreach($statusEncounter as $status => $item)
                             <div class="card-stats-item">
-                                <div class="card-stats-item-count">24</div>
-                                <div class="card-stats-item-label">Arrived</div>
+                                <div class="card-stats-item-count">{{$item ??''}}</div>
+                                <div class="card-stats-item-label">{{ $status ??'' }}</div>
                             </div>
+                            @endforeach
                             <div class="card-stats-item">
-                                <div class="card-stats-item-count">12</div>
-                                <div class="card-stats-item-label">Pending</div>
-                            </div>
-                            <div class="card-stats-item">
-                                <div class="card-stats-item-count">23</div>
-                                <div class="card-stats-item-label">Finished</div>
+                                @php
+                                $textClass = $persencentageEncounter > 50 ? 'text-primary' : 'text-danger';
+                                $icon = $persencentageEncounter > 50 ? 'up' : 'down';
+                                @endphp
+                                <div class="card-stats-item-count {{ $textClass}}">
+                                    <i class="fas fa-caret-{{ $icon ?? ''}}"></i>{{ $persencentageEncounter}} %
+                                </div>
+                                <div class="card-stats-item-label">finished</div>
                             </div>
                         </div>
+
+
                     </div>
                     <div class="card-icon shadow-primary bg-primary">
                         <i class="fas fa-archive"></i>
@@ -47,7 +53,7 @@
                             <h4>Total Encounter</h4>
                         </div>
                         <div class="card-body">
-                            59
+                            {{ $totalEncounters ?? ''}}
                         </div>
                     </div>
                 </div>
