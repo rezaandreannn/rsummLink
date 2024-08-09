@@ -64,7 +64,7 @@
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Encounter</h4>
+                            <h4>Encounter Pekan Ini</h4>
                         </div>
                         <div class="card-body">
                             {{ $totalEncounterPerWeek ?? ''}}
@@ -82,7 +82,7 @@
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Condition</h4>
+                            <h4>Condition Pekan Ini</h4>
                         </div>
                         <div class="card-body">
                             {{ $totalConditionPerWeek ?? ''}}
