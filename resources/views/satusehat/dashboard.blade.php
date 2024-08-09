@@ -1,7 +1,95 @@
 <x-app-layout>
     <section class="section">
-        <div class="section-header">
-            <h1>Dashboard</h1>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="card card-statistic-2">
+                    <div class="card-stats">
+                        <div class="card-stats-title">Encounter Statistik -
+                            <div class="dropdown d-inline">
+                                <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#" id="orders-month">August</a>
+                                <ul class="dropdown-menu dropdown-menu-sm">
+                                    <li class="dropdown-title">Select Month</li>
+                                    <li><a href="#" class="dropdown-item">January</a></li>
+                                    <li><a href="#" class="dropdown-item">February</a></li>
+                                    <li><a href="#" class="dropdown-item">March</a></li>
+                                    <li><a href="#" class="dropdown-item">April</a></li>
+                                    <li><a href="#" class="dropdown-item">May</a></li>
+                                    <li><a href="#" class="dropdown-item">June</a></li>
+                                    <li><a href="#" class="dropdown-item">July</a></li>
+                                    <li><a href="#" class="dropdown-item active">August</a></li>
+                                    <li><a href="#" class="dropdown-item">September</a></li>
+                                    <li><a href="#" class="dropdown-item">October</a></li>
+                                    <li><a href="#" class="dropdown-item">November</a></li>
+                                    <li><a href="#" class="dropdown-item">December</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-stats-items">
+                            <div class="card-stats-item">
+                                <div class="card-stats-item-count">24</div>
+                                <div class="card-stats-item-label">Arrived</div>
+                            </div>
+                            <div class="card-stats-item">
+                                <div class="card-stats-item-count">12</div>
+                                <div class="card-stats-item-label">Pending</div>
+                            </div>
+                            <div class="card-stats-item">
+                                <div class="card-stats-item-count">23</div>
+                                <div class="card-stats-item-label">Finished</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-icon shadow-primary bg-primary">
+                        <i class="fas fa-archive"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Total Encounter</h4>
+                        </div>
+                        <div class="card-body">
+                            59
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="card card-statistic-2">
+                    <div class="card-chart">
+                        <canvas id="balance-chart" height="80"></canvas>
+                    </div>
+                    <div class="card-icon shadow-primary bg-primary">
+                        <i class="fas fa-hospital-alt"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Encounter</h4>
+                        </div>
+                        <div class="card-body">
+                            {{ $totalEncounterPerWeek ?? ''}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="card card-statistic-2">
+                    <div class="card-chart">
+                        <canvas id="sales-chart" height="80"></canvas>
+                    </div>
+                    <div class="card-icon shadow-primary bg-primary">
+                        <i class="fas fa-diagnoses"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Condition</h4>
+                        </div>
+                        <div class="card-body">
+                            {{ $totalConditionPerWeek ?? ''}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="section-header">
+                <h1>Dashboard</h1> --}}
         </div>
 
         <div class="row">
@@ -208,10 +296,10 @@
         var myChart = new Chart(statistics_chart, {
             type: 'line'
             , data: {
-                labels: @json($chartData['days'])
+                labels: @json($chartDataEncounter['days'])
                 , datasets: [{
                     label: 'Jumlah'
-                    , data: @json($chartData['totals'])
+                    , data: @json($chartDataEncounter['totals'])
                     , borderWidth: 5
                     , borderColor: '#6777ef'
                     , backgroundColor: 'transparent'
@@ -262,6 +350,147 @@
 
     </script>
 
+    <script>
+        var balance_chart = document.getElementById("balance-chart").getContext('2d');
+
+        var balance_chart_bg_color = balance_chart.createLinearGradient(0, 0, 0, 70);
+        balance_chart_bg_color.addColorStop(0, 'rgba(63,82,227,.2)');
+        balance_chart_bg_color.addColorStop(1, 'rgba(63,82,227,0)');
+
+        var myChart = new Chart(balance_chart, {
+            type: 'line'
+            , data: {
+                labels: @json($chartDataEncounter['days'])
+                , datasets: [{
+                    label: 'Encounter'
+                    , data: @json($chartDataEncounter['totals'])
+                    , backgroundColor: balance_chart_bg_color
+                    , borderWidth: 3
+                    , borderColor: 'rgba(63,82,227,1)'
+                    , pointBorderWidth: 0
+                    , pointBorderColor: 'transparent'
+                    , pointRadius: 3
+                    , pointBackgroundColor: 'transparent'
+                    , pointHoverBackgroundColor: 'rgba(63,82,227,1)'
+                , }]
+            }
+            , options: {
+                layout: {
+                    padding: {
+                        bottom: -1
+                        , left: -1
+                    }
+                }
+                , legend: {
+                    display: false
+                }
+                , scales: {
+                    yAxes: [{
+                        gridLines: {
+                            display: false
+                            , drawBorder: false
+                        , }
+                        , ticks: {
+                            beginAtZero: true
+                            , display: false
+                        }
+                    }]
+                    , xAxes: [{
+                        gridLines: {
+                            drawBorder: false
+                            , display: false
+                        , }
+                        , ticks: {
+                            display: false
+                        }
+                    }]
+                }
+            , }
+        });
+
+    </script>
+
+    <script>
+        var sales_chart = document.getElementById("sales-chart").getContext('2d');
+
+        var sales_chart_bg_color = sales_chart.createLinearGradient(0, 0, 0, 80);
+        balance_chart_bg_color.addColorStop(0, 'rgba(63,82,227,.2)');
+        balance_chart_bg_color.addColorStop(1, 'rgba(63,82,227,0)');
+
+        var myChart = new Chart(sales_chart, {
+            type: 'line'
+            , data: {
+                labels: @json($chartDataCondition['days'])
+                , datasets: [{
+                    label: 'condition'
+                    , data: @json($chartDataCondition['totals'])
+                    , borderWidth: 2
+                    , backgroundColor: balance_chart_bg_color
+                    , borderWidth: 3
+                    , borderColor: 'rgba(63,82,227,1)'
+                    , pointBorderWidth: 0
+                    , pointBorderColor: 'transparent'
+                    , pointRadius: 3
+                    , pointBackgroundColor: 'transparent'
+                    , pointHoverBackgroundColor: 'rgba(63,82,227,1)'
+                , }]
+            }
+            , options: {
+                layout: {
+                    padding: {
+                        bottom: -1
+                        , left: -1
+                    }
+                }
+                , legend: {
+                    display: false
+                }
+                , scales: {
+                    yAxes: [{
+                        gridLines: {
+                            display: false
+                            , drawBorder: false
+                        , }
+                        , ticks: {
+                            beginAtZero: true
+                            , display: false
+                        }
+                    }]
+                    , xAxes: [{
+                        gridLines: {
+                            drawBorder: false
+                            , display: false
+                        , }
+                        , ticks: {
+                            display: false
+                        }
+                    }]
+                }
+            , }
+        });
+
+        $("#products-carousel").owlCarousel({
+            items: 3
+            , margin: 10
+            , autoplay: true
+            , autoplayTimeout: 5000
+            , loop: true
+            , responsive: {
+                0: {
+                    items: 2
+                }
+                , 768: {
+                    items: 2
+                }
+                , 1200: {
+                    items: 3
+                }
+            }
+        });
+
+    </script>
+
+
     {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             var daterangeInput = document.querySelector('.daterange-cus');
@@ -271,7 +500,7 @@
             });
         });
 
-    </script> --}}
+    </> --}}
 
     @endpush
 </x-app-layout>

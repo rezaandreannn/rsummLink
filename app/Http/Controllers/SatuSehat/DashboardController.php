@@ -14,6 +14,148 @@ use App\Models\ScheduleLog;
 
 class DashboardController extends Controller
 {
+    // public function index(Request $request)
+    // {
+    //     $daysOfWeek = [
+    //         'Monday' => 'Senin',
+    //         'Tuesday' => 'Selasa',
+    //         'Wednesday' => 'Rabu',
+    //         'Thursday' => 'Kamis',
+    //         'Friday' => 'Jumat',
+    //         'Saturday' => 'Sabtu',
+    //         'Sunday' => 'Minggu',
+    //     ];
+
+    //     // Array untuk hasil dengan nilai default 0
+    //     $translatedDaysOfWeek = [
+    //         'Senin' => 0,
+    //         'Selasa' => 0,
+    //         'Rabu' => 0,
+    //         'Kamis' => 0,
+    //         'Jumat' => 0,
+    //         'Sabtu' => 0,
+    //         'Minggu' => 0,
+    //     ];
+
+
+    //     // Ambil data encounter dari database
+    //     $encounters = DB::table('satusehat_encounter')
+    //         ->select(
+    //             DB::raw("FORMAT(created_at, 'dddd') as day"),
+    //             DB::raw('COUNT(*) as total_encounters')
+    //         )
+    //         // ->whereBetween('created_at', [
+    //         //     Carbon::now()->startOfWeek()->format('Y-m-d H:i:s'),
+    //         //     Carbon::now()->endOfWeek()->format('Y-m-d H:i:s')
+    //         // ])
+    //         ->whereBetween('created_at', ['2023-05-16 00:00:00', '2023-05-22 23:59:59'])
+    //         ->groupBy(DB::raw("FORMAT(created_at, 'dddd')"), DB::raw('DATEPART(weekday, created_at)'))
+    //         ->orderBy(DB::raw('DATEPART(weekday, created_at)'))
+    //         ->get();
+
+    //     foreach ($encounters as $encounter) {
+    //         $translatedDay = $daysOfWeek[$encounter->day]; // Terjemahkan ke bahasa Indonesia
+    //         $translatedDaysOfWeek[$translatedDay] = $encounter->total_encounters; // Update nilai total encounters
+    //     }
+
+    //     // Format data untuk chart atau keperluan lainnya
+    //     $chartData = [
+    //         'days' => array_keys($translatedDaysOfWeek),
+    //         'totals' => array_values($translatedDaysOfWeek),
+    //     ];
+
+    //     // total finished per week
+    //     // definisikan status
+    //     $statusEncounter = [
+    //         'arrived' => 0,
+    //         'finished' => 0
+    //     ];
+
+    //     // Encounter
+    //     $statuses = DB::table('satusehat_encounter')
+    //         ->select(
+    //             DB::raw("status as status"),
+    //             DB::raw('COUNT(*) as total_encounters')
+    //         )
+    //         ->whereBetween('created_at', [
+    //             Carbon::now()->startOfWeek()->format('Y-m-d H:i:s'),
+    //             Carbon::now()->endOfWeek()->format('Y-m-d H:i:s')
+    //         ])
+    //         // ->whereBetween('created_at', ['2023-05-19 00:00:00', '2023-05-25 23:59:59'])
+    //         ->groupBy('status')
+    //         ->get();
+
+    //     $totalEncounterPerWeek = $statuses->count();
+
+
+    //     $totalEncounters = 0;
+    //     foreach ($statuses as $status) {
+    //         $totalEncounters += $status->total_encounters;
+
+    //         if ($status->status == '') {
+    //             $statusEncounter['arrived'] = $status->total_encounters;
+    //         } elseif ($status->status == 'finished') {
+    //             $statusEncounter['finished'] = $status->total_encounters;
+    //         }
+    //     }
+
+    //     $finishedPercentage = $totalEncounters > 0 ? ($statusEncounter['finished'] / $totalEncounters) * 100 : 0;
+    //     $persencentageEncounter = number_format($finishedPercentage, 2);
+
+    //     // Encounter
+    //     $totalEncounter = Encounter::count();
+    //     $lastUpdatedEncounter = Encounter::latest('created_at')->value('created_at');
+
+    //     // condition
+    //     $totalCondition = Condition::where('status', 1)->count();
+    //     $lastUpdatedCondition = Condition::where('status', 1)->latest('created_at')->value('created_at');
+
+    //     // observation
+    //     $totalObservation = Observation::count();
+    //     $lastUpdatedObservation = Observation::latest('created_at')->value('created_at');
+
+    //     // data schedule run
+    //     $scheduleLogs = ScheduleLog::all();
+
+    //     foreach ($scheduleLogs as $log) {
+    //         $log->last_run_at = Carbon::parse($log->last_run_at);
+    //     }
+
+    //     // condition
+    //     $conditionPerWeeks = DB::table('satusehat_condition')
+    //         ->select(
+    //             DB::raw("FORMAT(created_at, 'dddd') as day"),
+    //             DB::raw('COUNT(*) as total_condition')
+    //         )
+    //         // ->whereBetween('created_at', [
+    //         //     Carbon::now()->startOfWeek()->format('Y-m-d H:i:s'),
+    //         //     Carbon::now()->endOfWeek()->format('Y-m-d H:i:s')
+    //         // ])
+    //         ->whereBetween('created_at', ['2023-05-16 00:00:00', '2023-05-25 23:59:59'])
+    //         ->where('status', 1)
+    //         ->groupBy(DB::raw("FORMAT(created_at, 'dddd')"), DB::raw('DATEPART(weekday, created_at)'))
+    //         ->orderBy(DB::raw('DATEPART(weekday, created_at)'))
+    //         ->get();
+
+    //     foreach ($conditionPerWeeks as $condition) {
+    //         $translatedDay = $daysOfWeek[$condition->day]; // Terjemahkan ke bahasa Indonesia
+    //         $translatedDaysOfWeek[$translatedDay] = $condition->total_condition; // Update nilai total encounters
+    //     }
+
+    //     // Format data untuk chart atau keperluan lainnya
+    //     $chartDataConditions = [
+    //         'days' => array_keys($translatedDaysOfWeek),
+    //         'totals' => array_values($translatedDaysOfWeek),
+    //     ];
+
+
+    //     // dd($chartDataConditions);
+
+
+
+    //     return view('satusehat.dashboard', compact('chartData', 'statusEncounter', 'persencentageEncounter', 'totalEncounter', 'lastUpdatedEncounter', 'totalCondition', 'lastUpdatedCondition', 'totalObservation', 'lastUpdatedObservation', 'scheduleLogs', 'totalEncounterPerWeek', 'chartDataConditions', 'conditionPerWeeks'));
+    // }
+
     public function index(Request $request)
     {
         $daysOfWeek = [
@@ -26,8 +168,8 @@ class DashboardController extends Controller
             'Sunday' => 'Minggu',
         ];
 
-        // Array untuk hasil dengan nilai default 0
-        $translatedDaysOfWeek = [
+        // Default hasil encounter dan condition
+        $translatedDaysOfWeekEncounter = [
             'Senin' => 0,
             'Selasa' => 0,
             'Rabu' => 0,
@@ -37,6 +179,7 @@ class DashboardController extends Controller
             'Minggu' => 0,
         ];
 
+        $translatedDaysOfWeekCondition = $translatedDaysOfWeekEncounter;
 
         // Ambil data encounter dari database
         $encounters = DB::table('satusehat_encounter')
@@ -44,51 +187,68 @@ class DashboardController extends Controller
                 DB::raw("FORMAT(created_at, 'dddd') as day"),
                 DB::raw('COUNT(*) as total_encounters')
             )
-            ->whereBetween('created_at', [
-                Carbon::now()->startOfWeek()->format('Y-m-d H:i:s'),
-                Carbon::now()->endOfWeek()->format('Y-m-d H:i:s')
-            ])
-            // ->whereBetween('created_at', ['2023-05-19 00:00:00', '2023-05-25 23:59:59'])
+            ->whereBetween('created_at', ['2023-05-16 00:00:00', '2023-05-22 23:59:59'])
             ->groupBy(DB::raw("FORMAT(created_at, 'dddd')"), DB::raw('DATEPART(weekday, created_at)'))
             ->orderBy(DB::raw('DATEPART(weekday, created_at)'))
             ->get();
 
         foreach ($encounters as $encounter) {
-            $translatedDay = $daysOfWeek[$encounter->day]; // Terjemahkan ke bahasa Indonesia
-            $translatedDaysOfWeek[$translatedDay] = $encounter->total_encounters; // Update nilai total encounters
+            $translatedDay = $daysOfWeek[$encounter->day];
+            $translatedDaysOfWeekEncounter[$translatedDay] = $encounter->total_encounters;
         }
 
-        // Format data untuk chart atau keperluan lainnya
-        $chartData = [
-            'days' => array_keys($translatedDaysOfWeek),
-            'totals' => array_values($translatedDaysOfWeek),
+        // Format data untuk chart encounter
+        $chartDataEncounter = [
+            'days' => array_keys($translatedDaysOfWeekEncounter),
+            'totals' => array_values($translatedDaysOfWeekEncounter),
         ];
 
-        // total finished per week
-        // definisikan status
+        // Ambil data condition dari database
+        $conditions = DB::table('satusehat_condition')
+            ->select(
+                DB::raw("FORMAT(created_at, 'dddd') as day"),
+                DB::raw('COUNT(*) as total_condition')
+            )
+            ->whereBetween('created_at', ['2023-05-16 00:00:00', '2023-05-25 23:59:59'])
+            ->where('status', 1)
+            ->groupBy(DB::raw("FORMAT(created_at, 'dddd')"), DB::raw('DATEPART(weekday, created_at)'))
+            ->orderBy(DB::raw('DATEPART(weekday, created_at)'))
+            ->get();
+
+        foreach ($conditions as $condition) {
+            $translatedDay = $daysOfWeek[$condition->day];
+            $translatedDaysOfWeekCondition[$translatedDay] = $condition->total_condition;
+        }
+
+        // Format data untuk chart condition
+        $chartDataCondition = [
+            'days' => array_keys($translatedDaysOfWeekCondition),
+            'totals' => array_values($translatedDaysOfWeekCondition),
+        ];
+
+        // Total encounters and conditions for the week
+        $totalEncounterPerWeek = $encounters->sum('total_encounters');
+        $totalConditionPerWeek = $conditions->sum('total_condition');
+
+        // Hitung persentase finished encounters
         $statusEncounter = [
             'arrived' => 0,
             'finished' => 0
         ];
 
         $statuses = DB::table('satusehat_encounter')
-            ->select(
-                DB::raw("status as status"),
-                DB::raw('COUNT(*) as total_encounters')
-            )
+            ->select('status', DB::raw('COUNT(*) as total_encounters'))
             ->whereBetween('created_at', [
                 Carbon::now()->startOfWeek()->format('Y-m-d H:i:s'),
                 Carbon::now()->endOfWeek()->format('Y-m-d H:i:s')
             ])
-            // ->whereBetween('created_at', ['2023-05-19 00:00:00', '2023-05-25 23:59:59'])
             ->groupBy('status')
             ->get();
 
-        $totalEncounters = 0;
-        foreach ($statuses as $status) {
-            $totalEncounters += $status->total_encounters;
+        $totalEncounters = $statuses->sum('total_encounters');
 
-            if ($status->status == '') {
+        foreach ($statuses as $status) {
+            if ($status->status == 'arrived') {
                 $statusEncounter['arrived'] = $status->total_encounters;
             } elseif ($status->status == 'finished') {
                 $statusEncounter['finished'] = $status->total_encounters;
@@ -102,24 +262,36 @@ class DashboardController extends Controller
         $totalEncounter = Encounter::count();
         $lastUpdatedEncounter = Encounter::latest('created_at')->value('created_at');
 
-        // condition
+        // Condition
         $totalCondition = Condition::where('status', 1)->count();
         $lastUpdatedCondition = Condition::where('status', 1)->latest('created_at')->value('created_at');
 
-        // observation
+        // Observation
         $totalObservation = Observation::count();
         $lastUpdatedObservation = Observation::latest('created_at')->value('created_at');
 
-        // data schedule run
+        // Data schedule run
         $scheduleLogs = ScheduleLog::all();
 
         foreach ($scheduleLogs as $log) {
             $log->last_run_at = Carbon::parse($log->last_run_at);
         }
 
-
-
-        return view('satusehat.dashboard', compact('chartData', 'statusEncounter', 'persencentageEncounter', 'totalEncounter', 'lastUpdatedEncounter', 'totalCondition', 'lastUpdatedCondition', 'totalObservation', 'lastUpdatedObservation', 'scheduleLogs'));
+        return view('satusehat.dashboard', compact(
+            'chartDataEncounter',
+            'chartDataCondition',
+            'statusEncounter',
+            'persencentageEncounter',
+            'totalEncounter',
+            'lastUpdatedEncounter',
+            'totalCondition',
+            'lastUpdatedCondition',
+            'totalObservation',
+            'lastUpdatedObservation',
+            'scheduleLogs',
+            'totalEncounterPerWeek',
+            'totalConditionPerWeek'
+        ));
     }
 
     public function log(Request $request)
