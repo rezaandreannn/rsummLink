@@ -289,15 +289,15 @@ class DashboardController extends Controller
 
         $totalEncounterPerWeek = $statusesEncounterPerWeeks->sum('total_encounters');
 
-        foreach ($queryPerMonth as $encounterPerMonth) {
-            if ($encounterPerMonth->status == '') {
-                $statusEncounterPerWeek['arrived'] = $encounterPerMonth->total_encounters;
-            } elseif ($encounterPerMonth->status == 'finished') {
-                $statusEncounterPerWeek['finished'] = $encounterPerMonth->total_encounters;
+        foreach ($statusesEncounterPerWeeks as $encounterPerWeek) {
+            if ($encounterPerWeek->status == '') {
+                $statusEncounterPerWeek['arrived'] = $encounterPerWeek->total_encounters;
+            } elseif ($encounterPerWeek->status == 'finished') {
+                $statusEncounterPerWeek['finished'] = $encounterPerWeek->total_encounters;
             }
         }
 
-        $finishedPercentageWeek = $totalEncounterPerWeek > 0 ? ($statusEncounter['finished'] / $totalEncounterPerWeek) * 100 : 0;
+        $finishedPercentageWeek = $totalEncounterPerWeek > 0 ? ($statusEncounterPerWeek['finished'] / $totalEncounterPerWeek) * 100 : 0;
         $persencentageEncounterPerWeek = number_format($finishedPercentageWeek, 2);
 
         // Encounter
