@@ -68,6 +68,16 @@
                         </div>
                         <div class="card-body">
                             {{ $totalEncounterPerWeek ?? ''}}
+                            @php
+                            $textClass = $persencentageEncounterPerWeek > 50 ? 'text-primary' : 'text-danger';
+                            $icon = $persencentageEncounterPerWeek > 50 ? 'up' : 'down';
+                            @endphp
+                            <span class="text-muted">
+                                <span class="{{$textClass ?? ''}} text-small" style="font-size: 0.8em;">
+                                    <i class="fas fa-caret-{{$icon}}"></i>
+                                </span>
+                                <span style="font-size: 0.6em;">{{$persencentageEncounterPerWeek}} %</span>
+                            </span>
                         </div>
                     </div>
                 </div>
