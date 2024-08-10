@@ -287,7 +287,7 @@ class DashboardController extends Controller
             ->groupBy('status')
             ->get();
 
-        $totalEncounterPerWeeks = $statusesEncounterPerWeeks->sum('total_encounters');
+        $totalEncounterPerWeek = $statusesEncounterPerWeeks->sum('total_encounters');
 
         foreach ($queryPerMonth as $encounterPerMonth) {
             if ($encounterPerMonth->status == '') {
@@ -297,7 +297,7 @@ class DashboardController extends Controller
             }
         }
 
-        $finishedPercentageWeek = $totalEncounterPerWeeks > 0 ? ($statusEncounter['finished'] / $totalEncounterPerWeeks) * 100 : 0;
+        $finishedPercentageWeek = $totalEncounterPerWeek > 0 ? ($statusEncounter['finished'] / $totalEncounterPerWeek) * 100 : 0;
         $persencentageEncounterPerWeek = number_format($finishedPercentageWeek, 2);
 
         // Encounter
