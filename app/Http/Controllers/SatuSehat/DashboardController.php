@@ -161,6 +161,36 @@ class DashboardController extends Controller
 
         $selectedMonth = $request->input('month', Carbon::now()->month);
 
+        // deklarasi status
+        $statusEncounter = [
+            'arrived' => 0,
+            'finished' => 0
+        ];
+
+        // query by month encounter
+        $queryPerMonth = DB::table('satusehat_encounter')
+            ->select('status', DB::raw('COUNT(*) as total_encounters'))
+            ->whereMonth('created_at',  $selectedMonth)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->groupBy('status')
+            ->get();
+
+        // ambil get per month
+        $totalEncounters = $queryPerMonth->sum('total_encounters');
+
+        foreach ($queryPerMonth as $encounterPerMonth) {
+            if ($encounterPerMonth->status == '') {
+                $statusEncounter['arrived'] = $encounterPerMonth->total_encounters;
+            } elseif ($encounterPerMonth->status == 'finished') {
+                $statusEncounter['finished'] = $encounterPerMonth->total_encounters;
+            }
+        }
+
+        $finishedPercentage = $totalEncounters > 0 ? ($statusEncounter['finished'] / $totalEncounters) * 100 : 0;
+        // hasil persentase per month
+        $persencentageEncounter = number_format($finishedPercentage, 2);
+
+
         $daysOfWeek = [
             'Monday' => 'Senin',
             'Tuesday' => 'Selasa',
@@ -171,7 +201,7 @@ class DashboardController extends Controller
             'Sunday' => 'Minggu',
         ];
 
-        // Default hasil encounter dan condition
+        // Default hasil encounter dan condition by day
         $translatedDaysOfWeekEncounter = [
             'Senin' => 0,
             'Selasa' => 0,
@@ -241,40 +271,34 @@ class DashboardController extends Controller
         $totalEncounterPerWeek = $encounters->sum('total_encounters');
         $totalConditionPerWeek = $conditions->sum('total_condition');
 
-        // Hitung persentase finished encounters
-        $statusEncounter = [
+        // deklarasi status per week
+        $statusEncounterPerWeek = [
             'arrived' => 0,
             'finished' => 0
         ];
 
-        // $statuses = DB::table('satusehat_encounter')
-        //     ->select('status', DB::raw('COUNT(*) as total_encounters'))
-        //     ->whereBetween('created_at', [
-        //         Carbon::now()->startOfWeek()->format('Y-m-d H:i:s'),
-        //         Carbon::now()->endOfWeek()->format('Y-m-d H:i:s')
-        //     ])
-        //     ->groupBy('status')
-        //     ->get();
-
-        $statuses = DB::table('satusehat_encounter')
+        // query by status per week
+        $statusesEncounterPerWeeks = DB::table('satusehat_encounter')
             ->select('status', DB::raw('COUNT(*) as total_encounters'))
-            ->whereMonth('created_at',  $selectedMonth)
-            ->whereYear('created_at', Carbon::now()->year)
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfWeek()->format('Y-m-d H:i:s'),
+                Carbon::now()->endOfWeek()->format('Y-m-d H:i:s')
+            ])
             ->groupBy('status')
             ->get();
 
-        $totalEncounters = $statuses->sum('total_encounters');
+        $totalEncounterPerWeeks = $statusesEncounterPerWeeks->sum('total_encounters');
 
-        foreach ($statuses as $status) {
-            if ($status->status == '') {
-                $statusEncounter['arrived'] = $status->total_encounters;
-            } elseif ($status->status == 'finished') {
-                $statusEncounter['finished'] = $status->total_encounters;
+        foreach ($queryPerMonth as $encounterPerMonth) {
+            if ($encounterPerMonth->status == '') {
+                $statusEncounterPerWeek['arrived'] = $encounterPerMonth->total_encounters;
+            } elseif ($encounterPerMonth->status == 'finished') {
+                $statusEncounterPerWeek['finished'] = $encounterPerMonth->total_encounters;
             }
         }
 
-        $finishedPercentage = $totalEncounters > 0 ? ($statusEncounter['finished'] / $totalEncounters) * 100 : 0;
-        $persencentageEncounter = number_format($finishedPercentage, 2);
+        $finishedPercentageWeek = $totalEncounterPerWeeks > 0 ? ($statusEncounter['finished'] / $totalEncounterPerWeeks) * 100 : 0;
+        $persencentageEncounterPerWeek = number_format($finishedPercentageWeek, 2);
 
         // Encounter
         $totalEncounter = Encounter::count();
@@ -299,7 +323,9 @@ class DashboardController extends Controller
             'chartDataEncounter',
             'chartDataCondition',
             'statusEncounter',
+            'statusEncounterPerWeek',
             'persencentageEncounter',
+            'persencentageEncounterPerWeek',
             'totalEncounter',
             'lastUpdatedEncounter',
             'totalCondition',

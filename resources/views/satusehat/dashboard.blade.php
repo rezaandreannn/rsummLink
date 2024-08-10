@@ -176,14 +176,14 @@
                     <div class="card-body">
                         <canvas id="myChart" height="182"></canvas>
                         <div class="statistic-details mt-sm-4">
-                            @foreach($statusEncounter as $status => $item)
+                            @foreach($statusEncounterPerWeek as $status => $item)
                             <div class="statistic-details-item">
                                 @if($status == 'finished')
                                 @php
-                                $textClass = $persencentageEncounter > 50 ? 'text-primary' : 'text-danger';
-                                $icon = $persencentageEncounter > 50 ? 'up' : 'down';
+                                $textClass = $persencentageEncounterPerWeek > 50 ? 'text-primary' : 'text-danger';
+                                $icon = $persencentageEncounterPerWeek > 50 ? 'up' : 'down';
                                 @endphp
-                                <span class="text-muted"><span class="{{$textClass ?? ''}}"><i class="fas fa-caret-{{$icon}}"></i></span> {{$persencentageEncounter}} %</span>
+                                <span class="text-muted"><span class="{{$textClass ?? ''}}"><i class="fas fa-caret-{{$icon}}"></i></span> {{$persencentageEncounterPerWeek}} %</span>
                                 @endif
                                 <div class="detail-value">{{ $item}}</div>
                                 <div class="detail-name">{{ $status }}</div>
