@@ -46,7 +46,7 @@
                                         <th>Kode Registrasi</th>
                                         <th>encounter ID</th>
                                         <th>Patient ID</th>
-                                        <th>Practitioner ID</th>
+                                        <th>Practitioner</th>
                                         <th>Location ID</th>
                                         <th>Created By</th>
                                         <th>Created at</th>
@@ -59,7 +59,7 @@
                                         <td>{{$value->kode_register}}</td>
                                         <td>{{$value->encounter_id}}</td>
                                         <td>{{$value->patient_id}}</td>
-                                        <td>{{$value->practitioner_id}}</td>
+                                        <td>{{$value->practitioner->nama_dokter}}</td>
                                         <td>{{$value->location_id}}</td>
                                         <td>{{$value->created_by}}</td>
                                         <td>{{$value->created_at}}</td>

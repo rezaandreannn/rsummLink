@@ -20,7 +20,8 @@ class SuccessController extends Controller
             $consultation = $consultation;
         }
 
-        $successEncounters = Encounter::filterByMetodeConsultation($date, $consultation);
+        $successEncounters = Encounter::filterByMetodeConsultation('2023-05-16', $consultation);
+
 
         $consultations = [
             'RAJAL' => 'AMB',
