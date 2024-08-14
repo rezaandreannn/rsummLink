@@ -7,7 +7,7 @@
              <a href="index.html">{{$initialApp}}</a>
          </div>
          <ul class="sidebar-menu">
-             <li class="menu-header">{{$app}}</li>
+             <li class="menu-header">Main Menu</li>
              @foreach($menus as $menu)
              @php
              $isActive = Route::is($menu->route);

@@ -563,7 +563,7 @@
         <!-- Call To Action Section -->
         <section id="call-to-action" class="call-to-action section">
 
-            <img src="{{ asset('img/tender/rsumm.jpg')}}" alt="">
+            <img src="{{ asset('images/tender/rsumm.jpg')}}" alt="">
 
             <div class="container">
 
@@ -573,7 +573,11 @@
                         <p>Permintaan otomatis untuk melacak dan mencatat permintaan layanan.</p>
                     </div>
                     <div class="col-xl-3 cta-btn-container text-center">
+                        @auth
                         <a class="cta-btn align-middle" href="#">Tiket layanan bantuan</a>
+                        @else
+                        <button class="cta-btn align-middle" disabled>Login Untuk mengaktifkan Tombol</button>
+                        @endauth
                     </div>
                 </div>
 
