@@ -44,10 +44,10 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Kode Registrasi</th>
-                                        <th>encounter ID</th>
-                                        <th>Patient ID</th>
+                                        {{-- <th>encounter ID</th> --}}
+                                        <th>Patient Name/ID</th>
                                         <th>Practitioner</th>
-                                        <th>Location ID</th>
+                                        <th>Location</th>
                                         <th>Created By</th>
                                         <th>Created at</th>
                                     </tr>
@@ -57,10 +57,10 @@
                                     <tr>
                                         <td style="width: 5%">{{$loop->iteration}}</td>
                                         <td>{{$value->kode_register}}</td>
-                                        <td>{{$value->encounter_id}}</td>
-                                        <td>{{$value->patient_id}}</td>
+                                        {{-- <td>{{$value->encounter_id}}</td> --}}
+                                        <td>{{$value->patient->nama_pasien ?? $value->patient_id}}</td>
                                         <td>{{$value->practitioner->nama_dokter}}</td>
-                                        <td>{{$value->location_id}}</td>
+                                        <td>{{$value->location->name ?? ''}}</td>
                                         <td>{{$value->created_by}}</td>
                                         <td>{{$value->created_at}}</td>
                                     </tr>
