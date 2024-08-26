@@ -48,6 +48,7 @@
                                         <th>Patient Name/ID</th>
                                         <th>Practitioner</th>
                                         <th>Location</th>
+                                        <th>Status</th>
                                         <th>Created By</th>
                                         <th>Created at</th>
                                     </tr>
@@ -61,6 +62,11 @@
                                         <td>{{$value->patient->nama_pasien ?? $value->patient_id}}</td>
                                         <td>{{$value->practitioner->nama_dokter}}</td>
                                         <td>{{$value->location->name ?? ''}}</td>
+                                        <td>
+                                            <div class="badge badge-{{ $value->status == '' ?  'danger' : 'success' }}">
+                                                {{ $value->status == '' ?  'arrived' : $value->status }}
+                                            </div>
+                                        </td>
                                         <td>{{$value->created_by}}</td>
                                         <td>{{$value->created_at}}</td>
                                     </tr>
