@@ -1,5 +1,7 @@
 @props([
 'title' => 'Default Title',
+'routeAdd' => '',
+'buttonType' => 'link', // Bisa 'link' atau 'modal'
 'button' => false,
 'backButton' => false,
 'backUrl' => '',
@@ -18,9 +20,15 @@
     <h1>{{ $title }}</h1>
 
     @if($button)
-    <a href="{{ route('user.create') }}" class="btn btn-primary ml-1">
+    @if($buttonType === 'link')
+    <a href="{{ route($routeAdd) }}" class="btn btn-primary ml-1">
         <i class="far fa-plus-square"></i> Tambah Data
     </a>
+    @elseif($buttonType === 'modal')
+    <button type="button" class="btn btn-primary ml-1" data-toggle="modal" data-target="#addModal">
+        <i class="far fa-plus-square"></i> Tambah Data
+    </button>
+    @endif
     @endif
 
     <div class="section-header-breadcrumb">
@@ -33,7 +41,6 @@
             @endif
         </div>
         @empty
-        {{-- If $variable is empty, you can add a fallback here if needed --}}
         @endforelse
     </div>
 </div>

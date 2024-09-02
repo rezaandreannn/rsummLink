@@ -1,6 +1,6 @@
 <x-app-layout title="{{ $title ?? 'Pengguna'}}">
     <x-section.section>
-        <x-section.header :title="$title" :button="true" :variable="$breadcrumbs" />
+        <x-section.header :title="$title" :button="true" routeAdd="user.create" :variable="$breadcrumbs" />
     </x-section.section>
 
     <x-section.section class="content">
@@ -25,9 +25,7 @@
                                     <tr>
                                         <td style="width: 5%">{{ $loop->iteration }}</td>
                                         <td>{{ $user->name }}</td>
-                                        <td>
-                                            {{ $user->full_name ?? ''}}
-                                        </td>
+                                        <td>{{ $user->full_name ?? ''}}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->phone ?? '' }}</td>
                                         <td class="d-flex align-items-center">
@@ -35,13 +33,11 @@
                                         </td>
                                         <td>
                                             <div class="dropdown d-inline">
-                                                <a href="#" class="text-secondary" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-ellipsis-h"></i>
-                                                </a>
+                                                <x-button.action-button />
                                                 <div class="dropdown-menu">
-                                                    <x-button.detail-button :userId="$user->id" />
-                                                    <x-button.edit-button :userId="$user->id" />
-                                                    <x-button.delete-button :userId="$user->id" />
+                                                    <x-button.detail-button route="user.show" :id="$user->id" />
+                                                    <x-button.edit-button route="user.edit" :id="$user->id" />
+                                                    <x-button.delete-button route="user.destroy" :id="$user->id" />
                                                 </div>
                                             </div>
                                         </td>
@@ -91,7 +87,7 @@
         document.querySelectorAll('[confirm-delete="true"]').forEach(function(element) {
             element.addEventListener('click', function(event) {
                 event.preventDefault();
-                var userId = this.getAttribute('data-userId');
+                var userId = this.getAttribute('data-id');
                 Swal.fire({
                     title: 'Apakah Kamu Yakin?'
                     , text: "Anda tidak akan dapat mengembalikan ini!"

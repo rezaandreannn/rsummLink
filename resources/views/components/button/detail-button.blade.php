@@ -1,5 +1,6 @@
 @props([
-'userId' => '',
+'route' => '',
+'id' => '',
 'title' => 'Detail'
 ])
-<a class="dropdown-item has-icon" href="{{ route('user.show', $userId)}}"><i class="fas fa-info-circle"></i> {{ $title }}</a>
+<a class="dropdown-item has-icon" href="{{ route($route, $id)}}"><i class="fas fa-info-circle"></i> {{ $title }}</a>

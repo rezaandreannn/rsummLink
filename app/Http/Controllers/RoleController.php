@@ -16,14 +16,20 @@ class RoleController extends Controller
      */
     public function index()
     {
+        $title = "Daftar Peran";
+
+        $breadcrumbs = [
+            'Dashboard' => route('dashboard'),
+            $title => ''
+        ];
+
+        $theads = ['No', 'Nama Peran', 'Tipe', 'Aplikasi', ''];
+
         $roles = Role::with('application')->get();
         $applications = Application::all();
         $permissions = Permission::all()->groupBy('application_id');
 
-        $title = 'Delete User!';
-        $text = "Are you sure you want to delete?";
-        confirmDelete($title, $text);
-        return view('manage-user.role.index', compact('roles', 'applications', 'permissions'));
+        return view('manage-user.role.index', compact('title', 'breadcrumbs', 'theads', 'roles', 'applications', 'permissions'));
     }
 
     /**
@@ -31,9 +37,7 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
