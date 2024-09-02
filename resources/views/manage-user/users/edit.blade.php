@@ -1,19 +1,10 @@
 <x-app-layout title="{{$title ?? 'Ubah Pengguna'}}">
-    <section class="section">
-        <div class="section-header">
-            <div class="section-header-back">
-                <a href="{{ route('user.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
-            </div>
-            <h1>{{$title ?? 'Ubah Pengguna'}}</h1>
-            <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                <div class="breadcrumb-item"><a href="{{ route('user.index')}}">Pengguna</a></div>
-                <div class="breadcrumb-item">Ubah Pengguna</div>
-            </div>
-        </div>
+    <x-section.section>
+        <x-section.header :title="$title" :button="false" :variable="$breadcrumbs" :backButton="true" :backUrl="route('user.index')" />
+
 
         <div class="section-body">
-            <h2 class="section-title">Ubah Pengguna</h2>
+            <h2 class="section-title">{{$title ?? ''}}</h2>
             <p class="section-lead">
                 Di halaman ini Anda dapat mengubah pengguna.
             </p>
@@ -107,7 +98,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </x-section.section>
 
 
     {{-- css library --}}

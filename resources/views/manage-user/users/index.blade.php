@@ -1,25 +1,14 @@
 <x-app-layout title="{{ $title ?? 'Pengguna'}}">
-    <section class="section">
-        <div class="section-header">
-            <h1>{{$title ?? 'Pengguna'}}</h1>
-            <a href="{{ route('user.create')}}" class="btn btn-primary ml-1">
-                <i class="far fa-plus-square"></i> Tambah Data
-            </a>
-            <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                {{-- <div class="breadcrumb-item"><a href="#">Pengguna</a></div> --}}
-                <div class="breadcrumb-item">Pengguna</div>
-            </div>
-        </div>
-    </section>
+    <x-section.section>
+        <x-section.header :title="$title" :button="true" :variable="$breadcrumbs" />
+    </x-section.section>
 
-    <section class="content">
+    <x-section.section class="content">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>Basic DataTables</h4>
-
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -32,7 +21,7 @@
                                         <th>Email</th>
                                         <th>No HP</th>
                                         <th>Status</th>
-                                        <th>Aksi</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -50,11 +39,14 @@
                                         </td>
                                         <td>
                                             <div class="dropdown d-inline">
-                                                <button class="btn  btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{-- <button class="btn  btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Aksi
-                                                </button>
+                                                </button> --}}
+                                                <a href="#" class="text-secondary" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                </a>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item has-icon" href="{{ route('user.show', $user->id)}}"><i class="fas fa-user-tag"></i> Peran</a>
+                                                    <a class="dropdown-item has-icon" href="{{ route('user.show', $user->id)}}"><i class="fas fa-info-circle"></i> Detail</a>
                                                     <a class="dropdown-item has-icon" href="{{ route('user.edit', $user->id)}}"><i class="fas fa-pencil-alt"></i> Edit</a>
                                                     <form id="delete-form-{{$user->id}}" action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:none;">
                                                         @method('delete')
@@ -73,7 +65,9 @@
                 </div>
             </div>
         </div>
-    </section>
+    </x-section.section>
+    {{-- <section class="content">
+    </section> --}}
 
 
     {{-- css library --}}

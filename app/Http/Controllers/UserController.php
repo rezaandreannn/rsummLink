@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\UserStoreRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\User;
 use App\Models\Application;
 use Illuminate\Http\Request;
@@ -29,8 +31,15 @@ class UserController extends Controller
      */
     public function index()
     {
+        $title = 'Daftar Pengguna';
+
+        $breadcrumbs = [
+            'Dashboard' => route('dashboard'),
+            $title => '',
+        ];
+
+
         $users = User::all();
-        $title = 'Pengguna';
         // $applications = Application::all();
         // $roles = Role::all();
         $applications = Application::all();
@@ -39,7 +48,7 @@ class UserController extends Controller
         foreach ($applications as $app) {
             $roles[$app->id] = Role::where('application_id', $app->id)->get();
         }
-        return view($this->pathView . '.index', compact('users', 'title', 'applications', 'roles'));
+        return view($this->pathView . '.index', compact('breadcrumbs', 'users', 'title', 'applications', 'roles'));
     }
 
     /**
@@ -49,7 +58,15 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view($this->pathView . '.create');
+        $title = 'Tambah Pengguna';
+
+        $breadcrumbs = [
+            'Dashboard' => route('dashboard'),
+            'Pengguna' => route('user.index'),
+            $title => '',
+        ];
+
+        return view($this->pathView . '.create', compact('title', 'breadcrumbs'));
     }
 
     /**
@@ -58,38 +75,8 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-                'regex:/^\S*$/u',
-                Rule::unique(User::class),
-            ],
-            'full_name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique(User::class),
-            ],
-            'password' => [
-                'required',
-                'confirmed',
-                Rules\Password::defaults()
-            ],
-            'phone' => [
-                'required',
-                'string',
-                'max:255',
-                'regex:/^\+?[0-9]{7,15}$/',
-            ],
-        ]);
-
-
         $user = User::create([
             'name' => $request->name,
             'full_name' => $request->full_name,
@@ -108,9 +95,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::findOrFail($id);
+        $title = 'Detail Pengguna';
+
+        $breadcrumbs = [
+            'Dashboard' => route('dashboard'),
+            'Pengguna' => route('user.index'),
+            $title => '',
+        ];
+
         $applications = Application::all();
         $roles = [];
         $userRoles = [];
@@ -126,7 +120,7 @@ class UserController extends Controller
             }
         }
 
-        return view($this->pathView . '.peran', compact('roles', 'applications', 'user', 'userRoles'));
+        return view($this->pathView . '.peran', compact('roles', 'applications', 'user', 'userRoles', 'title', 'breadcrumbs'));
     }
 
     /**
@@ -135,11 +129,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
         $title = 'Ubah pengguna';
-        $user = User::findOrFail($id);
-        return view($this->pathView . '.edit', compact('title', 'user'));
+
+        $breadcrumbs = [
+            'Dashboard' => route('dashboard'),
+            'Pengguna' => route('user.index'),
+            $title => ''
+        ];
+
+        return view($this->pathView . '.edit', compact('breadcrumbs', 'title', 'user'));
     }
 
     /**
@@ -149,40 +149,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-                'regex:/^\S*$/u',
-                Rule::unique(User::class)->ignore($id),
-            ],
-            'full_name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($id),
-            ],
-            'password' => [
-                'nullable',
-                'confirmed',
-                Rules\Password::defaults()
-            ],
-            'phone' => [
-                'required',
-                'string',
-                'max:255',
-                'regex:/^\+?[0-9]{7,15}$/',
-            ],
-        ]);
-
-        $user = User::findOrFail($id);
 
         $data = $request->all();
+
         if (empty($data['password'])) {
             unset($data['password']);
         } else {
@@ -192,6 +163,7 @@ class UserController extends Controller
         $user->update($data);
 
         $message = 'Berhasil mengubah pengguna!';
+
         return redirect()->route($this->routeIndex)->with($this->toastSuccess, $message);
     }
 
@@ -201,27 +173,27 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id);
 
         $user->delete();
 
         $message = 'Berhasil menghapus pengguna!';
+
         return redirect()->route($this->routeIndex)->with($this->toastSuccess, $message);
     }
 
-    public function changeStatus(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
+    // public function changeStatus(Request $request, $id)
+    // {
+    //     $user = User::findOrFail($id);
 
-        $user->update([
-            'status' => $request->status
-        ]);
+    //     $user->update([
+    //         'status' => $request->status
+    //     ]);
 
-        $message = 'Berhasil mengubah status pengguna!';
-        return redirect()->route($this->routeIndex)->with($this->toastSuccess, $message);
-    }
+    //     $message = 'Berhasil mengubah status pengguna!';
+    //     return redirect()->route($this->routeIndex)->with($this->toastSuccess, $message);
+    // }
 
 
     public function assignRole(Request $request)
