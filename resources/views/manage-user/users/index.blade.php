@@ -8,20 +8,16 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Basic DataTables</h4>
+                        <h4>Semua Data</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="table-1" class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Nama Pengguna</th>
-                                        <th>Nama Lengkap</th>
-                                        <th>Email</th>
-                                        <th>No HP</th>
-                                        <th>Status</th>
-                                        <th></th>
+                                        @foreach($theads as $th)
+                                        <th>{{ $th }}</th>
+                                        @endforeach
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -39,20 +35,13 @@
                                         </td>
                                         <td>
                                             <div class="dropdown d-inline">
-                                                {{-- <button class="btn  btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Aksi
-                                                </button> --}}
                                                 <a href="#" class="text-secondary" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-ellipsis-h"></i>
                                                 </a>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item has-icon" href="{{ route('user.show', $user->id)}}"><i class="fas fa-info-circle"></i> Detail</a>
-                                                    <a class="dropdown-item has-icon" href="{{ route('user.edit', $user->id)}}"><i class="fas fa-pencil-alt"></i> Edit</a>
-                                                    <form id="delete-form-{{$user->id}}" action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:none;">
-                                                        @method('delete')
-                                                        @csrf
-                                                    </form>
-                                                    <a class="dropdown-item has-icon" confirm-delete="true" data-userId="{{$user->id}}" href="#"><i class="fas fa-trash"></i> Hapus</a>
+                                                    <x-button.detail-button :userId="$user->id" />
+                                                    <x-button.edit-button :userId="$user->id" />
+                                                    <x-button.delete-button :userId="$user->id" />
                                                 </div>
                                             </div>
                                         </td>
@@ -66,9 +55,6 @@
             </div>
         </div>
     </x-section.section>
-    {{-- <section class="content">
-    </section> --}}
-
 
     {{-- css library --}}
     @push('css-libraries')

@@ -38,6 +38,8 @@ class UserController extends Controller
             $title => '',
         ];
 
+        $theads = ['No', 'Nama Pengguna', 'Nama Lengkap', 'Email', 'No HP', 'Status', ''];
+
 
         $users = User::all();
         // $applications = Application::all();
@@ -48,7 +50,7 @@ class UserController extends Controller
         foreach ($applications as $app) {
             $roles[$app->id] = Role::where('application_id', $app->id)->get();
         }
-        return view($this->pathView . '.index', compact('breadcrumbs', 'users', 'title', 'applications', 'roles'));
+        return view($this->pathView . '.index', compact('breadcrumbs', 'users', 'title', 'applications', 'roles', 'theads'));
     }
 
     /**
