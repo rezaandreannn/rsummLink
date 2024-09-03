@@ -15,11 +15,19 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $title = 'Perizinan';
+        $title = 'Daftar Perizinan';
+
+        $breadcrumbs = [
+            'Dashboard' => route('dashboard'),
+            $title => ''
+        ];
+
+        $theads = ['No', 'Nama Perizinan', 'Tipe', ''];
+
         $permissions = Permission::with('application')->orderBy('application_id')->get();
         $applications = Application::all();
 
-        return view('manage-user.permission.index', compact('permissions', 'title', 'applications'));
+        return view('manage-user.permission.index', compact('permissions', 'title', 'breadcrumbs', 'applications', 'theads'));
     }
 
     /**

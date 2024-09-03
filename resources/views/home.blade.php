@@ -8,9 +8,8 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-    <!-- Favicons -->
-    <link href="{{ asset('Arsha/assets/img/logo.png')}}" rel="icon">
-    <link href="{{ asset('Arsha/assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+    <!-- favicon icon -->
+    <link rel="shortcut icon" href="{{ asset('logo_rsumm.ico')}}" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
