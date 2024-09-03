@@ -19,12 +19,20 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $title = 'Menu';
+        $title = 'Daftar Menu';
+
+        $breadcrumbs = [
+            'Dashboard' => route('dashboard'),
+            $title => ''
+        ];
+
+        $theads = ['No', 'Nama Menu', 'Rute', 'Aplikasi', 'Perizinan', ''];
+
         $menus = Menu::with(['application', 'permission'])->orderBy('application_id', 'asc')->get();
         $applications = Application::all();
 
         $icons = Icon::where('label', 'user')->get();
-        return view('manage-user.menu.index', compact('title', 'menus', 'applications', 'icons'));
+        return view('manage-user.menu.index', compact('title', 'breadcrumbs', 'theads', 'menus', 'applications', 'icons'));
     }
 
     /**

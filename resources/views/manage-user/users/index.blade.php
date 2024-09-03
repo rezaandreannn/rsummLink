@@ -82,34 +82,8 @@
 
     @push('js-spesific')
     <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
+    <script src="{{ asset('js/delete-confirm.js') }}"></script>
 
-    <script>
-        document.querySelectorAll('[confirm-delete="true"]').forEach(function(element) {
-            element.addEventListener('click', function(event) {
-                event.preventDefault();
-                var userId = this.getAttribute('data-id');
-                Swal.fire({
-                    title: 'Apakah Kamu Yakin?'
-                    , text: "Anda tidak akan dapat mengembalikan ini!"
-                    , icon: 'warning'
-                    , showCancelButton: true
-                    , confirmButtonColor: '#6777EF'
-                    , cancelButtonColor: '#d33'
-                    , confirmButtonText: 'Ya, Hapus saja!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        var form = document.getElementById('delete-form-' + userId);
-                        if (form) {
-                            form.submit();
-                        } else {
-                            console.error('Form not found for user ID:', userId);
-                        }
-                    }
-                });
-            });
-        });
-
-    </script>
 
     <script>
         $(document).ready(function() {

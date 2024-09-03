@@ -165,7 +165,8 @@
 
     @push('js-spesific')
     <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
-    <script>
+    <script src="{{ asset('js/delete-confirm.js') }}"></script>
+    {{-- <script>
         document.querySelectorAll('[confirm-delete="true"]').forEach(function(element) {
             element.addEventListener('click', function(event) {
                 event.preventDefault();
@@ -191,7 +192,7 @@
             });
         });
 
-    </script>
+    </script> --}}
 
     @endpush
 </x-app-layout>
