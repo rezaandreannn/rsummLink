@@ -85,9 +85,20 @@ class MenuController extends Controller
     public function show($id)
     {
         $menu = Menu::with('application')->where('id', $id)->first();
-        $title = 'Submenu : ' . ucwords($menu->name);
+        $title = 'Submenu';
+
+        $breadcrumbs = [
+            'Dashboard' => route('dashboard'),
+            'Menu' => route('menu.index'),
+            $title => ''
+        ];
+
+        $theads = ['No', 'Nama Submenu', 'Rute', 'Perizinan', 'No Urut', ''];
+
+
         $menuItems = MenuItem::with('permission')->where('menu_id', $id)
             ->get();
+
         if ($menu->application_id) {
             $permissions = Permission::where('application_id', $menu->application_id)
                 ->get();
@@ -96,7 +107,7 @@ class MenuController extends Controller
                 ->orWhereNull('application_id')
                 ->get();
         }
-        return view('manage-user.menu.detail', compact('menuItems', 'title', 'permissions', 'menu'));
+        return view('manage-user.menu.detail', compact('menuItems', 'title', 'breadcrumbs', 'theads', 'permissions', 'menu'));
     }
 
 

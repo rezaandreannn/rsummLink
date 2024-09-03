@@ -1,19 +1,7 @@
 <x-app-layout title='{{ $title }}'>
-    <section class="section">
-        <div class="section-header">
-            <div class="section-header-back">
-                <a href="{{ route('menu.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
-            </div>
-            <h1>Submenu </h1>
-            <button type="button" class="btn btn-primary ml-1" data-toggle="modal" data-target="#exampleModal">
-                <i class="far fa-plus-square"></i> Tambah Data </button>
-            <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                <div class="breadcrumb-item"><a href="#">Modules</a></div>
-                <div class="breadcrumb-item">Calendar</div>
-            </div>
-        </div>
-    </section>
+    <x-section.section>
+        <x-section.header :title="$title" :button="true" :backButton="true" :backUrl="route('menu.index')" buttonType="modal" :variable="$breadcrumbs" />
+    </x-section.section>
 
     <section class="content">
         <div class="row">
@@ -22,19 +10,16 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h4>Basic DataTables</h4>
+                        <h4>Menu : {{ $menu->name ?? ''}}({{$menu->application ? $menu->application->name : 'Super Admin'}})</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="table" class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Nama SubMenu</th>
-                                        <th>Rute</th>
-                                        <th>Perizinan</th>
-                                        <th>No Urut</th>
-                                        <th>Aksi</th>
+                                        @foreach($theads as $th)
+                                        <th>{{ $th }}</th>
+                                        @endforeach
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,16 +32,10 @@
                                         <td>{{$submenu->serial_number ?? '' }}</td>
                                         <td>
                                             <div class="dropdown d-inline">
-                                                <button class="btn  btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Aksi
-                                                </button>
+                                                <x-button.action-button />
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item has-icon" href="#" data-toggle="modal" data-target="#editModal{{ $submenu->id}}"><i class="fas fa-pencil-alt"></i> Edit</a>
-                                                    <form id="delete-form-{{$submenu->id}}" action="{{ route('submenu.destroy', $submenu->id)}}" method="POST" style="display: none;">
-                                                        @method('delete')
-                                                        @csrf
-                                                    </form>
-                                                    <a class="dropdown-item has-icon" confirm-delete="true" data-submenuId="{{$submenu->id}}" href="#"><i class="fas fa-trash"></i> Hapus</a>
+                                                    <x-button.edit-button :id="$submenu->id" modal="true" />
+                                                    <x-button.delete-button route="submenu.destroy" :id="$submenu->id" />
                                                 </div>
                                             </div>
                                         </td>
@@ -72,11 +51,11 @@
     </section>
 
     <!-- Modal Add -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Data {{ $title ?? ''}} - {{$menu->application ? $menu->application->name : 'Super Admin'}}</h5>
+                    <h5 class="modal-title" id="addModalLabel">Tambah Data {{ $title ?? ''}} - {{$menu->application ? $menu->application->name : 'Super Admin'}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -114,7 +93,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-icon btn-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <x-button.save-button action="create" />
                     </div>
                 </form>
             </div>
@@ -164,7 +143,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-icon btn-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <x-button.save-button action="update" />
                     </div>
                 </form>
             </div>
@@ -192,34 +171,7 @@
 
     @push('js-spesific')
     <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
-    <script>
-        document.querySelectorAll('[confirm-delete="true"]').forEach(function(element) {
-            element.addEventListener('click', function(event) {
-                event.preventDefault();
-                var submenuId = this.getAttribute('data-submenuId');
-                Swal.fire({
-                    title: 'Apakah Kamu Yakin?'
-                    , text: "Anda tidak akan dapat mengembalikan ini!"
-                    , icon: 'warning'
-                    , showCancelButton: true
-                    , confirmButtonColor: '#6777EF'
-                    , cancelButtonColor: '#d33'
-                    , cancelButtonText: 'Batal'
-                    , confirmButtonText: 'Ya, Hapus saja!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        var form = document.getElementById('delete-form-' + submenuId);
-                        if (form) {
-                            form.submit();
-                        } else {
-                            console.error('Form not found for role ID:', roleId);
-                        }
-                    }
-                });
-            });
-        });
-
-    </script>
+    <script src="{{ asset('js/delete-confirm.js') }}"></script>
 
     @endpush
 </x-app-layout>
