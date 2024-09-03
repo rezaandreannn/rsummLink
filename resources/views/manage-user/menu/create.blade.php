@@ -1,28 +1,15 @@
-<x-app-layout>
-    <section class="section">
-        <div class="section-header">
-            <div class="section-header-back">
-                <a href="{{ route('menu.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
-            </div>
-            <h1>Buat Menu Baru</h1>
-            <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                <div class="breadcrumb-item"><a href="#">Posts</a></div>
-                <div class="breadcrumb-item">Create New Post</div>
-            </div>
-        </div>
+<x-app-layout title="{{ $title ?? ''}}">
+    <x-section.section>
+        <x-section.header :title="$title" :button="false" :variable="$breadcrumbs" :backButton="true" :backUrl="route('menu.index')" />
 
         <div class="section-body">
-            <h2 class="section-title">Buat Menu Baru</h2>
+            <h2 class="section-title">{{ $title ?? ''}}</h2>
             <p class="section-lead">
-                On this page you can create a new post and fill in all fields.
+                Di halaman ini Anda dapat membuat menu baru dan mengisi semua kolom.
             </p>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h4>Write Your Post</h4>
-                        </div>
                         <form action="{{ route('menu.store')}}" method="POST">
                             @csrf
                             <div class="card-body">
@@ -36,7 +23,7 @@
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Rute</label>
                                     <div class="col-sm-12 col-md-7">
                                         <input type="text" class="form-control" name="route">
-                                        <span class="text-sm">bisa dikosongkan jika menu memiliki sub menu</span>
+                                        <span class="text-sm">bisa dikosongkan jika menu memiliki submenu</span>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-4">
@@ -77,7 +64,7 @@
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                                     <div class="col-sm-12 col-md-7">
-                                        <button class="btn btn-primary" type="submit">Buat Menu</button>
+                                        <x-button.save-button action="create" />
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +72,8 @@
                     </div>
                 </div>
             </div>
-    </section>
+        </div>
+    </x-section.section>
 
 
     {{-- css library --}}

@@ -90,7 +90,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-icon btn-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <x-button.save-button action="create" />
                     </div>
                 </form>
             </div>
@@ -138,7 +138,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-icon btn-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <x-button.save-button action="update" />
                     </div>
                 </form>
             </div>

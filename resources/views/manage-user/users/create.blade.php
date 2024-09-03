@@ -2,7 +2,6 @@
     <x-section.section>
         <x-section.header :title="$title" :button="false" :variable="$breadcrumbs" :backButton="true" :backUrl="route('user.index')" />
 
-
         <div class="section-body">
             <h2 class="section-title">{{$title ?? ''}}</h2>
             <p class="section-lead">
@@ -84,7 +83,7 @@
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                                     <div class="col-sm-12 col-md-7">
-                                        <button class="btn btn-primary" type="submit">Simpan</button>
+                                        <x-button.save-button action="create" />
                                     </div>
                                 </div>
                             </div>

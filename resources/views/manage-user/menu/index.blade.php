@@ -55,66 +55,6 @@
         </div>
     </section>
 
-    <!-- Modal Add -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Data {{ $title ?? ''}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('menu.store')}}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Nama Menu <i><small class="required-label"></small></i>
-                            </label>
-                            <input type="text" name="name" class="form-control" required="">
-                        </div>
-                        <div class="form-group">
-                            <label>Rute <i><small class="required-label"></small></i>
-                            </label>
-                            <input type="text" name="route" class="form-control" required="">
-                        </div>
-                        <div class="form-group">
-                            <label for="icon">Pilih Ikon:</label>
-                            <select id="icon" class="form-control select2" name="icon">
-                                @foreach($icons as $icon)
-                                <option value="{{ $icon->class }}">{{$icon->label}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Nama Aplikasi <i><small class="required-label"></small></i>
-                            </label>
-                            <select class="form-control selectric" name="application_id">
-                                <option selected disabled>-- pilih --</option>
-                                @foreach($applications as $app)
-                                <option value="{{ $app->id}}">{{$app->name}}</option>
-                                @endforeach
-                                <option value="0">super admin</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Perizinan <i><small class="required-label"></small></i>
-                            </label>
-                            <select class="form-control" name="permission_id">
-                                {{-- <option value="web" selected>web</option>
-                                <option value="api">api</option> --}}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     {{-- css library --}}
     @push('css-libraries')
     <link rel="stylesheet" href="{{ asset('stisla/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">

@@ -29,10 +29,8 @@ class MenuController extends Controller
         $theads = ['No', 'Nama Menu', 'Rute', 'Aplikasi', 'Perizinan', ''];
 
         $menus = Menu::with(['application', 'permission'])->orderBy('application_id', 'asc')->get();
-        $applications = Application::all();
 
-        $icons = Icon::where('label', 'user')->get();
-        return view('manage-user.menu.index', compact('title', 'breadcrumbs', 'theads', 'menus', 'applications', 'icons'));
+        return view('manage-user.menu.index', compact('title', 'breadcrumbs', 'theads', 'menus'));
     }
 
     /**
@@ -42,10 +40,18 @@ class MenuController extends Controller
      */
     public function create()
     {
+        $title = 'Tambah Menu';
+
+        $breadcrumbs = [
+            'Dashboard' => route('dashboard'),
+            'Menu' => route('menu.index'),
+            $title => ''
+        ];
+
         $applications = Application::all();
 
         $icons = Icon::all();
-        return view('manage-user.menu.create', compact('icons', 'applications'));
+        return view('manage-user.menu.create', compact('title', 'breadcrumbs', 'icons', 'applications'));
     }
 
     /**
@@ -102,12 +108,20 @@ class MenuController extends Controller
      */
     public function edit($id)
     {
+        $title = 'Ubah Menu';
+
+        $breadcrumbs = [
+            'Dashboard' => route('dashboard'),
+            'Menu' => route('menu.index'),
+            $title => ''
+        ];
+
         $applications = Application::all();
         $permissions = Permission::all();
         $icons = Icon::all();
         $menu = Menu::findOrFail($id);
 
-        return view('manage-user.menu.edit', compact('icons', 'applications', 'menu', 'permissions'));
+        return view('manage-user.menu.edit', compact('title', 'breadcrumbs', 'icons', 'applications', 'menu', 'permissions'));
     }
 
     /**
