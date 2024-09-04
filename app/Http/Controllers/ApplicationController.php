@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
@@ -16,9 +17,16 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        $title = 'Aplikasi';
+        $title = 'Daftar Aplikasi';
+
+        $breadcrumbs = [
+            'Dashboard' => route('dashboard'),
+            $title => ''
+        ];
+
         $applications = Application::all();
-        return view('master-data.application.index', compact('title', 'applications'));
+
+        return view('master-data.application.index', compact('title', 'applications', 'breadcrumbs'));
     }
 
     /**
@@ -28,9 +36,16 @@ class ApplicationController extends Controller
      */
     public function create()
     {
+        $title = 'Tambah Aplikasi';
+
+        $breadcrumbs = [
+            'Dashboard' => route('dashboard'),
+            'Aplikasi' => route('aplikasi.index'),
+            $title => ''
+        ];
 
         $statuses = ['active', 'maintenance', 'inactive'];
-        return view('master-data.application.create', compact('statuses'));
+        return view('master-data.application.create', compact('statuses', 'title', 'breadcrumbs'));
     }
 
     /**
@@ -41,9 +56,31 @@ class ApplicationController extends Controller
      */
     public function store(Request $request)
     {
-        $string = "v-claim bpjs!";
-        $slug = Str::slug($string);
-        dd($slug);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'status' => 'required',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $appName = $request->name;
+        $slug = Str::slug($appName);
+
+        $data = [
+            'name' => $request->name,
+            'prefix' => $slug,
+            'status' => $request->status,
+            'description' => $request->description
+        ];
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('img/aplikasi', 'public');
+        }
+
+        Application::create($data);
+
+        return redirect()->route('aplikasi.index')->with('toast_success', 'Aplikasi berhasil disimpan.');
     }
 
     /**
@@ -65,9 +102,19 @@ class ApplicationController extends Controller
      */
     public function edit($id)
     {
+        $title = 'Ubah Aplikasi';
+
+        $breadcrumbs = [
+            'Dashboard' => route('dashboard'),
+            'Aplikasi' => route('aplikasi.index'),
+            $title => ''
+        ];
+
         $application = Application::find($id);
+
         $statuses = ['active', 'maintenance', 'inactive'];
-        return view('master-data.application.edit', compact('statuses', 'application'));
+
+        return view('master-data.application.edit', compact('statuses', 'application', 'breadcrumbs', 'title'));
     }
 
     /**
@@ -103,6 +150,7 @@ class ApplicationController extends Controller
         $application->update($data);
 
         $message = 'Berhasil membuat aplikasi!';
+
         return redirect()->route('aplikasi.index')->with('toast_success', $message);
     }
 

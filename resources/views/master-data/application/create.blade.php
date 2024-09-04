@@ -1,29 +1,16 @@
 <x-app-layout title="{{ $title ?? 'Buat aplikasi baru'}}">
-    <section class="section">
-        <div class="section-header">
-            <div class="section-header-back">
-                <a href="{{ route('aplikasi.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
-            </div>
-            <h1>Buat Aplikasi Baru</h1>
-            <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                <div class="breadcrumb-item"><a href="#">Aplikasi</a></div>
-                <div class="breadcrumb-item">Buat Aplikasi Baru</div>
-            </div>
-        </div>
+    <x-section.section>
+        <x-section.header :title="$title" :button="false" :variable="$breadcrumbs" :backButton="true" :backUrl="route('aplikasi.index')" />
 
         <div class="section-body">
-            <h2 class="section-title">Buat Aplikasi Baru</h2>
+            <h2 class="section-title">{{ $title ?? ''}}</h2>
             <p class="section-lead">
-                On this page you can create a new post and fill in all fields.
+                Di halaman ini Anda dapat membuat aplikasi baru dan mengisi semua kolom.
             </p>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h4>Write Your Post</h4>
-                        </div>
-                        <form action="{{ route('menu.store')}}" method="POST">
+                        <form action="{{ route('aplikasi.store')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group row mb-4">
@@ -32,24 +19,27 @@
                                         <input type="text" class="form-control" name="name">
                                     </div>
                                 </div>
-                                <div class="form-group row mb-4">
+                                {{-- <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Prefix</label>
                                     <div class="col-sm-12 col-md-7">
                                         <input type="text" class="form-control" name="route">
                                         <span class="text-sm">tidak boleh pakai spasi</span>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Gambar</label>
                                     <div class="col-sm-12 col-md-7">
                                         <img class="img-preview mb-2" style="width: 300px">
                                         <input class="form-control d-block @error('image') is-invalid @enderror" type="file" id="image" name="image" onchange="Live()">
+                                        @error('image')
+                                        {{ $message }}
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Status</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <select id="icon" class="form-control select2" name="icon">
+                                        <select id="status" class="form-control selectric" name="status">
                                             @foreach($statuses as $status)
                                             <option value="{{ $status }}">{{$status}}</option>
                                             @endforeach
@@ -59,13 +49,13 @@
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Deskripsi</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                                     <div class="col-sm-12 col-md-7">
-                                        <button class="btn btn-primary" type="submit">Buat Aplikasi</button>
+                                        <x-button.save-button action="create" />
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +63,8 @@
                     </div>
                 </div>
             </div>
-    </section>
+        </div>
+    </x-section.section>
 
 
     {{-- css library --}}

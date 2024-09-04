@@ -1,8 +1,6 @@
-<x-app-layout>
-    <section class="section">
-        <div class="section-header">
-            <h1>Dashboard</h1>
-        </div>
+<x-app-layout title="{{ $title }}">
+    <x-section.section>
+        <x-section.header :title="$title" />
 
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -66,7 +64,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </x-section.section>
 
     @push('css-libraries')
     <link rel="stylesheet" href="{{ asset('stisla/node_modules/bootstrap-daterangepicker/daterangepicker.css') }}">
