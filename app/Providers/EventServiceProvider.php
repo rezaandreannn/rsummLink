@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
+use App\Listeners\LogUserLogin;
+use App\Listeners\LogUserLogout;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
-use App\Listeners\LogUserLoginLogout;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,10 +23,10 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         Login::class => [
-            LogUserLoginLogout::class,
+            LogUserLogin::class,
         ],
         Logout::class => [
-            LogUserLoginLogout::class,
+            LogUserLogout::class,
         ],
     ];
 

@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_activity_details', function (Blueprint $table) {
+        Schema::create('user_activity_auths', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_activity_id')->constrained('user_activities')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('ip_address')->nullable();
             $table->string('device')->nullable();
-            $table->string('browser')->nullable();
+            $table->text('user_agent')->nullable();
+            $table->timestamp('login_at')->nullable();
+            $table->timestamp('logout_at')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_activity_details');
+        Schema::dropIfExists('user_activity_auths');
     }
 };

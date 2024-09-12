@@ -10,10 +10,10 @@
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Total Admin</h4>
+                            <h4>Total User</h4>
                         </div>
                         <div class="card-body">
-                            10
+                            {{ $totalUser ?? ''}}
                         </div>
                     </div>
                 </div>
@@ -25,10 +25,10 @@
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>News</h4>
+                            <h4>User aktif</h4>
                         </div>
                         <div class="card-body">
-                            42
+                            {{ $onlineUsers ?? ''}}
                         </div>
                     </div>
                 </div>
