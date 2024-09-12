@@ -1,21 +1,22 @@
 <?php
 
-use App\Http\Controllers\SatuSehat\AntreanController;
-use App\Http\Controllers\SatuSehat\ConditionController;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
+use App\Http\Controllers\ActivityUserController;
+use App\Http\Controllers\SatuSehat\AntreanController;
+use App\Http\Controllers\SatuSehat\ConditionController;
 use App\Http\Controllers\SatuSehat\DashboardController;
-use App\Http\Controllers\SatuSehat\Encounter\LogTransactionController;
+use App\Http\Controllers\SatuSehat\Master\Icd9Controller;
+use App\Http\Controllers\SatuSehat\Master\Icd10Controller;
+use App\Http\Controllers\SatuSehat\Master\DokterController;
+use App\Http\Controllers\SatuSehat\Master\PasienController;
+use App\Http\Controllers\SatuSehat\Master\LocationController;
 use App\Http\Controllers\SatuSehat\Encounter\MappingController;
 use App\Http\Controllers\SatuSehat\Encounter\SuccessController;
-use App\Http\Controllers\SatuSehat\Master\DokterController;
-use App\Http\Controllers\SatuSehat\Master\Icd10Controller;
-use App\Http\Controllers\SatuSehat\Master\Icd9Controller;
-use App\Http\Controllers\SatuSehat\Master\LocationController;
 use App\Http\Controllers\SatuSehat\Master\OrganizationController;
-use App\Http\Controllers\SatuSehat\Master\PasienController;
 use App\Http\Controllers\SatuSehat\Master\RegisterPasienController;
+use App\Http\Controllers\SatuSehat\Encounter\LogTransactionController;
 
 
 if (Schema::hasTable('roles')) {
@@ -25,6 +26,7 @@ if (Schema::hasTable('roles')) {
     Route::prefix('satu-sehat')->middleware(['checkrole:' . $rolesString])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('satu-sehat.dashboard');
         Route::post('dashboard', [DashboardController::class, 'log'])->name('satu-sehat.dashboard');
+        Route::get('/activity', ActivityUserController::class)->name('satu-sehat.activity.index')->middleware('auth');
         Route::get('antrean', [AntreanController::class, 'index'])->name('antrean.index');
 
         //encounter 

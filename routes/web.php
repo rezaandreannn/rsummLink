@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityUserController;
 use App\Models\Simrs\Antrean;
 use App\Models\SatuSehat\Pasien;
 use App\Models\Simrs\Pendaftaran;
@@ -35,6 +36,7 @@ use App\Http\Controllers\RolePermissionController;
 //     return view('home');
 // });
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/activity', ActivityUserController::class)->name('activity.index')->middleware('auth');
 
 Route::get('/app', function () {
     return view('layouts.app');
