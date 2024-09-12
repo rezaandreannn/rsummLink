@@ -3,7 +3,7 @@
         <x-section.header :title="$title" />
 
         <div class="section-body">
-            <h2 class="section-title">September 2018</h2>
+            <h2 class="section-title">{{ date('d, M Y')}}</h2>
             <div class="row">
                 <div class="col-12">
                     <div class="activities">
