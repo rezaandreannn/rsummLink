@@ -15,8 +15,7 @@ class DashboardController extends Controller
     {
         $title = 'Dashboard';
 
-        $onlineUsers = UserActivityAuth::whereNull('logout_at')
-            ->count();
+
 
         // dd($onlineUsers);
 
@@ -42,6 +41,6 @@ class DashboardController extends Controller
         // Mengambil data dengan filter tambahan
 
 
-        return view('dashboard', compact('title', 'onlineUsers', 'totalUser'));
+        return view('dashboard', compact('title', 'totalUser'));
     }
 }

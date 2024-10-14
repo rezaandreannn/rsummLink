@@ -27,7 +27,8 @@
     <div id="app">
         <div class="main-wrapper">
             <div class="navbar-bg"></div>
-            @include('layouts.header')
+            {{-- @include('layouts.header') --}}
+            <x-header-component />
 
             {{-- @include('layouts.navigation') --}}
             <x-navigation-component />

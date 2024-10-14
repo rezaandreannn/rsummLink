@@ -30,9 +30,9 @@ class ApplicationSeeder extends Seeder
                 'status' => 'maintenance'
             ],
             [
-                'name' => 'e-claim bpjs',
+                'name' => 'e claim',
                 'image' => 'null',
-                'prefix' => 'e-claimbpjs',
+                'prefix' => 'e-claim',
                 'description' => 'E-Claim BPJS adalah pengajuan biaya perawatan pasien peserta BPJS oleh pihak rumah sakit kepada pihak BPJS Kesehatan, dilakukan secara kolektif dan ditagihkan kepada pihak BPJS Kesehatan.',
                 'status' => 'inactive'
             ],

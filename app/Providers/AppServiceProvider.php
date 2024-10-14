@@ -33,8 +33,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user->hasRole('superadmin') ? true : null;
         });
-        Menu::observe(MenuObserver::class);
-        MenuItem::observe(SubmenuObserver::class);
-        Application::observe(ApplicationObserver::class);
+        // Menu::observe(MenuObserver::class);
+        // MenuItem::observe(SubmenuObserver::class);
+        // Application::observe(ApplicationObserver::class);
     }
 }

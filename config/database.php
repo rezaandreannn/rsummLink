@@ -136,6 +136,19 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
+
+        'sqlsrv_log' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_LOG_HOST', '127.0.0.1'),
+            'port' => env('DB_LOG_PORT', '1433'),
+            'database' => env('DB_LOG_DATABASE', 'forge'),
+            'username' => env('DB_LOG_USERNAME', 'forge'),
+            'password' => env('DB_LOG_PASSWORD', ''),
+            'charset' => 'utf8mb4',
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
     ],
 
     /*

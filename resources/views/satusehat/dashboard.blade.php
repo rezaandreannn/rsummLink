@@ -116,7 +116,7 @@
                         </div>
                         <div class="card-body">
                             {{ $totalEncounter ?? ''}}
-                            <p class="text-sm text-muted" style="font-size: 11px;">last update : {{$lastUpdatedEncounter->format('d-m-Y')}}</p>
+                            <p class="text-sm text-muted" style="font-size: 11px;">last update : {{$lastUpdatedEncounter ? $lastUpdatedEncounter->format('d-m-Y') : ''}}</p>
                         </div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                         <div class="card-body">
                             {{ $totalCondition ?? ''}}
                             <br>
-                            <p class="text-sm text-muted" style="font-size: 11px;">last update : {{$lastUpdatedCondition->format('d-m-Y')}}</p>
+                            <p class="text-sm text-muted" style="font-size: 11px;">last update : {{$lastUpdatedCondition ? $lastUpdatedCondition->format('d-m-Y') : ''}}</p>
                         </div>
                     </div>
                 </div>
@@ -149,7 +149,7 @@
                         </div>
                         <div class="card-body">
                             {{ $totalObservation ?? ''}}
-                            <p class="text-sm text-muted" style="font-size: 11px;">last update : {{$lastUpdatedObservation->format('d-m-Y')}}</p>
+                            <p class="text-sm text-muted" style="font-size: 11px;">last update : {{$lastUpdatedObservation ? $lastUpdatedObservation->format('d-m-Y') : ''}}</p>
                         </div>
                     </div>
                 </div>

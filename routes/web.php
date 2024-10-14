@@ -131,3 +131,4 @@ Route::get('/pasien', function () {
 require __DIR__ . '/auth.php';
 require __DIR__ . '/satusehat.php';
 require __DIR__ . '/vclaim.php';
+require __DIR__ . '/eclaim.php';

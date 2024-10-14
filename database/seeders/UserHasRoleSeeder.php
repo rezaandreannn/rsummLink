@@ -23,8 +23,8 @@ class UserHasRoleSeeder extends Seeder
         $vclaim = Application::where('prefix', 'v-claim')->first();
 
         // definisikan user 
-        $user = User::find(2);
-        $superadminUser = User::find(1);
+        $user = User::find(21);
+        $superadminUser = User::find(20);
 
         // definisikan role nya
         $adminRole = Role::where(

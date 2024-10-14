@@ -3,8 +3,9 @@
 namespace App\Models\Simrs;
 
 use App\Models\SatuSehat\Pasien;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Simrs\Pendaftaran;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RegisterPasien extends Model
 {
@@ -15,5 +16,10 @@ class RegisterPasien extends Model
     public function pasien()
     {
         return $this->hasOne(Pasien::class, 'no_mr', 'No_MR');
+    }
+
+    public function pendaftaran()
+    {
+        return $this->hasMany(Pendaftaran::class, 'No_MR', 'No_MR');
     }
 }

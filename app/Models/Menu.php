@@ -2,18 +2,23 @@
 
 namespace App\Models;
 
-use App\Models\UserActivity;
-use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Menu extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $guarded = [];
 
-
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'route', 'icon', 'application_id', 'permission_id', 'is_superadmin', 'serial_number'])
+            ->logOnlyDirty();
+    }
 
     public function application()
     {

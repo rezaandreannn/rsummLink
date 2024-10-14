@@ -164,7 +164,7 @@
                </a>
                <div class="dropdown-menu dropdown-menu-right">
                    <div class="dropdown-title">
-                       {{ optional(App\Models\UserActivityAuth::byAuthId()->latest('login_at')->first())->login_at->timezone('Asia/Jakarta')->diffForHumans() ?? '' }}
+                       {{ $timeAgo }}
                    </div>
                    <a href="features-profile.html" class="dropdown-item has-icon">
                        <i class="far fa-user"></i> Profile

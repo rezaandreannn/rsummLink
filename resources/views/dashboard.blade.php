@@ -28,7 +28,7 @@
                             <h4>User aktif</h4>
                         </div>
                         <div class="card-body">
-                            {{ $onlineUsers ?? ''}}
+                            6
                         </div>
                     </div>
                 </div>

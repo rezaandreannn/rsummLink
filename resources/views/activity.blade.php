@@ -10,7 +10,7 @@
                         @foreach($activities as $activity)
                         <div class="activity">
                             <div class="activity-icon bg-primary text-white shadow-primary">
-                                @switch($activity->activity_type)
+                                @switch($activity->event)
                                 @case('created')
                                 <i class="fas fa-folder-plus"></i>
                                 @break
@@ -29,7 +29,7 @@
                                 <div class="mb-2">
                                     <span class="text-job text-primary">{{$activity->created_at->timezone('Asia/Jakarta')->diffForHumans()}}</span>
                                     <span class="bullet"></span>
-                                    <a class="text-job" href="#">{{$activity->activity_type ?? ''}}</a>
+                                    <a class="text-job" href="#">{{$activity->event ?? ''}}</a>
                                     <div class="float-right dropdown">
                                         <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
                                         <div class="dropdown-menu">
@@ -41,7 +41,34 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p>{{ $activity->description }} "<a href="#">Responsive design</a>".</p>
+                                <p>
+                                    @switch($activity->event)
+                                    @case('created')
+                                    @foreach($activity->changes['attributes'] as $key => $value)
+                                    {{ $key }} : {{ $value }} <br>
+                                    @endforeach
+                                    @break
+                                    @case('updated')
+                                    <span>Sebelumnya</span><br>
+                                    @if(@is_array($activity->changes['old']))
+                                    @foreach($activity->changes['old'] as $k => $v)
+                                    {{ $k }} : {{ $v }} <br>
+                                    @endforeach
+                                    @endif
+                                    <span>Sesudahnya</span><br>
+                                    @if(@is_array($activity->changes['attributes']))
+                                    @foreach($activity->changes['attributes'] as $k => $v)
+                                    {{ $k }} : {{ $v }} <br>
+                                    @endforeach
+                                    @endif
+                                    @break
+                                    $@default
+
+                                    @endswitch
+
+
+
+                                </p>
                             </div>
                         </div>
                         @endforeach
